@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+
+
+    <groupId>de.tuda.stg</groupId>
+    <artifactId>Language-Support-for-SGX</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <modules>
+        <module>jsgx-type-checker</module>
+        <module>annotationProcessor</module>
+    </modules>
+
+    <properties>
+        <!-- This property will be set by the Maven Dependency plugin -->
+        <!-- <annotatedJdk>${org.checkerframework:jdk8:jar}</annotatedJdk>-->
+
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!--   <java.version>11</java.version>
+          <scala.version>2.12.9</scala.version>
+
+          <akka.version>2.6.0</akka.version>
+          <aeron.version>1.22.1</aeron.version>
+
+          <cassandra.version>4.3.0</cassandra.version>  -->
+
+          <checkerframework.version>3.2.0</checkerframework.version>
+
+        <!--  <plugins.shade.version>3.2.1</plugins.shade.version>  -->
+    </properties>
+
+
+</project>

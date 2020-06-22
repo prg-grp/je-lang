@@ -1,0 +1,39 @@
+# Project exclude paths
+
+# Compiled class file
+/target/
+*.class
+
+# Log file
+*.log
+
+.classpath
+.factorypath
+.project
+.settings
+
+.idea
+*.iml
+*.iws
+classes
+
+bin
+gen
+build
+out
+lib
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar

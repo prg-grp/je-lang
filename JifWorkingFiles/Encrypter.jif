@@ -1,0 +1,17 @@
+final class SGXClass [principal Alice]  authority(Alice) {
+
+	private String{Alice->*; Alice<-*} key;  // <S,T>  
+
+
+	// public String{Alice->_; Alice<-*} encrypt{Alice<-*} (String{_->_; _<-_} plaintext) where authority(Alice) {
+	public String{Alice->_; Alice<-*} encrypt{Alice<-*} (String{} plaintext) where authority(Alice) {
+
+		String{_->_; Alice<-*} plaintextE = endorse(plaintext, {} to {_->_; Alice<-*});
+
+		String {Alice->*; Alice<-*} result = plaintextE+key;
+
+		String {Alice->_; Alice<-*} result1 = declassify(result, {Alice->*; Alice<-*} to {Alice->_; Alice<-*});
+
+		return result1;
+	}
+}
