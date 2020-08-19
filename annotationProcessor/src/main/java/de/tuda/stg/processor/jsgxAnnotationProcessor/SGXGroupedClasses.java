@@ -4,6 +4,8 @@ package de.tuda.stg.processor.jsgxAnnotationProcessor;
  * During the annotation processing phase, an instance of this class is created when processing a class with @SGX annotation,
  * to hold the necessary meta-data about it. */
 
+import com.squareup.javapoet.TypeSpec;
+
 import javax.annotation.processing.Filer;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
@@ -21,7 +23,7 @@ public class SGXGroupedClasses {
         this.qualifiedClassName = qualifiedClassName;
     }
 
-    public void add(SGXAnnotatedClass toInsert) throws IdAlreadyUsedException {
+    public void add(SGXAnnotatedClass toInsert)  {
 
         SGXAnnotatedClass existing = annotatedClassMap.get(toInsert.getId());
         if (existing != null) {
@@ -33,6 +35,14 @@ public class SGXGroupedClasses {
     public void generateCode(Elements elementUtils, Filer filer) throws IOException {
         TypeElement superClassName = elementUtils.getTypeElement(qualifiedClassName);
         String factoryClassName = superClassName.getSimpleName() + SUFFIX;
+
+        // Creating Jiff class
+        String className = "get the name of the SGX annotated class";
+        TypeSpec jiffClass = TypeSpec.classBuilder(className).addModifiers()
+
+
+
+
     }
 
 }

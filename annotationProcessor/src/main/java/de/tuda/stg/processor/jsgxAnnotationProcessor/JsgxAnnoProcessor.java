@@ -2,6 +2,7 @@ package de.tuda.stg.processor.jsgxAnnotationProcessor;
 
 import com.google.auto.service.AutoService;
 import de.tuda.stg.processor.jsgxAnnotations.FactoryTicket;
+import de.tuda.stg.processor.jsgxAnnotations.SGX;
 
 import javax.annotation.processing.*;
 import javax.lang.model.element.Element;
@@ -22,13 +23,13 @@ public class JsgxAnnoProcessor extends AbstractProcessor {
     private Elements elementUtils;
     private Filer filer;
     private Messager messager;
-    private Map<String, FactoryGroupedClasses> factoryClasses =
-            new LinkedHashMap<String, FactoryGroupedClasses>();
+    private Map<String, SGXGroupedClasses> factoryClasses =
+            new LinkedHashMap<String, SGXGroupedClasses>();
 
-    @Override
+   /* @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         return false;
-    }
+    }*/
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
@@ -51,27 +52,27 @@ public class JsgxAnnoProcessor extends AbstractProcessor {
         try {
 
             // Scan classes
-            for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(Factory.class)) {
+            for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(SGX.class)) {
 
                 // Check if a class has been annotated with @Factory
                 if (annotatedElement.getKind() != ElementKind.CLASS) {
                     throw new ProcessingException(annotatedElement, "Only classes can be annotated with @%s",
-                            Factory.class.getSimpleName());
+                            SGX.class.getSimpleName());
                 }
 
                 // We can cast it, because we know that it of ElementKind.CLASS
                 TypeElement typeElement = (TypeElement) annotatedElement;
 
-                FactoryAnnotatedClass annotatedClass = new FactoryAnnotatedClass(typeElement);
+                SGXAnnotatedClass annotatedClass = new SGXAnnotatedClass(typeElement);
 
                 checkValidClass(annotatedClass);
 
                 // Everything is fine, so try to add
-                FactoryGroupedClasses factoryClass =
+                SGXGroupedClasses factoryClass =
                         factoryClasses.get(annotatedClass.getQualifiedFactoryGroupName());
                 if (factoryClass == null) {
                     String qualifiedGroupName = annotatedClass.getQualifiedFactoryGroupName();
-                    factoryClass = new FactoryGroupedClasses(qualifiedGroupName);
+                    factoryClass = new SGXGroupedClasses(qualifiedGroupName);
                     factoryClasses.put(qualifiedGroupName, factoryClass);
                 }
 
@@ -80,7 +81,7 @@ public class JsgxAnnoProcessor extends AbstractProcessor {
             }
 
             // Generate code
-            for (FactoryGroupedClasses factoryClass : factoryClasses.values()) {
+            for (SGXGroupedClasses factoryClass : factoryClasses.values()) {
                 factoryClass.generateCode(elementUtils, filer);
             }
             factoryClasses.clear();
@@ -92,4 +93,9 @@ public class JsgxAnnoProcessor extends AbstractProcessor {
 
         return true;
     }
+
+    private void checkValidClass (SGXAnnotatedClass item) throws ProcessingException {
+        // we don't need this as of now.
+    }
+
 }

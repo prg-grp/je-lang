@@ -16,6 +16,20 @@ public class SGXAnnotatedClass {
     private String simpleTypeName;
     // private String id; // not necessary
 
+    public String getQualifiedSuperClassName() {
+        return qualifiedSuperClassName;
+    }
+
+    public String getSimpleTypeName() {
+        return simpleTypeName;
+    }
+
+
+
+    public TypeElement getAnnotatedClassElement() {
+        return annotatedClassElement;
+    }
+
     public SGXAnnotatedClass (TypeElement classElement) throws IllegalArgumentException {
         this.annotatedClassElement = classElement;
         SGX annotation = classElement.getAnnotation(SGX.class);

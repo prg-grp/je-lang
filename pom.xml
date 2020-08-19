@@ -14,6 +14,8 @@
     <modules>
         <module>jsgx-type-checker</module>
         <module>annotationProcessor</module>
+        <module>java-to-jiff-compiler</module>
+        <module>je-to-jiff-compiler</module>
     </modules>
 
     <properties>
