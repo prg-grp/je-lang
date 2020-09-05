@@ -23,7 +23,7 @@ public class SGXGroupedClasses {
         this.qualifiedClassName = qualifiedClassName;
     }
 
-    public void add(SGXAnnotatedClass toInsert)  {
+    /*public void add(SGXAnnotatedClass toInsert)  {
 
         SGXAnnotatedClass existing = annotatedClassMap.get(toInsert.getId());
         if (existing != null) {
@@ -43,6 +43,6 @@ public class SGXGroupedClasses {
 
 
 
-    }
+    }*/
 
 }

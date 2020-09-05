@@ -7,7 +7,7 @@ import de.tuda.stg.Parser.Codes;
 
 import java.util.HashSet;
 
-public class MethodDefinitionVisitor extends VoidVisitorAdapter<HashSet<String>> {
+public class EnclaveMethodDefinitionVisitor extends VoidVisitorAdapter<HashSet<String>> {
 
     @Override
     public void visit(MethodDeclaration md, HashSet<String> gwMethodsSet) {

@@ -8,4 +8,6 @@ public class StringConstants {
 
     public static final String remoteObjectClass = "UnicastRemoteObject";
 
+    public static final String overrideAnno = "Override";
+
 }

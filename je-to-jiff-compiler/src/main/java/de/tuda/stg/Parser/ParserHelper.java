@@ -3,7 +3,9 @@ package de.tuda.stg.Parser;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.AnnotationExpr;
+import com.github.javaparser.ast.expr.MethodCallExpr;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
@@ -32,4 +34,21 @@ public class ParserHelper {
         }
         return annotationMethodsMap;
     }
+
+    public static String getParameterNameListAsString(MethodDeclaration md) {
+        String parameterNameList = "(";
+        for (Parameter param : md.getParameters()) {
+            parameterNameList = parameterNameList.concat(param.getNameAsString()+", ");
+        }
+        parameterNameList = parameterNameList.replaceAll(", $",")");
+        return parameterNameList;
+    }
+
+
+    public static void transformNonEnclaveGatewayCall(final MethodCallExpr mc) {
+        mc.ge
+
+    }
+
+
 }

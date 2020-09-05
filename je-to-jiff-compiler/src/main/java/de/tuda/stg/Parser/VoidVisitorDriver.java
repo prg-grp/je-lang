@@ -7,26 +7,27 @@ import de.tuda.stg.Parser.VisitorsJif.ClassDeclarationVisitorJif;
 import de.tuda.stg.Parser.VisitorsJif.MethodDefinitionVisitorJif;
 import de.tuda.stg.Parser.VisitorsJif.ClassFieldDeclarationVisitorJif;
 import de.tuda.stg.Parser.VisitorsJif.MethodCallVisitorJif;
+import de.tuda.stg.Parser.VisitorsRemoteCom.EnclaveClassDeclarationVisitor;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashSet;
 
-public class VoidVisitorStarter {
+public class VoidVisitorDriver {
 
     private static final String FILE_PATH = "je-to-jiff-compiler/Point.java";
 
 
     public static void main(String[] args) {
         try {
-            CompilationUnit cu = StaticJavaParser.parse(new File(FILE_PATH));
+            final CompilationUnit cu = StaticJavaParser.parse(new File(FILE_PATH));
             System.out.println("--------- class before visiting -----------------------");
 
             System.out.println(cu.toString());
 
             System.out.println("--------------------------------");
 
-            HashSet<String> gwMethodNames = new HashSet<String>();
+            final HashSet<String> gwMethodNames = new HashSet<String>();
             VoidVisitor<HashSet<String>> methodNameVisitor = new MethodDefinitionVisitorJif();
             methodNameVisitor.visit(cu, gwMethodNames);
 
@@ -57,6 +58,14 @@ public class VoidVisitorStarter {
 
             System.out.println("----------------------------------Printing the files with Jif labels --------------------------------");
             System.out.println(jifCodeAddedString);
+
+            final CompilationUnit cuForCom = StaticJavaParser.parse(new File(FILE_PATH));
+            VoidVisitor<?> classDeclarationVisitorCom = new EnclaveClassDeclarationVisitor();
+            classDeclarationVisitorCom.visit(cuForCom, null);
+
+            // Convert gateway method calls from the non-sgx environment into remote calls.
+
+
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
