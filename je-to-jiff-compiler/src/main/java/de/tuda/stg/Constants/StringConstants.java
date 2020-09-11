@@ -10,4 +10,8 @@ public class StringConstants {
 
     public static final String overrideAnno = "Override";
 
+    public static final String remoteInterfacePrefix = "Remote";
+
+    public static final String remoteWrapperClassSufix = "Wrapper";
+
 }

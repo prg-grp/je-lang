@@ -16,6 +16,8 @@
         <module>annotationProcessor</module>
         <module>java-to-jiff-compiler</module>
         <module>je-to-jiff-compiler</module>
+        <module>test-cases1</module>
+        <module>test-cases</module>
     </modules>
 
     <properties>

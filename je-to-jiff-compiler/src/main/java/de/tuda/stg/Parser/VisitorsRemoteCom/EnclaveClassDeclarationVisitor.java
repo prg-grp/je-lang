@@ -29,14 +29,14 @@ public class EnclaveClassDeclarationVisitor extends VoidVisitorAdapter<Void> {
             final CompilationUnit cuRemoteInterface = new CompilationUnit();
             cuRemoteInterface.addImport(StringConstants.javaRMIAll);
             cuRemoteInterface.setPackageDeclaration(StringConstants.remotePackageName);
-            String remoteInterfaceName = "Remote"+className;
+            final String remoteInterfaceName = StringConstants.remoteInterfacePrefix+className;
             final ClassOrInterfaceDeclaration interfaceDeclaration = cuRemoteInterface.addInterface(remoteInterfaceName).addExtendedType(Remote.class);
 
             final CompilationUnit cuWrapperClass = new CompilationUnit();
             cuWrapperClass.addImport(StringConstants.javaRMIAll);
             cuWrapperClass.setPackageDeclaration(StringConstants.remotePackageName);
-            final ClassOrInterfaceDeclaration wrapperClassDeclaration = cuWrapperClass.addClass(className+"Wrapper").addExtendedType(StringConstants.remoteObjectClass).addImplementedType(remoteInterfaceName);
-            getAndAddGatewayMethods(cOrID, interfaceDeclaration, wrapperClassDeclaration);   // Need to add all the Gateway methods into the generated remote class
+            final ClassOrInterfaceDeclaration wrapperClassDeclaration = cuWrapperClass.addClass(className+StringConstants.remoteWrapperClassSufix).addExtendedType(StringConstants.remoteObjectClass).addImplementedType(remoteInterfaceName);
+            getAndAddGatewayMethods(cOrID, interfaceDeclaration, wrapperClassDeclaration);   // Adding all the Gateway methods into the generated remote class
 
             final String remoteInterfaceAsString =  cuRemoteInterface.toString();
             System.out.println("--------------Printing the created remote interface ---------------------------");
@@ -58,7 +58,7 @@ public class EnclaveClassDeclarationVisitor extends VoidVisitorAdapter<Void> {
         if (annotatedMethodsMap != null && !annotatedMethodsMap.isEmpty()) {
             // Add the methods in the 'annotatedMethodsMap' into the wrapperClassDeclaration
             for (MethodDeclaration gtwMd :  annotatedMethodsMap.get(strGateway)) {
-                MethodDeclaration wrapperMethodInClass = wrapperClassDeclaration.addMethod(gtwMd.getNameAsString(), Modifier.Keyword.PUBLIC); // can not add a method declaration directly ? need to break it and then again add it ?
+                MethodDeclaration wrapperMethodInClass = wrapperClassDeclaration.addMethod(gtwMd.getNameAsString(), Modifier.Keyword.PUBLIC); // can not add a method declaration directly ? seems like need to break it and then again add
                 MethodDeclaration remoteMethodInInterface = interfaceDeclaration.addMethod(gtwMd.getNameAsString(), Modifier.Keyword.PUBLIC);
 
                 wrapperMethodInClass.setType(gtwMd.getType());

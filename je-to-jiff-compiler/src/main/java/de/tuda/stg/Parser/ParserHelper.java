@@ -7,6 +7,9 @@ import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.*;
 
@@ -48,6 +51,26 @@ public class ParserHelper {
     public static void transformNonEnclaveGatewayCall(final MethodCallExpr mc) {
         mc.ge
 
+    }
+
+    public static void writeStringToTheFile(final String fileName, final String data) {
+        FileOutputStream outputStream = null;
+        try {
+            outputStream = new FileOutputStream(fileName);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        byte[] strToBytes = data.getBytes();
+        try {
+            outputStream.write(strToBytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
