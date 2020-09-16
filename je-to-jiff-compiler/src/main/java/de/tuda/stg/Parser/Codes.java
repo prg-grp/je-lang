@@ -16,9 +16,12 @@ public class Codes {
 	public static final String classExtensionCode = "CODECLSEXT";
 	
 	// ---------------------- Secret fields ---------------------------------------------------------
-	private static final String secFieldType = "{"+principalName+"->*; "+principalName+"<-*"+"}";
-	public static final String secFieldTypeCode = "CODESECFIELDTYPE";
-	
+	private static final String secFieldTypeRegular = "{"+principalName+"->*; "+principalName+"<-*"+"}";
+	public static final String secFieldTypeCodeRegular = "CODESECFIELDTYPEREGULAR";
+
+	private static final String secFieldTypeArray = "[]{"+principalName+"->*; "+principalName+"<-*"+"}";
+	public static final String secFieldTypeCodeArray = "CODESECFIELDTYPEARRAY";
+
 	// ---------------------- Gateway methods related ----------------------------------------------
 	private static final String gwReturnType = "{"+principalName+"->_; "+principalName+"<-*"+"}";
 	public static final String gwReturnTypeCode = "CODEGWRETURNTYPE";
@@ -49,8 +52,11 @@ public class Codes {
 	static
     { 
 		strReplacement = new HashMap<>(); 
-		strReplacement.put(classExtensionCode, classNameExtension); 
-		strReplacement.put(secFieldTypeCode, secFieldType); 
+		strReplacement.put(classExtensionCode, classNameExtension);
+
+		strReplacement.put(secFieldTypeCodeRegular, secFieldTypeRegular);
+		strReplacement.put(secFieldTypeCodeArray, secFieldTypeArray);
+
 		strReplacement.put(gwReturnTypeCode, gwReturnType);
 		strReplacement.put(gwMethodBeginLabelCode, gwMethodBeginLabel);
 

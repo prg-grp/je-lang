@@ -11,7 +11,7 @@ public class Player2 {
         updateOpponentsGridForMyPreviousGuess(guessAndResultFromP1); // Update player1's grid status at Player2's location for the previous guess from Player2
 
         // System.out.print("Player1's grid status at player2 = ");
-        printOppGrid();
+        // printOppGrid();
 
         return new GuessAndResult(generateGuess(), guessAndResultFromP1.proposedGuess, GridPlayer2.applyOppsGuess(guessAndResultFromP1.proposedGuess));
     }
@@ -34,10 +34,10 @@ public class Player2 {
         return location;
     }
 
-    private static void printOppGrid() {
+ /*   private static void printOppGrid() {
         for (int i = 0; i < gridStatusPlayer1.length; i++) {
             // System.out.print(gridStatusPlayer1[i]+"  ");
         }
         System.out.println("\n");
-    }
+    } */
 }

@@ -7,7 +7,7 @@ import de.tuda.stg.Parser.VisitorsJif.ClassDeclarationVisitorJif;
 import de.tuda.stg.Parser.VisitorsJif.MethodDefinitionVisitorJif;
 import de.tuda.stg.Parser.VisitorsJif.ClassFieldDeclarationVisitorJif;
 import de.tuda.stg.Parser.VisitorsJif.MethodCallVisitorJif;
-import de.tuda.stg.Parser.VisitorsRemoteCom.EnclaveClassDeclarationVisitor;
+import de.tuda.stg.Parser.VisitorsRemoteCom.EnclaveClassDeclarationVisitorComm;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
@@ -17,8 +17,8 @@ import java.util.HashSet;
 public class VoidVisitorDriver {
 
     // private static final String FILE_PATH = "je-to-jiff-compiler/Point.java";
-    private static final String JE_FOLDER_PATH = "test-cases/source/main/je/de/tuda/stg/battleship/";
-    private static final String GENERATED_JIF_FOLDER_PREFIX = "test-cases/source/main/jif/de/tuda/stg/battleship/";
+    private static final String JE_FOLDER_PATH = "test-cases/src/main/je/de/tuda/stg/battleship/";
+    private static final String GENERATED_JIF_FOLDER_PREFIX = "test-cases/src/main/generated-jif/de/tuda/stg/battleship/";
 
 
     public static void main(String[] args) {
@@ -29,6 +29,9 @@ public class VoidVisitorDriver {
             File[] directoryListing = jeSrcDir.listFiles();
             if (directoryListing != null) {
                 for (File file : directoryListing) {
+                    String currentFileName = file.getName();
+                    System.out.println("Currently processing : "+currentFileName);
+                    String currentFileBaseName = FilenameUtils.removeExtension(currentFileName);
                     if (FilenameUtils.getExtension(file.getPath()).equals("je")) {  //Change this later
 
                         // final CompilationUnit cu = StaticJavaParser.parse(new File(file));
@@ -71,12 +74,10 @@ public class VoidVisitorDriver {
                         System.out.println("----------------------------------Printing the files with Jif labels --------------------------------");
                         System.out.println(jifCodeAddedString);
 
-                        final CompilationUnit cuForCom = StaticJavaParser.parse(new File(FILE_PATH));
-                        VoidVisitor<?> classDeclarationVisitorCom = new EnclaveClassDeclarationVisitor();
-                        classDeclarationVisitorCom.visit(cuForCom, null);
+
 
                         // Writing generated jif code to the file
-                        ParserHelper.writeStringToTheFile(GENERATED_JIF_FOLDER_PREFIX+"", jifCodeAddedString);
+                        ParserHelper.writeStringToTheFile(GENERATED_JIF_FOLDER_PREFIX+currentFileBaseName+".jif", jifCodeAddedString);
 
 
                         // Convert gateway method calls from the non-sgx environment into remote calls.
@@ -92,6 +93,12 @@ public class VoidVisitorDriver {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+
+        // Code for adding Enclave RMI code
+        /*final CompilationUnit cuForCom = StaticJavaParser.parse(new File(JE_FOLDER_PATH));
+        VoidVisitor<?> classDeclarationVisitorCom = new EnclaveClassDeclarationVisitorComm();   // Adding RMI code
+        classDeclarationVisitorCom.visit(cuForCom, null);*/
     }
 
 

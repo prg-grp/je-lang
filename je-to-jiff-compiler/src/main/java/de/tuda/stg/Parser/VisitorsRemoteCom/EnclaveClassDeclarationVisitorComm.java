@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class EnclaveClassDeclarationVisitor extends VoidVisitorAdapter<Void> {
+public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Void> {
     @Override()
     public void visit(ClassOrInterfaceDeclaration cOrID, Void arg) {
         if (cOrID.isAnnotationPresent(Enclave.class)) {

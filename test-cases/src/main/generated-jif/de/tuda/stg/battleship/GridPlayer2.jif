@@ -1,0 +1,38 @@
+package de.tuda.stg.battleship;
+
+public final class GridPlayer2 [principal Enclave] authority (Enclave) {
+
+    final static boolean[]{Enclave->*; Enclave<-*} myGrid = new boolean[] { false, false, true, false, true, false, true, false, true, true };
+
+    public static int{Enclave->_; Enclave<-*} applyOppsGuess{Enclave<-*}(final int{} location) where authority(Enclave) {
+        int result = 0;
+        int locationE = endorse(location, {} to {Enclave<-*});
+        if (location >= 0) {
+            if (!myGrid[location]) {
+                // Battleship absent  // Implicit flow result is now secret
+                result = -1;
+            } else {
+                // Battleship present / Battleship hit by the opponent
+                result = 1;
+                // Battleship hit by the opponent
+                myGrid[location] = false;
+            }
+            if (allFalse()) {
+                // All battleships hit
+                result = 2;
+            }
+        }
+        return declassify(result, {Enclave->*; Enclave<-*} to {Enclave->_; Enclave<-*});
+    }
+
+    private static boolean allFalse() {
+        boolean allFalse = true;
+        for (int i = 0; i < myGrid.length; i++) {
+            if (myGrid[i]) {
+                allFalse = false;
+                break;
+            }
+        }
+        return allFalse;
+    }
+}

@@ -48,10 +48,10 @@ public class ParserHelper {
     }
 
 
-    public static void transformNonEnclaveGatewayCall(final MethodCallExpr mc) {
+   /* public static void transformNonEnclaveGatewayCall(final MethodCallExpr mc) {
         mc.ge
 
-    }
+    }*/
 
     public static void writeStringToTheFile(final String fileName, final String data) {
         FileOutputStream outputStream = null;
@@ -74,4 +74,15 @@ public class ParserHelper {
     }
 
 
+    public static String getStringForSecType(String javaTypeString) {
+        String trimmedString = javaTypeString.trim();
+        String str;
+        if (trimmedString.endsWith("[]")) {
+            str = trimmedString.substring(0, trimmedString.length() - 2)+Codes.secFieldTypeCodeArray;
+        } else {
+            str = javaTypeString+Codes.secFieldTypeCodeRegular;
+        }
+        return str;
+
+    }
 }

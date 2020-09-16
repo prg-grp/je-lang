@@ -37,3 +37,7 @@ lib
 *.zip
 *.tar.gz
 *.rar
+
+# Directories
+testing/
+backup/
