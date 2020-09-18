@@ -9,7 +9,7 @@ public class Codes {
 	public static final String declassify = "declassify";
 
 
-	public static final String principalName = "Enclave";
+	public static final String principalName = "Alice";
 	
 	// ---------------------- ClassName extension --------------------------------------------------------------------
 	private static final String classNameExtension = " [principal "+principalName+"] authority ("+principalName+")";

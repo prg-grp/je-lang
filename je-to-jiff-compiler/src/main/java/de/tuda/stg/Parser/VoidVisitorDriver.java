@@ -52,7 +52,7 @@ public class VoidVisitorDriver {
                         VoidVisitor<?> variableDeclarationVisitor = new ClassFieldDeclarationVisitorJif();
                         variableDeclarationVisitor.visit(cu, null);
 
-                        VoidVisitor<HashSet<String>> classDeclarationVisitor = new ClassDeclarationVisitorJif();
+                        VoidVisitor<HashSet<String>> classDeclarationVisitor = new ClassDeclarationVisitorJif(); //Somehow discard the non-enclave class
                         HashSet<String> enclaveClassNames = new HashSet<String>();
                         classDeclarationVisitor.visit(cu,enclaveClassNames);
                         System.out.println(enclaveClassNames);
