@@ -1,8 +1,12 @@
 # Project exclude paths
 
 # Compiled class file
-/target/
+target/
 *.class
+
+# Other generated files
+generated-jif/
+
 
 # Log file
 *.log

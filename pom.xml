@@ -14,9 +14,8 @@
     <modules>
         <module>jsgx-type-checker</module>
         <module>annotationProcessor</module>
-        <module>java-to-jiff-compiler</module>
+        <!-- <module>java-to-jiff-compiler</module> -->
         <module>je-to-jiff-compiler</module>
-        <module>test-cases1</module>
         <module>test-cases</module>
     </modules>
 
@@ -42,6 +41,49 @@
 
         <!--  <plugins.shade.version>3.2.1</plugins.shade.version>  -->
     </properties>
+
+    <build>
+        <finalName>je-to-jiff-compiler</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.1</version>
+
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>de.tuda.stg.Parser.VoidVisitorDriver</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>de.tuda.stg.Parser.VoidVisitorDriver</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin> -->
+        </plugins>
+    </build>
 
 
 </project>

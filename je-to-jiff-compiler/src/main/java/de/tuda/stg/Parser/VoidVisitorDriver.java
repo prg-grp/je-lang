@@ -17,14 +17,19 @@ import java.util.HashSet;
 public class VoidVisitorDriver {
 
     // private static final String FILE_PATH = "je-to-jiff-compiler/Point.java";
-    private static final String JE_FOLDER_PATH = "test-cases/src/main/je/de/tuda/stg/battleship/";
-    private static final String GENERATED_JIF_FOLDER_PREFIX = "test-cases/src/main/generated-jif/de/tuda/stg/battleship/";
+    // private static final String JE_FOLDER_PATH = "test-cases/src/main/je/de/tuda/stg/battleship/";
+    // private static final String GENERATED_JIF_FOLDER_PREFIX = "test-cases/src/main/generated-jif/de/tuda/stg/battleship/";
+
+    private static String JE_FOLDER_PATH = "test-cases/src/main/je/de/tuda/stg/battleshipLinkedList/";
+    private static String GENERATED_JIF_FOLDER_PREFIX = "test-cases/src/main/generated-jif/de/tuda/stg/battleshipLinkedList/";
 
 
     public static void main(String[] args) {
+        JE_FOLDER_PATH = args[0];
+        GENERATED_JIF_FOLDER_PREFIX = args[1];
         try {
-
             // Scanning the directory
+
             File jeSrcDir = new File(JE_FOLDER_PATH);
             File[] directoryListing = jeSrcDir.listFiles();
             if (directoryListing != null) {
@@ -73,28 +78,17 @@ public class VoidVisitorDriver {
 
                         System.out.println("----------------------------------Printing the files with Jif labels --------------------------------");
                         System.out.println(jifCodeAddedString);
-
-
-
                         // Writing generated jif code to the file
                         ParserHelper.writeStringToTheFile(GENERATED_JIF_FOLDER_PREFIX+currentFileBaseName+".jif", jifCodeAddedString);
-
-
                         // Convert gateway method calls from the non-sgx environment into remote calls.
                         //
                     }
                     // Do something with child
                 }
             }
-
-
-
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-
         // Code for adding Enclave RMI code
         /*final CompilationUnit cuForCom = StaticJavaParser.parse(new File(JE_FOLDER_PATH));
         VoidVisitor<?> classDeclarationVisitorCom = new EnclaveClassDeclarationVisitorComm();   // Adding RMI code

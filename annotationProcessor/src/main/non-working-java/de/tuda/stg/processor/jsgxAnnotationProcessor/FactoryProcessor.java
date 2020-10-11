@@ -29,8 +29,8 @@ public class FactoryProcessor extends AbstractProcessor {
     private Elements elementUtils;
     private Filer filer;
     private Messager messager;
-    private Map<String, FactoryGroupedClasses> factoryClasses =
-            new LinkedHashMap<String, FactoryGroupedClasses>();
+    private Map<String, SGXGroupedClasses> factoryClasses =
+            new LinkedHashMap<String, SGXGroupedClasses>();
 
     /*@Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
@@ -55,9 +55,9 @@ public class FactoryProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 
-        try {
+        // try {
 
-            // Scan classes
+            /*// Scan classes
             for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(SGX.class)) {
 
                 // Check if a class has been annotated with @Factory
@@ -71,10 +71,10 @@ public class FactoryProcessor extends AbstractProcessor {
 
                 SGXAnnotatedClass annotatedClass = new SGXAnnotatedClass(typeElement);
 
-                checkValidClass(annotatedClass);
+                // checkValidClass(annotatedClass);
 
                 // Everything is fine, so try to add
-                FactoryGroupedClasses factoryClass =
+                SGXGroupedClasses factoryClass =
                         factoryClasses.get(annotatedClass.getQualifiedFactoryGroupName());
                 if (factoryClass == null) {
                     String qualifiedGroupName = annotatedClass.getQualifiedFactoryGroupName();
@@ -95,7 +95,7 @@ public class FactoryProcessor extends AbstractProcessor {
             error(e.getElement(), e.getMessage());
         } catch (IOException e) {
             error(null, e.getMessage());
-        }
+        }*/
 
         return true;
     }

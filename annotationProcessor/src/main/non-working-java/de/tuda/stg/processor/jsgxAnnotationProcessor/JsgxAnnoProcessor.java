@@ -49,9 +49,9 @@ public class JsgxAnnoProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 
-        try {
+       // try {
 
-            // Scan classes
+           /* // Scan classes
             for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(SGX.class)) {
 
                 // Check if a class has been annotated with @Factory
@@ -89,7 +89,7 @@ public class JsgxAnnoProcessor extends AbstractProcessor {
             error(e.getElement(), e.getMessage());
         } catch (IOException e) {
             error(null, e.getMessage());
-        }
+        }*/
 
         return true;
     }

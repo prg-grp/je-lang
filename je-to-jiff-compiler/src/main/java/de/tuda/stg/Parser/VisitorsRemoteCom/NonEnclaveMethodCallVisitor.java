@@ -10,7 +10,7 @@ import java.util.HashSet;
 public class NonEnclaveMethodCallVisitor extends VoidVisitorAdapter<HashSet<String>> {
     @Override
     public void visit(MethodCallExpr mc, HashSet<String> gwMethodNamesSet) {
-       /* super.visit(mc, gwMethodNamesSet);
+      /* super.visit(mc, gwMethodNamesSet);
         System.out.println("Method call detected: "+mc.getName() );
 
         if (gwMethodNamesSet.contains(mc.getName().asString())) {

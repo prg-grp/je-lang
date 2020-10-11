@@ -10,7 +10,7 @@ public class Main {
     }
 
     @HH String foo = new String("abc");
-    @HH String bar = PasswordHandler.declassify(foo);
+    // @HH String bar = PasswordHandler.declassify(foo);
 
 
 

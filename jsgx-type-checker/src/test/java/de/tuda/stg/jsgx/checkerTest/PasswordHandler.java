@@ -33,9 +33,5 @@ public class PasswordHandler {
         return result;
     }
 
-    public static low String declassify (arg1) {
-            return (low) arg1;
-    }
-
-
+    // public static low String declassify (arg1) {return (low) arg1;
 }
