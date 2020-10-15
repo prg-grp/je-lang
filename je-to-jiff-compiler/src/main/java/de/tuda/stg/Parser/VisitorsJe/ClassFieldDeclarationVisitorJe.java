@@ -1,15 +1,14 @@
-package de.tuda.stg.Parser.VisitorsJif;
+package de.tuda.stg.Parser.VisitorsJe;
 
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import de.tuda.stg.Annotations.Secret;
-import de.tuda.stg.Parser.Codes;
 import de.tuda.stg.Parser.ParserHelper;
 
-public class ClassFieldDeclarationVisitorJif extends VoidVisitorAdapter<Void> {
+public class ClassFieldDeclarationVisitorJe extends VoidVisitorAdapter<Void> {
     @Override
     public void visit(FieldDeclaration classField, Void arg) {
-        super.visit(classField, arg);
+        super.visit(classField, arg); //TODO: is it needed ?
         if (classField.isAnnotationPresent(Secret.class)) {
             classField.getAnnotationByClass(Secret.class).get().remove();  // Removing the @Secret annotation
             classField.getVariables().forEach(vd -> {

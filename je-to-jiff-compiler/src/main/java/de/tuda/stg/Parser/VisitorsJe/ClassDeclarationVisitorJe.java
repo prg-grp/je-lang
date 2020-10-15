@@ -1,4 +1,4 @@
-package de.tuda.stg.Parser.VisitorsJif;
+package de.tuda.stg.Parser.VisitorsJe;
 
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
@@ -8,7 +8,7 @@ import de.tuda.stg.Parser.Codes;
 
 import java.util.HashSet;
 
-public class ClassDeclarationVisitorJif extends VoidVisitorAdapter<HashSet<String>>  {
+public class ClassDeclarationVisitorJe extends VoidVisitorAdapter<HashSet<String>>  {
     @Override
     public void visit(ClassOrInterfaceDeclaration cOrID, HashSet<String> classNameSet) {
         if (cOrID.isAnnotationPresent(Enclave.class)) {
@@ -16,7 +16,8 @@ public class ClassDeclarationVisitorJif extends VoidVisitorAdapter<HashSet<Strin
             cOrID.getAnnotationByClass(Enclave.class).get().remove();   // Removing the @Enclave annotation
             cOrID.setName(cOrID.getName()+ Codes.classExtensionCode);
             cOrID.addModifier(Modifier.Keyword.FINAL);   // Adding the keyword 'final'
-            super.visit(cOrID, classNameSet);
+
+            super.visit(cOrID, classNameSet); // TODO : is this needed ?
         }
     }
 }

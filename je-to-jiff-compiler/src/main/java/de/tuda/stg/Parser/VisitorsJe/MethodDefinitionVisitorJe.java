@@ -1,4 +1,4 @@
-package de.tuda.stg.Parser.VisitorsJif;
+package de.tuda.stg.Parser.VisitorsJe;
 
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
@@ -7,7 +7,7 @@ import de.tuda.stg.Parser.Codes;
 
 import java.util.HashSet;
 
-public class MethodDefinitionVisitorJif extends VoidVisitorAdapter<HashSet<String>>  {
+public class MethodDefinitionVisitorJe extends VoidVisitorAdapter<HashSet<String>>  {
     @Override
     public void visit(MethodDeclaration md, HashSet<String> gwMethodsSet) {
         if (md.isAnnotationPresent(Gateway.class)) {
@@ -18,7 +18,7 @@ public class MethodDefinitionVisitorJif extends VoidVisitorAdapter<HashSet<Strin
             md.getParameters().forEach(param -> param.setType(param.getTypeAsString()+ Codes.gwMethodParamTypeLabelCode)); // Adding security label to the gateway parameter
             md.addParameter(Codes.gwMethodExtensionTypeCode, Codes.gwMethodExtensionParamNameCode);
         }
-        super.visit(md, gwMethodsSet);
+        super.visit(md, gwMethodsSet); //TODO: is it needed ?
         // System.out.println("Method Name Printed: " + md.getName());
     }
 }

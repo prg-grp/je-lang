@@ -24,9 +24,9 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Void>
     public void visit(ClassOrInterfaceDeclaration cOrID, Void arg) {
         if (cOrID.isAnnotationPresent(Enclave.class)) {
             String className = cOrID.getNameAsString();
-            //creating the corresponding remote wrapper interface
+
             // String remoteInterface = new String();
-            final CompilationUnit cuRemoteInterface = new CompilationUnit();
+            final CompilationUnit cuRemoteInterface = new CompilationUnit();   //creating the corresponding remote wrapper interface
             cuRemoteInterface.addImport(StringConstants.javaRMIAll);
             cuRemoteInterface.setPackageDeclaration(StringConstants.remotePackageName);
             final String remoteInterfaceName = StringConstants.remoteInterfacePrefix+className;

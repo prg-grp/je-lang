@@ -18,7 +18,7 @@ public class Point {
     }
 
     @Gateway
-    public void m1(Integer a) {
+    public static void m1(Integer a) {
         System.out.println("Hi3");
     }
 

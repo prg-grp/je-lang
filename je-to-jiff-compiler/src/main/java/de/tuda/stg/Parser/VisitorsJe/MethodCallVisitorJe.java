@@ -1,10 +1,10 @@
-package de.tuda.stg.Parser.VisitorsJif;
+package de.tuda.stg.Parser.VisitorsJe;
 
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import de.tuda.stg.Parser.Codes;
 
-public class MethodCallVisitorJif extends VoidVisitorAdapter<Void> {
+public class MethodCallVisitorJe extends VoidVisitorAdapter<Void> {
         @Override
         public void visit(MethodCallExpr mc, Void arg) {
             super.visit(mc, arg);
