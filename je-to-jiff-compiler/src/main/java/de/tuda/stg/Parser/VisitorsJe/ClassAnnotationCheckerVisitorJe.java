@@ -14,14 +14,11 @@ public class ClassAnnotationCheckerVisitorJe extends VoidVisitorAdapter<ArrayLis
         if (annotationPresenceIndicator != null && annotationPresenceIndicator.isEmpty()) {
             if (cOrID.isAnnotationPresent(Enclave.class)) {
                 annotationPresenceIndicator.add(1);
-                cOrID.getAnnotationByClass(Enclave.class).get().remove();   // Removing the @Enclave annotation
-                cOrID.setName(cOrID.getName()+ Codes.classExtensionCode);
-                cOrID.addModifier(Modifier.Keyword.FINAL);   // Adding the keyword 'final'
-                // super.visit(cOrID, classNameSet); // TODO : is this needed ?
             }
         } else {
             throw new IllegalArgumentException("List 'annotationPresenceIndicator' should not be null and should be empty");
         }
+        // super.visit(cOrID, classNameSet); // TODO : is this needed ?
 
     }
 }
