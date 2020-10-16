@@ -9,9 +9,9 @@ import java.util.HashSet;
 
 public class EnclaveClassTranslationUtils {
 
-    public static void translateEnclaveClasses(final CompilationUnit cu) {
+    public static void translateEnclaveClass(final CompilationUnit cu) {
 
-        if (ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) {
+
             // Step1: Visiting class declaration inside the cu
             VoidVisitor<HashSet<String>> classDeclarationVisitor = new ClassDeclarationVisitorJe();
             HashSet<String> enclaveClassNames = new HashSet<String>();
@@ -22,7 +22,7 @@ public class EnclaveClassTranslationUtils {
 
             // Step2: Visiting methods inside the cu
             final HashSet<String> gwMethodNames = new HashSet<String>();
-            VoidVisitor<HashSet<String>> methodNameVisitor = new MethodDefinitionVisitorJe();
+            VoidVisitor<HashSet<String>> methodNameVisitor = new MethodDefinitionVisitorTransformerJe();
             methodNameVisitor.visit(cu, gwMethodNames);
 
             // Step3: Visiting declassify and endorse operators
@@ -32,10 +32,6 @@ public class EnclaveClassTranslationUtils {
             // Step4: Visiting fields inside the cu (e.g. secret fields)
             VoidVisitor<?> variableDeclarationVisitor = new ClassFieldDeclarationVisitorJe();
             variableDeclarationVisitor.visit(cu, null);
-
-        } else {
-
-        }
     }
 
     public static void addCommCodeToEnclaveClasses(final CompilationUnit cu) {
@@ -43,8 +39,8 @@ public class EnclaveClassTranslationUtils {
             // Code for adding Enclave RMI code
 
             //Still need to get rid of annotations and endorse and declassify operators (All JE features)
-            VoidVisitor<?> classDeclarationVisitorCom = new EnclaveClassDeclarationVisitorComm();   // Adding RMI code
-            classDeclarationVisitorCom.visit(cu, null);
+            VoidVisitor<?> classDeclarationVisitorComm = new EnclaveClassDeclarationVisitorComm();   // Adding RMI code
+            classDeclarationVisitorComm.visit(cu, null);
         } else {
 
         }

@@ -1,4 +1,4 @@
-package de.tuda.stg.Parser;
+package de.tuda.stg.Constants;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -3,7 +3,7 @@ package de.tuda.stg.Parser.VisitorsRemoteCom;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import de.tuda.stg.Annotations.Gateway;
-import de.tuda.stg.Parser.Codes;
+import de.tuda.stg.Constants.Codes;
 
 import java.util.HashSet;
 

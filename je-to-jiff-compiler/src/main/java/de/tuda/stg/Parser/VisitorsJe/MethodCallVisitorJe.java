@@ -2,7 +2,7 @@ package de.tuda.stg.Parser.VisitorsJe;
 
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
-import de.tuda.stg.Parser.Codes;
+import de.tuda.stg.Constants.Codes;
 
 public class MethodCallVisitorJe extends VoidVisitorAdapter<Void> {
         @Override

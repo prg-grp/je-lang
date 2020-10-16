@@ -5,20 +5,16 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.expr.AnnotationExpr;
-import com.github.javaparser.ast.expr.ClassExpr;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.MethodCallExpr;
-import com.github.javaparser.ast.visitor.VoidVisitor;
+import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
-import de.tuda.stg.Exceptions.TranslationException;
+import de.tuda.stg.Constants.Codes;
+import de.tuda.stg.Constants.StringConstants;
 import de.tuda.stg.Parser.VisitorsJe.ClassAnnotationCheckerVisitorJe;
-import de.tuda.stg.Parser.VisitorsJe.ClassDeclarationVisitorJe;
+import de.tuda.stg.Parser.VisitorsJe.MethodDefinitionVisitorCollectorJe;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.util.*;
 
 public class ParserHelper {
@@ -64,16 +60,15 @@ public class ParserHelper {
 
 
    public static void transformNonEnclaveGatewayCall(final MethodCallExpr mc) {
-        Expression receiverExpr = mc.getScope().get(); // extract the receiver  // The receiver has to be the class name. It cannot be an identifier / object, as we are only dealing with the 'static` methods.
+        Expression receiverExpr = mc.getScope().get(); // extract the receiver  // The receiver has to be the class name. It cannot be an identifier, as we are only dealing with the 'static` methods.
+       // Here, the run time type of the 'receiverExpr' is "NameExpr"
+
+
        // Skipping any checks on the expression assuming it is a class name expression.
-       String receiverName = null;
-       if (receiverExpr.isClassExpr()) {
-           receiverName = ((ClassExpr)receiverExpr).getTypeAsString();
-       } else {
-           throw new TranslationException("Not a valid Gateway call, receiver should be an Enclave class name, but the receiver = "+receiverName);
-       }
-
-
+       String receiverName = ((NameExpr) receiverExpr).getNameAsString();
+       System.out.println("Receiver of the method call = "+receiverName);
+       mc.removeScope();
+       mc.setScope(new NameExpr(ParserHelper.getRMICallReceiverString(receiverName)));
     }
 
     public static void writeStringToFile(final String fileName, final String data) {
@@ -96,16 +91,38 @@ public class ParserHelper {
         }
     }
 
-
     public static String getStringForSecType(String javaTypeString) {
         String trimmedString = javaTypeString.trim();
         String str;
         if (trimmedString.endsWith("[]")) {
-            str = trimmedString.substring(0, trimmedString.length() - 2)+Codes.secFieldTypeCodeArray;
+            str = trimmedString.substring(0, trimmedString.length() - 2)+ Codes.secFieldTypeCodeArray;
         } else {
             str = javaTypeString+Codes.secFieldTypeCodeRegular;
         }
         return str;
+    }
 
+
+    public static void getAllGatewayMethods(final CompilationUnit cu, final HashSet<String> gatewayMethodNames) {
+        new MethodDefinitionVisitorCollectorJe().visit(cu, gatewayMethodNames);
+    }
+
+    public static String getRMICallReceiverString(String enclaveClassName) {
+        String remoteInterfaceName = getRemoteInterfaceName(enclaveClassName);
+        String castToRemoteInterface = "(" + remoteInterfaceName + ")";
+        String lookUpString = StringConstants.rmiLookUpURLPrefix+
+                remoteInterfaceName +
+                "\")";
+        String receiverString = "(" + castToRemoteInterface + " " +  lookUpString + ")";
+        return receiverString;
+
+    }
+
+    public static String getRemoteInterfaceName(String enclaveClassName) {
+        return StringConstants.remoteInterfacePrefix+enclaveClassName;
+    }
+
+    public static String getWrapperClassName(String enclaveClassName) {
+        return StringConstants.remoteWrapperClassSufix+enclaveClassName;
     }
 }

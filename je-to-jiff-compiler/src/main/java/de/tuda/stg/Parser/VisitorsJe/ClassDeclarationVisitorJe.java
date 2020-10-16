@@ -4,7 +4,7 @@ import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import de.tuda.stg.Annotations.Enclave;
-import de.tuda.stg.Parser.Codes;
+import de.tuda.stg.Constants.Codes;
 
 import java.util.HashSet;
 

@@ -3,11 +3,11 @@ package de.tuda.stg.Parser.VisitorsJe;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import de.tuda.stg.Annotations.Gateway;
-import de.tuda.stg.Parser.Codes;
+import de.tuda.stg.Constants.Codes;
 
 import java.util.HashSet;
 
-public class MethodDefinitionVisitorJe extends VoidVisitorAdapter<HashSet<String>>  {
+public class MethodDefinitionVisitorTransformerJe extends VoidVisitorAdapter<HashSet<String>>  {
     @Override
     public void visit(MethodDeclaration md, HashSet<String> gwMethodsSet) {
         if (md.isAnnotationPresent(Gateway.class)) {

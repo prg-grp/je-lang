@@ -2,7 +2,6 @@ package de.tuda.stg.Parser.VisitorsRemoteCom;
 
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
-import de.tuda.stg.Parser.Codes;
 import de.tuda.stg.Parser.ParserHelper;
 
 import java.util.HashSet;

@@ -12,7 +12,7 @@ public class ClassFieldDeclarationVisitorJe extends VoidVisitorAdapter<Void> {
         if (classField.isAnnotationPresent(Secret.class)) {
             classField.getAnnotationByClass(Secret.class).get().remove();  // Removing the @Secret annotation
             classField.getVariables().forEach(vd -> {
-                System.out.println("Type of the field in Je program = "+vd.getType().asString());
+                System.out.println("Type of the field in the Je program = "+vd.getType().asString());
 
                 String replacementTypeString = ParserHelper.getStringForSecType(vd.getType().asString());
 
