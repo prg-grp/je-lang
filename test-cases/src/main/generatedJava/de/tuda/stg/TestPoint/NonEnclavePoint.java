@@ -1,6 +1,8 @@
+import java.rmi.*;
+
 public class NonEnclavePoint {
 
     public static void main(String[] args) {
-        ((RemoteInterfaceEnclavePoint) Naming.lookup("rmi://localhost/RemoteInterfaceEnclavePoint")).m1();
+        var a = ((RemoteInterfaceEnclavePoint) Naming.lookup("rmi://localhost/RemoteInterfaceEnclavePoint")).m1();
     }
 }

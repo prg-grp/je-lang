@@ -7,7 +7,7 @@ import de.tuda.stg.Constants.Codes;
 
 import java.util.HashSet;
 
-public class MethodDefinitionVisitorTransformerJe extends VoidVisitorAdapter<HashSet<String>>  {
+public class GatewayMethodDefinitionVisitorTransformerJe extends VoidVisitorAdapter<HashSet<String>>  {
     @Override
     public void visit(MethodDeclaration md, HashSet<String> gwMethodsSet) {
         if (md.isAnnotationPresent(Gateway.class)) {

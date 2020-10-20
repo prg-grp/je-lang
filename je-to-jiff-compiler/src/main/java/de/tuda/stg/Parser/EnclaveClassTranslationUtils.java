@@ -22,7 +22,7 @@ public class EnclaveClassTranslationUtils {
 
             // Step2: Visiting methods inside the cu
             final HashSet<String> gwMethodNames = new HashSet<String>();
-            VoidVisitor<HashSet<String>> methodNameVisitor = new MethodDefinitionVisitorTransformerJe();
+            VoidVisitor<HashSet<String>> methodNameVisitor = new GatewayMethodDefinitionVisitorTransformerJe();
             methodNameVisitor.visit(cu, gwMethodNames);
 
             // Step3: Visiting declassify and endorse operators

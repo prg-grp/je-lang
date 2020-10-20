@@ -4,6 +4,7 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import de.tuda.stg.Constants.Codes;
 import de.tuda.stg.Constants.PathValues;
+import de.tuda.stg.Constants.StringConstants;
 import de.tuda.stg.Parser.VisitorsRemoteCom.NonEnclaveMethodCallVisitor;
 import org.apache.commons.io.FilenameUtils;
 
@@ -123,8 +124,10 @@ public class VoidDriver1 {
                         // final CompilationUnit cu = StaticJavaParser.parse(new File(file));
                         final CompilationUnit cu = StaticJavaParser.parse(file);
                         if (!ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) {
+                            cu.addImport(StringConstants.javaRMIAll);  // Not an optimal place to add RMI imports, the class may not contain any enclave calls at all.
+
                             NonEnclaveMethodCallVisitor nonEnclaveMCVisitor = new NonEnclaveMethodCallVisitor();
-                            nonEnclaveMCVisitor.visit(cu, gatewayMethodNames);
+                            nonEnclaveMCVisitor.visit(cu, gatewayMethodNames);  // TODO: We can't add all the remote methods into the single interface, what interfaces to be imported will be decided by this visit method.
                             String nonEnclaveClassString = cu.toString();
                             System.out.println("------------  NonEnclave Class with added remote comm --------------------");
                             System.out.println(nonEnclaveClassString);
