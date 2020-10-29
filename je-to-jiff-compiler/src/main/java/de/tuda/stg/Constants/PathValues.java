@@ -7,4 +7,6 @@ public class PathValues {
 
     public static String GENERATED_JAVA_FOLDER_PREFIX = "test-cases/src/main/generatedJava/de/tuda/stg/TestPoint/";
 
+    public static String ENCLAVE_MAIN_CLASS_TEMPLATE_FILE_NAME = "je-to-jiff-compiler/src/main/java/de/tuda/stg/TemplateClasses/EnclaveMainClass.java";
+
 }

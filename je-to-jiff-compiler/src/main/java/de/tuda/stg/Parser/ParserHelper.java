@@ -2,13 +2,13 @@ package de.tuda.stg.Parser;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.*;
+import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import de.tuda.stg.Constants.Codes;
-import de.tuda.stg.Constants.StringConstants;
+import de.tuda.stg.Constants.FileNames;
+import de.tuda.stg.Constants.RMIConstants;
 import de.tuda.stg.Parser.VisitorsJe.ClassAnnotationCheckerVisitorJe;
 import de.tuda.stg.Parser.VisitorsJe.MethodDefinitionVisitorCollectorJe;
 
@@ -110,7 +110,7 @@ public class ParserHelper {
     public static String getRMICallReceiverString(String enclaveClassName) {
         String remoteInterfaceName = getRemoteInterfaceName(enclaveClassName);
         String castToRemoteInterface = "(" + remoteInterfaceName + ")";
-        String lookUpString = StringConstants.rmiLookUpURLPrefix+
+        String lookUpString = RMIConstants.rmiLookUpURLPrefix+
                 remoteInterfaceName +
                 "\")";
         String receiverString = "(" + castToRemoteInterface + " " +  lookUpString + ")";
@@ -119,10 +119,32 @@ public class ParserHelper {
     }
 
     public static String getRemoteInterfaceName(String enclaveClassName) {
-        return StringConstants.remoteInterfacePrefix+enclaveClassName;
+        return RMIConstants.remoteInterfacePrefix+enclaveClassName;
     }
 
     public static String getWrapperClassName(String enclaveClassName) {
-        return StringConstants.remoteWrapperClassSufix+enclaveClassName;
+        return RMIConstants.remoteWrapperClassSufix+enclaveClassName;
+    }
+
+    public static void addRMIRegistryBindings(CompilationUnit cu, HashSet<String> enclaveClassesToExposeNames) {
+        ClassOrInterfaceDeclaration classDeclaration = cu.getClassByName(FileNames.ENCLAVE_MAIN_CLASS_BASE_NAME).get();
+        MethodDeclaration mainMethodDeclaration = null;
+        List<MethodDeclaration> methodDefinitionList = classDeclaration.getMethodsByName("main");
+        if (methodDefinitionList.isEmpty() || (methodDefinitionList.size() > 1) ) {
+            throw new IllegalArgumentException("Zero or more than one main methods");
+        }
+        else {
+            mainMethodDeclaration  = methodDefinitionList.get(0);
+            BlockStmt mainMethodBody = mainMethodDeclaration.getBody().get();
+            mainMethodBody.addStatement("LocateRegistry.createRegistry("+RMIConstants.registryPortValue +");");
+            for (String enclaveClassToExposeName : enclaveClassesToExposeNames) {
+                final String remoteInterfaceName = getRemoteInterfaceName(enclaveClassToExposeName);
+                final String wrapperClassName = getWrapperClassName(enclaveClassToExposeName);
+                mainMethodBody.addStatement("Naming.rebind(\""+remoteInterfaceName+"\", new "+wrapperClassName+"());");
+            }
+            mainMethodBody.addStatement("while(true) {}");
+        }
+
+
     }
 }

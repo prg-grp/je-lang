@@ -3,8 +3,9 @@ package de.tuda.stg.Parser;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import de.tuda.stg.Constants.Codes;
+import de.tuda.stg.Constants.FileNames;
 import de.tuda.stg.Constants.PathValues;
-import de.tuda.stg.Constants.StringConstants;
+import de.tuda.stg.Constants.RMIConstants;
 import de.tuda.stg.Parser.VisitorsRemoteCom.NonEnclaveMethodCallVisitor;
 import org.apache.commons.io.FilenameUtils;
 
@@ -19,6 +20,10 @@ public class VoidDriver1 {
         // GENERATED_JIF_FOLDER_PREFIX = args[1];
         final HashSet<String> enclaveClassNames = new HashSet<>();
         final HashSet<String> gatewayMethodNames = new HashSet<>();
+        final HashSet<String> enclaveClassesToExposeNames = new HashSet<String>();  // Names of the enclave wrapper classes to be bound to the RMI registry.
+
+
+
 
 
         // First try block, translation of Enclave classes to Jif
@@ -72,6 +77,9 @@ public class VoidDriver1 {
 
         // Second try block, adding RMI code to enclave classes
         try {
+
+            System.out.println("Names of the generated wrapper classes = "+enclaveClassesToExposeNames);
+
             // Scanning the directory
             File jeSrcDir = new File(PathValues.JE_FOLDER_PATH);
             File[] directoryListing = jeSrcDir.listFiles();
@@ -86,7 +94,7 @@ public class VoidDriver1 {
                         final CompilationUnit cu = StaticJavaParser.parse(file);
 
                         if (ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) {
-                            EnclaveClassTranslationUtils.addCommCodeToEnclaveClasses(cu);
+                            EnclaveClassTranslationUtils.addCommCodeToEnclaveClasses(cu, enclaveClassesToExposeNames);
 
                             String enclaveJavaCodeWithCommString = cu.toString();
                             System.out.println("----------- Enclave file with added RMI code -----------------");
@@ -124,7 +132,7 @@ public class VoidDriver1 {
                         // final CompilationUnit cu = StaticJavaParser.parse(new File(file));
                         final CompilationUnit cu = StaticJavaParser.parse(file);
                         if (!ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) {
-                            cu.addImport(StringConstants.javaRMIAll);  // Not an optimal place to add RMI imports, the class may not contain any enclave calls at all.
+                            cu.addImport(RMIConstants.javaRMIAll);  // Not an optimal place to add RMI imports, the class may not contain any enclave calls at all.
 
                             NonEnclaveMethodCallVisitor nonEnclaveMCVisitor = new NonEnclaveMethodCallVisitor();
                             nonEnclaveMCVisitor.visit(cu, gatewayMethodNames);  // TODO: We can't add all the remote methods into the single interface, what interfaces to be imported will be decided by this visit method.
@@ -142,6 +150,24 @@ public class VoidDriver1 {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+        // Fourth try block, generating the Enclave initialization java file
+        try {
+            File enclaveMainClassFile = new File(PathValues.ENCLAVE_MAIN_CLASS_TEMPLATE_FILE_NAME);
+            final CompilationUnit cu = StaticJavaParser.parse(enclaveMainClassFile);
+            cu.getPackageDeclaration().get().remove();  // Removing the package declaration from the template file.
+            ParserHelper.addRMIRegistryBindings(cu, enclaveClassesToExposeNames);
+            final String enclaveMainClassAsString = cu.toString();
+            ParserHelper.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX+FileNames.ENCLAVE_MAIN_CLASS_BASE_NAME+".java", enclaveMainClassAsString);
+        }  catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } {
+
+        }
+
+
+
+
 
     }
 }

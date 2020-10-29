@@ -6,6 +6,7 @@ import de.tuda.stg.Parser.VisitorsJe.*;
 import de.tuda.stg.Parser.VisitorsRemoteCom.EnclaveClassDeclarationVisitorComm;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class EnclaveClassTranslationUtils {
 
@@ -34,13 +35,13 @@ public class EnclaveClassTranslationUtils {
             variableDeclarationVisitor.visit(cu, null);
     }
 
-    public static void addCommCodeToEnclaveClasses(final CompilationUnit cu) {
+    public static void addCommCodeToEnclaveClasses(final CompilationUnit cu, final Set<String> enclaveClassesToExposeNames) {
         if (ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) {
             // Code for adding Enclave RMI code
 
             //Still need to get rid of annotations and endorse and declassify operators (All JE features)
-            VoidVisitor<?> classDeclarationVisitorComm = new EnclaveClassDeclarationVisitorComm();   // Adding RMI code
-            classDeclarationVisitorComm.visit(cu, null);
+            VoidVisitor<Set<String>> classDeclarationVisitorComm = new EnclaveClassDeclarationVisitorComm();   // Adding RMI code
+            classDeclarationVisitorComm.visit(cu,enclaveClassesToExposeNames);
         } else {
 
         }

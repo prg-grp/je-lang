@@ -1,6 +1,6 @@
 package de.tuda.stg.Constants;
 
-public class StringConstants {
+public class RMIConstants {
 
     public static final String javaRMIAll = "java.rmi.*";
 
@@ -15,5 +15,7 @@ public class StringConstants {
     public static final String overrideAnno = "Override";
 
     public static final String rmiLookUpURLPrefix = "Naming.lookup"+"("+"\""+"rmi://localhost/";
+
+    public static final String registryPortValue = "1099";
 
 }

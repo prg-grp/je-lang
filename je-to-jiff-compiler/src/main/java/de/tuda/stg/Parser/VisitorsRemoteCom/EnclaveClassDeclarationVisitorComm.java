@@ -8,7 +8,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import de.tuda.stg.Annotations.Enclave;
 import de.tuda.stg.Annotations.Gateway;
-import de.tuda.stg.Constants.StringConstants;
+import de.tuda.stg.Constants.RMIConstants;
 import de.tuda.stg.Constants.PathValues;
 import de.tuda.stg.Parser.ParserHelper;
 
@@ -19,16 +19,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Void> {
+public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Set<String>> {
     @Override()
-    public void visit(ClassOrInterfaceDeclaration cOrID, Void arg) {
+    public void visit(final ClassOrInterfaceDeclaration cOrID, final Set<String> enclaveClassesToBeExposedNames) {
         if (cOrID.isAnnotationPresent(Enclave.class)) {
             String className = cOrID.getNameAsString();
+            enclaveClassesToBeExposedNames.add(className);
 
             // Generating the remote interface
             final CompilationUnit cuRemoteInterface = new CompilationUnit();   //creating the corresponding remote wrapper interface
-            cuRemoteInterface.addImport(StringConstants.javaRMIAll);
-            cuRemoteInterface.setPackageDeclaration(StringConstants.remotePackageName);
+            cuRemoteInterface.addImport(RMIConstants.javaRMIAll);
+            cuRemoteInterface.setPackageDeclaration(RMIConstants.remotePackageName);
 
             final String remoteInterfaceName  = ParserHelper.getRemoteInterfaceName(className);
 
@@ -38,11 +39,11 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Void>
 
             // Generating the wrapper class
             final CompilationUnit cuWrapperClass = new CompilationUnit();
-            cuWrapperClass.addImport(StringConstants.javaRMIAll);
-            cuWrapperClass.setPackageDeclaration(StringConstants.remotePackageName);
+            cuWrapperClass.addImport(RMIConstants.javaRMIAll);
+            cuWrapperClass.setPackageDeclaration(RMIConstants.remotePackageName);
             final String wrapperClassName = ParserHelper.getWrapperClassName(className);
 
-            final ClassOrInterfaceDeclaration wrapperClassDeclaration = cuWrapperClass.addClass(wrapperClassName).addExtendedType(StringConstants.remoteObjectClass).addImplementedType(remoteInterfaceName);
+            final ClassOrInterfaceDeclaration wrapperClassDeclaration = cuWrapperClass.addClass(wrapperClassName).addExtendedType(RMIConstants.remoteObjectClass).addImplementedType(remoteInterfaceName);
             getAndAddGatewayMethodsToTheRemoteInterface(cOrID, interfaceDeclaration, wrapperClassDeclaration);   // Adding all the Gateway methods into the generated remote class
 
             final String remoteInterfaceAsString =  cuRemoteInterface.toString();
@@ -79,7 +80,7 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Void>
                 remoteMethodInInterface.setParameters(gtwMd.getParameters());
                 remoteMethodInInterface.removeBody(); // Since it is a method inside an Interface.
 
-                wrapperMethodInClass.addAnnotation(StringConstants.overrideAnno);
+                wrapperMethodInClass.addAnnotation(RMIConstants.overrideAnno);
                 BlockStmt blockStmt = new BlockStmt();
                 blockStmt.addStatement("return "+cOrID.getNameAsString()+"."+gtwMd.getNameAsString()+ParserHelper.getParameterNameListAsString(gtwMd)+";");
                 wrapperMethodInClass.setBody(blockStmt);
