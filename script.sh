@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#TODO replace the following JAVA_HOME path according to your system.
+#TODO replace the following JAVA_HOME, JIFC_PATH and JIFC_PRINCIPLES_PATH path according to your system.
 export JAVA_HOME="~/Aditya/Phd_Related/jvms/jdk1.8.0_241"
 export JIFC_PATH=~/Softwares/Jif/jif-3.5.0/bin/
 
