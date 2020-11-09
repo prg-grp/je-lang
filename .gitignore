@@ -45,3 +45,6 @@ lib
 # Directories
 testing/
 backup/
+annotationProcessor/
+jsgx-type-checker/
+JifWorkingFiles/
