@@ -3,6 +3,20 @@
 
 JE provides language-level abstractions to write Java applications that can run with Intel SGX.
 Parts of the program to be run inside the SGX can be specified using JE annotations. JE uses an implicit security type system to detect invalid information flows.
+Example:
+```
+@Enclave
+class Enclave {
+	@Secret
+	private static String password;
+		
+	@Gateway
+	public static Boolean checkPassword(String guess) {
+		return declassify(password.equals(guess));
+	} 
+}
+```
+The class-level annotation @Enclave denotes that the annotated class should be placed inside the enclave. The field-level @Secret annotation denotes secret fields whose values must not leak outside the SGX enclave. @Gateway annotation denotes methods which are accessible from the non-enclave environment.
 ## Prerequisites
 #### 1. Jif installation
 	1. Visit https://www.cs.cornell.edu/jif/
