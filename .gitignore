@@ -43,9 +43,8 @@ lib
 *.rar
 
 # Directories
-testing/
-backup/
-annotationProcessor/
-jsgx-type-checker/
-JifWorkingFiles/
-src/
+/testing/
+/backup/
+/annotationProcessor/
+/jsgx-type-checker/
+/JifWorkingFiles/

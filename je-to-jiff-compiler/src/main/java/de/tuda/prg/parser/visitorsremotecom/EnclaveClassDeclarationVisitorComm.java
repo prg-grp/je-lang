@@ -10,8 +10,11 @@ import de.tuda.prg.annotations.Enclave;
 import de.tuda.prg.annotations.Gateway;
 import de.tuda.prg.constants.RMIConstants;
 import de.tuda.prg.constants.PathValues;
+import de.tuda.prg.exceptions.FileIOException;
+import de.tuda.prg.filehandling.FileUtils;
 import de.tuda.prg.parser.ParserHelper;
 
+import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.HashSet;
@@ -35,8 +38,6 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Set<S
 
             final ClassOrInterfaceDeclaration interfaceDeclaration = cuRemoteInterface.addInterface(remoteInterfaceName).addExtendedType(Remote.class);
 
-
-
             // Generating the wrapper class
             final CompilationUnit cuWrapperClass = new CompilationUnit();
             cuWrapperClass.addImport(RMIConstants.javaRMIAll);
@@ -50,13 +51,19 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Set<S
             System.out.println("--------------Printing the created remote interface ---------------------------");
             System.out.println(remoteInterfaceAsString);
 
-            ParserHelper.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX+remoteInterfaceName+".java", remoteInterfaceAsString);   //Ideally, this file writing should be in some file writing utility class.
+            try {
+                FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX + remoteInterfaceName + ".java", remoteInterfaceAsString);   //Ideally, this file writing should be in some file writing utility class.
 
-            final String wrapperClassAsString = cuWrapperClass.toString();
-            System.out.println("--------------Printing the created wrapper class ---------------------------");
-            System.out.println(wrapperClassAsString);
-
-            ParserHelper.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX+wrapperClassName+".java", wrapperClassAsString);   //Ideally, this file writing should not be here.
+                final String wrapperClassAsString = cuWrapperClass.toString();
+                System.out.println("--------------Printing the created wrapper class ---------------------------");
+                System.out.println(wrapperClassAsString);
+                FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX + wrapperClassName + ".java", wrapperClassAsString);   //Ideally, this file writing should not be here.
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            } catch (FileIOException e) {
+                e.printStackTrace();
+            }
 
             // super.visit(cOrID, arg); // TODO: Is this needed ?
         }

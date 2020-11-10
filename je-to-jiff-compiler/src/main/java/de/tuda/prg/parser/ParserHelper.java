@@ -71,26 +71,6 @@ public class ParserHelper {
        mc.setScope(new NameExpr(ParserHelper.getRMICallReceiverString(receiverName)));
     }
 
-    public static void writeStringToFile(final String fileName, final String data) {
-        FileOutputStream outputStream = null;
-        try {
-            outputStream = new FileOutputStream(fileName);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        byte[] strToBytes = data.getBytes();
-        try {
-            outputStream.write(strToBytes);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static String getStringForSecType(String javaTypeString) {
         String trimmedString = javaTypeString.trim();
         String str;
