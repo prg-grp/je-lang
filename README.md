@@ -16,7 +16,9 @@ class Enclave {
 	} 
 }
 ```
-The class-level *@Enclave* annotation denotes that the annotated class should be placed inside the enclave. The field-level *@Secret* annotation denotes secret fields whose values must not leak outside the SGX enclave. The *@Gateway* annotation denotes methods which are accessible from the non-enclave environment.
+The class-level *@Enclave* annotation denotes that the annotated class should be placed inside the enclave. The field-level *@Secret* annotation denotes secret fields whose values must not leak outside the SGX enclave. The *@Gateway* annotation denotes methods which are accessible from the non-enclave environment
+
+More examples are provided in `/test-cases/src/main/je/de/tuda/prg`
 ## Prerequisites
 #### 1. Jif installation
 1. Visit https://www.cs.cornell.edu/jif/ and download the zip file of Jif 3.5
@@ -26,13 +28,13 @@ The class-level *@Enclave* annotation denotes that the annotated class should be
 5. We denote the Jif bin directory as `JIF_BIN` and it points to `$JIF_ROOT/bin/` and Jif principals directory as `JIFC_PRINCIPALS` and pointing to `$JIF_ROOT/tests/jif/principals/`
 
 #### 2. Setting up Intel SGX (only needed for running the application)
-##### 	2.1. Installing Intel SGX drivers
+#### 2.1. Installing Intel SGX drivers
 1. Visit https://download.01.org/intel-sgx/sgx-linux/2.9.1/docs/Intel_SGX_Installation_Guide_Linux_2.9.1_Open_Source.pdf and install the SGX drivers.
 
 #### 3. Install [Maven](https://maven.apache.org/)
 
 ## Building the compiler
-1. Make sure that you have the environment variable JAVA_HOME set to JDK 9 or higher. (\TODO, instead add compiler-plugin to pom file)
+1. Make sure that you have the environment variable JAVA_HOME set to JDK 9 or higher. (\TODO, instead add compiler-plugin to the pom file)
 2. Chage to the root directory of the project
 3. Run `mvn package`
 4. A jar file named `je-to-jiff-compiler-jar-with-dependencies.jar` will be compiled in the `/je-to-jiff-compiler/target` directory.
@@ -41,8 +43,8 @@ The class-level *@Enclave* annotation denotes that the annotated class should be
 1. In the *compile.sh* file, set the following variables
 	* `JIF_BIN` and `JIFC_PRINCIPALS` are the same directory paths as described in the *Jif installation* process above.
 	* `JAVA_HOME` : It should point to the root directory of JDK. The compiler has been tested with JDK 8.
-	* `JE_PATH` : directory of the JE source files to be compiled
-	* `JIF_PATH` : directory for the generated Jif classes to be compiled
-	* `JAVA_GENERATED_PATH` : directory of the generated Java files
+	* `JE_PATH` : Directory of the JE source files to be compiled
+	* `JIF_PATH` : Directory for the generated Jif classes to be compiled
+	* `JAVA_GENERATED_PATH` : Directory for the generated Java files
 
 2. Run ```./compile.sh```
