@@ -1,4 +1,4 @@
-# sgx-language-support-impl
+# The JE Secure Programming Language 
 
 
 JE provides language-level abstractions to write Java applications that can run with Intel SGX.
