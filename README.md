@@ -1,4 +1,4 @@
-# The JE Secure Programming Language 
+# The J<sub>E</sub> Secure Programming Language 
 
 
 JE provides language-level abstractions to write Java applications that can run with Intel SGX.
