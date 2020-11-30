@@ -1,4 +1,4 @@
-public class SGXClass {
+public class Encryptor {
 
     private String key;
 

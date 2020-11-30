@@ -2,10 +2,10 @@ package de.tuda.stg.generatedJava;
 
 import java.rmi.*;
 
-public class WrapperClassSGXClass extends UnicastRemoteObject implements RemoteInterfaceSGXClass {
+public class WrapperClassEncryptor extends UnicastRemoteObject implements RemoteInterfaceEncryptor {
 
     @Override()
     public String encrypt(String plaintext) throws RemoteException {
-        return SGXClass.encrypt(plaintext);
+        return Encryptor.encrypt(plaintext);
     }
 }

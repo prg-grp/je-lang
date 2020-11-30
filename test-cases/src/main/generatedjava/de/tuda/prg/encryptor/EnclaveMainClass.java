@@ -9,7 +9,7 @@ public class EnclaveMainClass {
     public static void main(String[] args) throws RemoteException {
         LocateRegistry.createRegistry(registryPort);
         LocateRegistry.createRegistry(1099);
-        Naming.rebind("RemoteInterfaceSGXClass", new WrapperClassSGXClass());
+        Naming.rebind("RemoteInterfaceEncryptor", new WrapperClassEncryptor());
         while (true) {
         }
     /* Here create all the objects to be bound to the RMI registry. */

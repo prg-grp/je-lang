@@ -13,7 +13,10 @@ public class GatewayMethodDefinitionVisitorTransformerJe extends VoidVisitorAdap
         if (md.isAnnotationPresent(Gateway.class)) {
             gwMethodsSet.add(md.getNameAsString());
             md.getAnnotationByClass(Gateway.class).get().remove();   // Removing the @Gateway annotation
-            md.setType(md.getTypeAsString()+ Codes.gwReturnTypeCode); // Setting the return type of the gateway method
+            final String methodReturnType = md.getTypeAsString();
+            if (!"void".equals(methodReturnType)) {
+                md.setType(md.getTypeAsString()+ Codes.gwReturnTypeCode); // Setting the return type of the gateway method
+            }
             md.setName(md.getName()+Codes.gwMethodBeginLabelCode); // Adding the gateway method begin label
             md.getParameters().forEach(param -> param.setType(param.getTypeAsString()+ Codes.gwMethodParamTypeLabelCode)); // Adding security label to the gateway parameter
             md.addParameter(Codes.gwMethodExtensionTypeCode, Codes.gwMethodExtensionParamNameCode);

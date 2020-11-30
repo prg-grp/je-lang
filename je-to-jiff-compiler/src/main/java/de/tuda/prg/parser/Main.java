@@ -17,25 +17,18 @@ import java.io.IOException;
 import java.util.HashSet;
 
 public class Main {
-
-    private static String JE_FOLDER_PATH;
-    private static String GENERATED_JIF_FOLDER_PREFIX;
-    private static String GENERATED_JAVA_FOLDER_PREFIX;
-
     public static void main(String[] args) {
         if (args == null || args.length < 3) {
-            JE_FOLDER_PATH = PathValues.JE_FOLDER_PATH;
-            GENERATED_JIF_FOLDER_PREFIX = PathValues.GENERATED_JIF_FOLDER_PREFIX;
-            GENERATED_JAVA_FOLDER_PREFIX = PathValues.GENERATED_JAVA_FOLDER_PREFIX;
+
         } else {
-            JE_FOLDER_PATH = args[0];
-            GENERATED_JIF_FOLDER_PREFIX = args[1];
-            GENERATED_JAVA_FOLDER_PREFIX = args[2];
+            PathValues.JE_FOLDER_PATH = args[0];
+            PathValues.GENERATED_JIF_FOLDER_PREFIX = args[1];
+            PathValues.GENERATED_JAVA_FOLDER_PREFIX = args[2];
         }
 
-        System.out.println("JE folder path = "+JE_FOLDER_PATH);
-        System.out.println("Generated Jif folder path = "+GENERATED_JIF_FOLDER_PREFIX);
-        System.out.println("Generated Java folder path = "+GENERATED_JAVA_FOLDER_PREFIX);
+        System.out.println("JE folder path = "+PathValues.JE_FOLDER_PATH);
+        System.out.println("Generated Jif folder path = "+PathValues.GENERATED_JIF_FOLDER_PREFIX);
+        System.out.println("Generated Java folder path = "+PathValues.GENERATED_JAVA_FOLDER_PREFIX);
 
 
         final HashSet<String> enclaveClassNames = new HashSet<>();
@@ -45,7 +38,7 @@ public class Main {
         // First try block, translation of Enclave classes to Jif
         try {
             // Scanning the directory
-            File jeSrcDir = new File(JE_FOLDER_PATH);
+            File jeSrcDir = new File(PathValues.JE_FOLDER_PATH);
             File[] directoryListing = jeSrcDir.listFiles();
             if (directoryListing != null) {
                 for (File file : directoryListing) {
@@ -79,7 +72,7 @@ public class Main {
                             System.out.println("----------------------------------Printing the files with Jif labels --------------------------------");
                             System.out.println(jifCodeAddedString);
                             // Writing generated jif code to the file
-                            FileUtils.writeStringToFile(GENERATED_JIF_FOLDER_PREFIX+currentFileBaseName+".jif", jifCodeAddedString);
+                            FileUtils.writeStringToFile(PathValues.GENERATED_JIF_FOLDER_PREFIX+currentFileBaseName+".jif", jifCodeAddedString);
                         }
                         else {
                             System.out.println("Not an enclave class");
@@ -99,7 +92,7 @@ public class Main {
             System.out.println("Names of the generated wrapper classes = "+enclaveClassesToExposeNames);
 
             // Scanning the directory
-            File jeSrcDir = new File(JE_FOLDER_PATH);
+            File jeSrcDir = new File(PathValues.JE_FOLDER_PATH);
             File[] directoryListing = jeSrcDir.listFiles();
             if (directoryListing != null) {
                 for (File file : directoryListing) {
@@ -123,7 +116,7 @@ public class Main {
                             EnclaveClassTranslationUtils.removeAllJEConstructs(cu);  // check this step, since adding communication is dependent on the annotations such as Gateway, we remove the JE language features after adding the communication code.
                             String enclaveJavaCodeWithCommNoJEAnnoString = cu.toString();
 
-                            FileUtils.writeStringToFile(GENERATED_JAVA_FOLDER_PREFIX+currentFileBaseName+".java", enclaveJavaCodeWithCommNoJEAnnoString);
+                            FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX+currentFileBaseName+".java", enclaveJavaCodeWithCommNoJEAnnoString);
 
                         } else {
                             System.out.println("Not an enclave class");
@@ -143,7 +136,7 @@ public class Main {
         // Third try block, adding RMI code to the non-enclave classes
         try {
             // Scanning the directory
-            File jeSrcDir = new File(JE_FOLDER_PATH);
+            File jeSrcDir = new File(PathValues.JE_FOLDER_PATH);
             File[] directoryListing = jeSrcDir.listFiles();
             if (directoryListing != null) {
                 for (File file : directoryListing) {
@@ -161,7 +154,7 @@ public class Main {
                             System.out.println("------------  NonEnclave Class with added remote comm --------------------");
                             System.out.println(nonEnclaveClassString);
 
-                            FileUtils.writeStringToFile(GENERATED_JAVA_FOLDER_PREFIX+currentFileBaseName+".java", nonEnclaveClassString);
+                            FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX+currentFileBaseName+".java", nonEnclaveClassString);
                         } else {
                             System.out.println("An enclave class");
                         }
@@ -183,7 +176,7 @@ public class Main {
             cu.getPackageDeclaration().get().remove();  // Removing the package declaration from the template file.
             ParserHelper.addRMIRegistryBindings(cu, enclaveClassesToExposeNames);
             final String enclaveMainClassAsString = cu.toString();
-            FileUtils.writeStringToFile(GENERATED_JAVA_FOLDER_PREFIX+FileNames.ENCLAVE_MAIN_CLASS_BASE_NAME+".java", enclaveMainClassAsString);
+            FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX+FileNames.ENCLAVE_MAIN_CLASS_BASE_NAME+".java", enclaveMainClassAsString);
         }  catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (FileIOException e) {

@@ -1,5 +1,5 @@
 @Enclave
-public class SGXClass {
+public class Encryptor {
 
 	@Secret
 	private String key;
