@@ -90,9 +90,8 @@ public class ParserHelper {
     public static String getRMICallReceiverString(String enclaveClassName) {
         String remoteInterfaceName = getRemoteInterfaceName(enclaveClassName);
         String castToRemoteInterface = "(" + remoteInterfaceName + ")";
-        String lookUpString = RMIConstants.rmiLookUpURLPrefix+
-                remoteInterfaceName +
-                "\")";
+        String lookUpString = RMIConstants.RMI_OBJECT_LOOKUP_CALL_PREFIX+
+                "("+remoteInterfaceName+")";
         String receiverString = "(" + castToRemoteInterface + " " +  lookUpString + ")";
         return receiverString;
 

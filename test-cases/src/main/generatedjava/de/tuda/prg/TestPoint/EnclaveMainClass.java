@@ -1,5 +1,3 @@
-package de.tuda.prg.generatedJava;
-
 import java.rmi.*;
 import java.rmi.registry.LocateRegistry;
 
@@ -11,7 +9,7 @@ public class EnclaveMainClass {
     public static void main(String[] args) throws RemoteException {
         LocateRegistry.createRegistry(registryPort);
         LocateRegistry.createRegistry(1099);
-        Naming.rebind("RemoteInterfaceEncryptor", new WrapperClassEncryptor());
+        Naming.rebind("RemoteInterfaceEnclavePoint", new WrapperClassEnclavePoint());
         while (true) {
         }
     /* Here create all the objects to be bound to the RMI registry. */

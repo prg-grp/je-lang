@@ -1,6 +1,6 @@
 public class NonEnclaveMain {
 
     public static void main(String[] args) {
-        Encryptor.encrypt("mystring");
+        String cipher = Encryptor.encrypt("mystring");
     }
 }

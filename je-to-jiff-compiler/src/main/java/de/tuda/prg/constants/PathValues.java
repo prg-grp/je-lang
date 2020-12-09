@@ -9,4 +9,6 @@ public class PathValues {
 
     public static String ENCLAVE_MAIN_CLASS_TEMPLATE_FILE_NAME = "je-to-jiff-compiler/src/main/java/de/tuda/prg/templateclasses/EnclaveMainClass.java";
 
+    public static String REMOTE_OBJECT_PROVIDER_CLASS_NAME = "je-to-jiff-compiler/src/main/java/de/tuda/prg/templateclasses/RemoteObjectProvider.java";
+
 }

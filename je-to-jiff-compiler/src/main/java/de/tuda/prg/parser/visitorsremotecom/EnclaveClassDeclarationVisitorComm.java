@@ -32,7 +32,7 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Set<S
             // Generating the remote interface
             final CompilationUnit cuRemoteInterface = new CompilationUnit();   //creating the corresponding remote wrapper interface
             cuRemoteInterface.addImport(RMIConstants.javaRMIAll);
-            cuRemoteInterface.setPackageDeclaration(RMIConstants.remotePackageName);
+            cuRemoteInterface.setPackageDeclaration(RMIConstants.generatedJavaPackageName);
 
             final String remoteInterfaceName  = ParserHelper.getRemoteInterfaceName(className);
 
@@ -41,7 +41,7 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Set<S
             // Generating the wrapper class
             final CompilationUnit cuWrapperClass = new CompilationUnit();
             cuWrapperClass.addImport(RMIConstants.javaRMIAll);
-            cuWrapperClass.setPackageDeclaration(RMIConstants.remotePackageName);
+            cuWrapperClass.setPackageDeclaration(RMIConstants.generatedJavaPackageName);
             final String wrapperClassName = ParserHelper.getWrapperClassName(className);
 
             final ClassOrInterfaceDeclaration wrapperClassDeclaration = cuWrapperClass.addClass(wrapperClassName).addExtendedType(RMIConstants.remoteObjectClass).addImplementedType(remoteInterfaceName);
@@ -85,6 +85,7 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Set<S
 
                 wrapperMethodInClass.setParameters(gtwMd.getParameters());
                 remoteMethodInInterface.setParameters(gtwMd.getParameters());
+                remoteMethodInInterface.addThrownException(RemoteException.class);
                 remoteMethodInInterface.removeBody(); // Since it is a method inside an Interface.
 
                 wrapperMethodInClass.addAnnotation(RMIConstants.overrideAnno);

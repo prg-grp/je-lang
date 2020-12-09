@@ -174,10 +174,27 @@ public class Main {
             File enclaveMainClassFile = new File(PathValues.ENCLAVE_MAIN_CLASS_TEMPLATE_FILE_NAME);
             final CompilationUnit cu = StaticJavaParser.parse(enclaveMainClassFile);
             cu.getPackageDeclaration().get().remove();  // Removing the package declaration from the template file.
+            cu.setPackageDeclaration(RMIConstants.generatedJavaPackageName);
             ParserHelper.addRMIRegistryBindings(cu, enclaveClassesToExposeNames);
             final String enclaveMainClassAsString = cu.toString();
             FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX+FileNames.ENCLAVE_MAIN_CLASS_BASE_NAME+".java", enclaveMainClassAsString);
         }  catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (FileIOException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Fifth try block, adding RemoteObjectProvider class to the generated java folder
+        try {
+            File remoteObjectProviderClassFile = new File(PathValues.REMOTE_OBJECT_PROVIDER_CLASS_NAME);
+            final CompilationUnit cu = StaticJavaParser.parse(remoteObjectProviderClassFile);
+            cu.getPackageDeclaration().get().remove();  // Removing the package declaration from the template file.
+            cu.setPackageDeclaration(RMIConstants.generatedJavaPackageName);
+            final String remoteObjectProviderClassAsString = cu.toString();
+            FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX+ RMIConstants.RMI_OBJECT_PROVIDER_CLASS+".java", remoteObjectProviderClassAsString);
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (FileIOException e) {
             e.printStackTrace();

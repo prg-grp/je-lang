@@ -1,4 +1,4 @@
-package de.tuda.stg.generatedJava;
+package de.tuda.prg.generatedJava;
 
 import java.rmi.*;
 
