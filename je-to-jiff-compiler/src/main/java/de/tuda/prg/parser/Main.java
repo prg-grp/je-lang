@@ -174,7 +174,9 @@ public class Main {
             File enclaveMainClassFile = new File(PathValues.ENCLAVE_MAIN_CLASS_TEMPLATE_FILE_NAME);
             final CompilationUnit cu = StaticJavaParser.parse(enclaveMainClassFile);
             cu.getPackageDeclaration().get().remove();  // Removing the package declaration from the template file.
-            cu.setPackageDeclaration(RMIConstants.generatedJavaPackageName);
+
+            // cu.setPackageDeclaration(PathValues.GENERATED_JAVA_PACKAGE_NAME);  TODO : Is package declaration needed ?
+
             ParserHelper.addRMIRegistryBindings(cu, enclaveClassesToExposeNames);
             final String enclaveMainClassAsString = cu.toString();
             FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX+FileNames.ENCLAVE_MAIN_CLASS_BASE_NAME+".java", enclaveMainClassAsString);
@@ -186,14 +188,24 @@ public class Main {
             e.printStackTrace();
         }
 
-        // Fifth try block, adding RemoteObjectProvider class to the generated java folder
+        // Fifth try block, adding RemoteObjectProvider and IdentityMethods classes to the generated java folder
         try {
-            File remoteObjectProviderClassFile = new File(PathValues.REMOTE_OBJECT_PROVIDER_CLASS_NAME);
-            final CompilationUnit cu = StaticJavaParser.parse(remoteObjectProviderClassFile);
-            cu.getPackageDeclaration().get().remove();  // Removing the package declaration from the template file.
-            cu.setPackageDeclaration(RMIConstants.generatedJavaPackageName);
-            final String remoteObjectProviderClassAsString = cu.toString();
+            final File remoteObjectProviderClassFile = new File(PathValues.REMOTE_OBJECT_PROVIDER_CLASS_NAME);
+            final CompilationUnit cuRenoteObjectProviderFile = StaticJavaParser.parse(remoteObjectProviderClassFile);
+            cuRenoteObjectProviderFile.getPackageDeclaration().get().remove();  // Removing the package declaration from the template file.
+
+            // cuRenoteObjectProviderFile.setPackageDeclaration(PathValues.GENERATED_JAVA_PACKAGE_NAME);  TODO: is package declaration needed ?
+
+            final String remoteObjectProviderClassAsString = cuRenoteObjectProviderFile.toString();
             FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX+ RMIConstants.RMI_OBJECT_PROVIDER_CLASS+".java", remoteObjectProviderClassAsString);
+
+            // Adding identity methods class
+            final File idMethodsClassFile = new File(PathValues.IDENTITY_METHODS_CLASS);
+            final CompilationUnit cuIdMethodsFile = StaticJavaParser.parse(idMethodsClassFile);
+            cuIdMethodsFile.getPackageDeclaration().get().remove();  // Removing the package declaration from the template file.
+            final String idMethodsClassAsString = cuIdMethodsFile.toString();
+            FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX+ FileNames.IDENTITY_METHODS_CLASS_NAME+".java", idMethodsClassAsString);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (FileIOException e) {
@@ -201,5 +213,6 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 }

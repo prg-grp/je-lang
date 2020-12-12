@@ -1,5 +1,3 @@
-package de.tuda.prg.generatedJava;
-
 import java.rmi.*;
 
 public interface RemoteInterfaceEncryptor extends Remote {

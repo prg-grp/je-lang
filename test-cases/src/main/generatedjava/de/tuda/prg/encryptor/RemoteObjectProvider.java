@@ -1,5 +1,3 @@
-package de.tuda.prg.generatedJava;
-
 import java.net.MalformedURLException;
 import java.rmi.*;
 

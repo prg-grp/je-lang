@@ -48,3 +48,4 @@ lib
 /annotationProcessor/
 /jsgx-type-checker/
 /JifWorkingFiles/
+/test-cases/src/main/generatedjava/

@@ -4,7 +4,9 @@ public class RMIConstants {
 
     public static final String javaRMIAll = "java.rmi.*";
 
-    public static final String generatedJavaPackageName = "de.tuda.prg.generatedJava";
+    public static final String javaRMIUnicastObj = "java.rmi.server.UnicastRemoteObject";  // This shouldn't be needed
+
+    public static final String javaNetAll = "java.net.*";
 
     public static final String remoteObjectClass = "UnicastRemoteObject";
 

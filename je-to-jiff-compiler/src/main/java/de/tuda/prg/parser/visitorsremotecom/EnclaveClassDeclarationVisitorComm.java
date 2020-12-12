@@ -3,6 +3,7 @@ package de.tuda.prg.parser.visitorsremotecom;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
@@ -32,7 +33,8 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Set<S
             // Generating the remote interface
             final CompilationUnit cuRemoteInterface = new CompilationUnit();   //creating the corresponding remote wrapper interface
             cuRemoteInterface.addImport(RMIConstants.javaRMIAll);
-            cuRemoteInterface.setPackageDeclaration(RMIConstants.generatedJavaPackageName);
+
+            // cuRemoteInterface.setPackageDeclaration(PathValues.GENERATED_JAVA_PACKAGE_NAME); TODO: is package declaration needed ?
 
             final String remoteInterfaceName  = ParserHelper.getRemoteInterfaceName(className);
 
@@ -41,11 +43,17 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Set<S
             // Generating the wrapper class
             final CompilationUnit cuWrapperClass = new CompilationUnit();
             cuWrapperClass.addImport(RMIConstants.javaRMIAll);
-            cuWrapperClass.setPackageDeclaration(RMIConstants.generatedJavaPackageName);
+            cuWrapperClass.addImport(RMIConstants.javaRMIUnicastObj);
+            // cuWrapperClass.setPackageDeclaration(PathValues.GENERATED_JAVA_PACKAGE_NAME); TODO: is package declaration needed ?
+
             final String wrapperClassName = ParserHelper.getWrapperClassName(className);
 
             final ClassOrInterfaceDeclaration wrapperClassDeclaration = cuWrapperClass.addClass(wrapperClassName).addExtendedType(RMIConstants.remoteObjectClass).addImplementedType(remoteInterfaceName);
-            getAndAddGatewayMethodsToTheRemoteInterface(cOrID, interfaceDeclaration, wrapperClassDeclaration);   // Adding all the Gateway methods into the generated remote class
+            final ConstructorDeclaration constructor = wrapperClassDeclaration.addConstructor(Modifier.Keyword.PROTECTED);
+            constructor.addThrownException(RemoteException.class);
+            final BlockStmt constructorBody = constructor.getBody();
+            constructorBody.addStatement("super();");
+            getAndAddGatewayMethodsToTheRemoteInterfaceAndWrapperClass(cOrID, interfaceDeclaration, wrapperClassDeclaration);   // Adding all the Gateway methods into the generated remote class
 
             final String remoteInterfaceAsString =  cuRemoteInterface.toString();
             System.out.println("--------------Printing the created remote interface ---------------------------");
@@ -69,30 +77,31 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Set<S
         }
     }
 
-    public void getAndAddGatewayMethodsToTheRemoteInterface(final ClassOrInterfaceDeclaration cOrID, final ClassOrInterfaceDeclaration interfaceDeclaration, final ClassOrInterfaceDeclaration wrapperClassDeclaration) {
+    public void getAndAddGatewayMethodsToTheRemoteInterfaceAndWrapperClass(final ClassOrInterfaceDeclaration jeEnclaveClass, final ClassOrInterfaceDeclaration interfaceDeclaration, final ClassOrInterfaceDeclaration wrapperClassDeclaration) {
         Set<String> annotationsSet = new HashSet<>();
         String strGateway = Gateway.class.getSimpleName();
         annotationsSet.add(strGateway);
-        Map<String, List<MethodDeclaration>> annotatedMethodsMap = ParserHelper.getMethodDeclarationWithAnnotations(cOrID, annotationsSet);
+        Map<String, List<MethodDeclaration>> annotatedMethodsMap = ParserHelper.getMethodDeclarationWithAnnotations(jeEnclaveClass, annotationsSet);
         if (annotatedMethodsMap != null && !annotatedMethodsMap.isEmpty()) {
             // Add the methods in the 'annotatedMethodsMap' into the wrapperClassDeclaration
             for (MethodDeclaration gtwMd :  annotatedMethodsMap.get(strGateway)) {
-                MethodDeclaration wrapperMethodInClass = wrapperClassDeclaration.addMethod(gtwMd.getNameAsString(), Modifier.Keyword.PUBLIC); // can not add a method declaration directly ? seems like need to break it and then again add
-                MethodDeclaration remoteMethodInInterface = interfaceDeclaration.addMethod(gtwMd.getNameAsString(), Modifier.Keyword.PUBLIC);
+                final String currentGtwMethodName = gtwMd.getNameAsString();
+                final MethodDeclaration wrapperMethodInClass = wrapperClassDeclaration.addMethod(currentGtwMethodName, Modifier.Keyword.PUBLIC); // can not add a method declaration directly ? seems like need to break it and then again add
+                final MethodDeclaration remoteMethodInInterface = interfaceDeclaration.addMethod(currentGtwMethodName, Modifier.Keyword.PUBLIC);
 
-                wrapperMethodInClass.setType(gtwMd.getType());
                 remoteMethodInInterface.setType(gtwMd.getType());
-
-                wrapperMethodInClass.setParameters(gtwMd.getParameters());
                 remoteMethodInInterface.setParameters(gtwMd.getParameters());
                 remoteMethodInInterface.addThrownException(RemoteException.class);
                 remoteMethodInInterface.removeBody(); // Since it is a method inside an Interface.
 
+
+                wrapperMethodInClass.setType(gtwMd.getType());
+                wrapperMethodInClass.setParameters(gtwMd.getParameters());
                 wrapperMethodInClass.addAnnotation(RMIConstants.overrideAnno);
                 BlockStmt blockStmt = new BlockStmt();
-                blockStmt.addStatement("return "+cOrID.getNameAsString()+"."+gtwMd.getNameAsString()+ParserHelper.getParameterNameListAsString(gtwMd)+";");
+                blockStmt.addStatement("return "+jeEnclaveClass.getNameAsString()+"."+gtwMd.getNameAsString()+ParserHelper.getParameterNameListAsString(gtwMd)+";");
                 wrapperMethodInClass.setBody(blockStmt);
-                wrapperMethodInClass.addThrownException(RemoteException.class);
+                // wrapperMethodInClass.addThrownException(RemoteException.class); not needed
             }
         }
     }

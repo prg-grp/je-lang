@@ -1,11 +1,11 @@
 public class Encryptor {
 
-    private String key;
+    private static String key = "SecretKey";
 
-    public String encrypt(String plaintext) {
-        String plaintextE = endorse(plaintext);
+    public static String encrypt(String plaintext) {
+        String plaintextE = IdentityMethods.endorse(plaintext);
         String result = plaintextE + key;
-        String result1 = declassify(result);
+        String result1 = IdentityMethods.declassify(result);
         return result1;
     }
 }

@@ -91,7 +91,7 @@ public class ParserHelper {
         String remoteInterfaceName = getRemoteInterfaceName(enclaveClassName);
         String castToRemoteInterface = "(" + remoteInterfaceName + ")";
         String lookUpString = RMIConstants.RMI_OBJECT_LOOKUP_CALL_PREFIX+
-                "("+remoteInterfaceName+")";
+                "(\""+remoteInterfaceName+"\")";
         String receiverString = "(" + castToRemoteInterface + " " +  lookUpString + ")";
         return receiverString;
 
@@ -114,8 +114,7 @@ public class ParserHelper {
         }
         else {
             mainMethodDeclaration  = methodDefinitionList.get(0);
-            BlockStmt mainMethodBody = mainMethodDeclaration.getBody().get();
-            mainMethodBody.addStatement("LocateRegistry.createRegistry("+RMIConstants.registryPortValue +");");
+            final BlockStmt mainMethodBody = mainMethodDeclaration.getBody().get();
             for (String enclaveClassToExposeName : enclaveClassesToExposeNames) {
                 final String remoteInterfaceName = getRemoteInterfaceName(enclaveClassToExposeName);
                 final String wrapperClassName = getWrapperClassName(enclaveClassToExposeName);

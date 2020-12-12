@@ -37,9 +37,6 @@ public class EnclaveClassTranslationUtils {
 
     public static void addCommCodeToEnclaveClasses(final CompilationUnit cu, final Set<String> enclaveClassesToExposeNames) {
         if (ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) {
-            // Code for adding Enclave RMI code
-
-            //Still need to get rid of annotations and endorse and declassify operators (All JE features)
             VoidVisitor<Set<String>> classDeclarationVisitorComm = new EnclaveClassDeclarationVisitorComm();   // Adding RMI code
             classDeclarationVisitorComm.visit(cu,enclaveClassesToExposeNames);
         } else {
@@ -59,7 +56,8 @@ public class EnclaveClassTranslationUtils {
             VoidVisitor<?> methodAnnotationRemoverVisitorJe = new MethodAnnotationRemoverVisitorJe();
             methodAnnotationRemoverVisitorJe.visit(cu, null);
 
-            //Remove declassify and endorse operators, either remove or treat them as identity operators.
+            VoidVisitor<?> endorseDeclassRemoverVisitor = new EndorseDeclassRemoverVisitorJe();
+            endorseDeclassRemoverVisitor.visit(cu, null);
 
         } else {
 
