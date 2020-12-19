@@ -1,6 +1,0 @@
-EnclaveMainClass.java
-Encryptor.java
-NonEnclaveMain.java
-RemoteInterfaceEncryptor.java
-RemoteObjectProvider.java
-WrapperClassEncryptor.java
