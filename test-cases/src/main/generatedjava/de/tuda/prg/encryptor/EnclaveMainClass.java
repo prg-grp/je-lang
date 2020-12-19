@@ -9,9 +9,7 @@ public class EnclaveMainClass {
 
     public static void main(String[] args) throws RemoteException, MalformedURLException {
         LocateRegistry.createRegistry(registryPort);
-        Naming.rebind("RemoteInterfaceEncryptor", new WrapperClassEncryptor());
-
-	System.out.println("--- Enclave Main Registry bound, server started ---");
+        Naming.rebind("EnclaveRemoteInterfaceEncryptor", new EnclaveWrapperClassEncryptor());
         while (true) {
         }
     /* Here create all the objects to be bound to the RMI registry. */

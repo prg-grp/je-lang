@@ -4,7 +4,6 @@ import java.net.MalformedURLException;
 import java.rmi.*;
 
 public class RemoteObjectProvider {
-
     public static Remote getRemoteObject(String objectName) {
         Remote remoteObj = null;
         try {

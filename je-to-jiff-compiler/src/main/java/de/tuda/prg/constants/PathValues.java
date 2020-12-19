@@ -14,6 +14,8 @@ public class PathValues {
 
     public static String REMOTE_OBJECT_PROVIDER_CLASS_NAME = "je-to-jiff-compiler/src/main/java/de/tuda/prg/templateclasses/RemoteObjectProvider.java";
 
+    public static String NON_ENCLAVE_REMOTE_WRAPPER_FILE_NAME = "je-to-jiff-compiler/src/main/java/de/tuda/prg/templateclasses/NonEnclaveRemoteWrapper.java";
+
     public static String IDENTITY_METHODS_CLASS = "je-to-jiff-compiler/src/main/java/de/tuda/prg/templateclasses/IdentityMethods.java";
 
 }

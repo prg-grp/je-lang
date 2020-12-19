@@ -3,14 +3,13 @@ package de.tuda.prg.parser.visitorsje;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import de.tuda.prg.annotations.Gateway;
+import java.util.List;
 
-import java.util.HashSet;
-
-public class MethodDefinitionVisitorCollectorJe extends VoidVisitorAdapter<HashSet<String>> {
+public class MethodDefinitionVisitorCollectorJe extends VoidVisitorAdapter<List<MethodDeclaration>> {
     @Override
-    public void visit(MethodDeclaration md, HashSet<String> gwMethodsSet) {
+    public void visit(MethodDeclaration md, List<MethodDeclaration> gtwMethodDeclarationSet) {
         if (md.isAnnotationPresent(Gateway.class)) {
-            gwMethodsSet.add(md.getNameAsString());
+            gtwMethodDeclarationSet.add(md);
         }
         // super.visit(md, gwMethodsSet); //TODO: is it needed ?
         // System.out.println("Method Name Printed: " + md.getName());

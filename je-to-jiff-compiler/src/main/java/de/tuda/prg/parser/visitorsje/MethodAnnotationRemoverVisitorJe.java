@@ -4,7 +4,6 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import de.tuda.prg.annotations.Gateway;
 
-
 public class MethodAnnotationRemoverVisitorJe extends VoidVisitorAdapter<Void> {
     @Override
     public void visit(MethodDeclaration md, Void arg) {

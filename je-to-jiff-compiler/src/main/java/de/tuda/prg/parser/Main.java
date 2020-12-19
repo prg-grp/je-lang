@@ -2,10 +2,14 @@ package de.tuda.prg.parser;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Modifier;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
 import de.tuda.prg.constants.Codes;
 import de.tuda.prg.constants.FileNames;
 import de.tuda.prg.constants.PathValues;
 import de.tuda.prg.constants.RMIConstants;
+import de.tuda.prg.entities.ClassNameMethodDecls;
 import de.tuda.prg.exceptions.FileIOException;
 import de.tuda.prg.filehandling.FileUtils;
 import de.tuda.prg.parser.visitorsremotecom.NonEnclaveMethodCallVisitor;
@@ -14,7 +18,10 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -33,6 +40,7 @@ public class Main {
 
         final HashSet<String> enclaveClassNames = new HashSet<>();
         final HashSet<String> gatewayMethodNames = new HashSet<>();
+        final List<ClassNameMethodDecls> gatewayMethodDeclarations = new ArrayList<>();
         final HashSet<String> enclaveClassesToExposeNames = new HashSet<String>();  // Names of the enclave wrapper classes to be bound to the RMI registry.
 
         // First try block, translation of Enclave classes to Jif
@@ -53,7 +61,7 @@ public class Main {
                         if (ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) {
 
                             //Extracting the names of the Gateway methods inside the Enclave Class.
-                            ParserHelper.getAllGatewayMethods(cu, gatewayMethodNames);
+                            ParserHelper.getAllGatewayMethods(cu.clone(), gatewayMethodDeclarations);
 
                             EnclaveClassTranslationUtils.translateEnclaveClass(cu);
 
@@ -86,11 +94,12 @@ public class Main {
             e.printStackTrace();
         }
 
+        // Populating gateway method names as Strings
+        ParserHelper.populateGtwMethodNames(gatewayMethodDeclarations, gatewayMethodNames);
+
         // Second try block, adding RMI code to enclave classes
         try {
-
             System.out.println("Names of the generated wrapper classes = "+enclaveClassesToExposeNames);
-
             // Scanning the directory
             File jeSrcDir = new File(PathValues.JE_FOLDER_PATH);
             File[] directoryListing = jeSrcDir.listFiles();
@@ -161,6 +170,22 @@ public class Main {
                     }
                 }
             }
+            // Adding non-enclave wrapper class
+            final CompilationUnit cu = new CompilationUnit();
+            cu.addImport(RMIConstants.javaRMIAll);
+            final ClassOrInterfaceDeclaration nonEnclWrapperClass = cu.addClass(FileNames.NON_ENCLAVE_WRAPPER_CLASS_BASE_NAME); // This will contain wrapper method definitions of all the gateway methods from all the enclave classes
+            for (ClassNameMethodDecls classNameMthdDcl: gatewayMethodDeclarations) {
+                String enclaveClassName = classNameMthdDcl.getEnclaveClassName();
+                for (MethodDeclaration md: classNameMthdDcl.getMethodDeclarations()) {
+                    MethodDeclaration nonEnclWrapperMethodInClass = nonEnclWrapperClass.addMethod(md.getNameAsString(), Modifier.Keyword.PUBLIC);
+                    ParserHelper.populateNonEnclaveWrapperMethod(md, enclaveClassName, nonEnclWrapperMethodInClass);
+                }
+            }
+            final String nonEnclWrapperClassAsString =  cu.toString();
+            System.out.println("-------------- Printing the created non enclave wrapper class ---------------------------");
+            System.out.println(nonEnclWrapperClassAsString);
+            FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX + FileNames.NON_ENCLAVE_WRAPPER_CLASS_BASE_NAME + ".java", nonEnclWrapperClassAsString);   //Ideally, this file writing should be in some file writing utility class.
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (FileIOException e) {

@@ -2,19 +2,27 @@ package de.tuda.prg.parser;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.*;
-import com.github.javaparser.ast.expr.*;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.expr.AnnotationExpr;
+import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.TryStmt;
+import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import de.tuda.prg.constants.Codes;
 import de.tuda.prg.constants.FileNames;
 import de.tuda.prg.constants.RMIConstants;
+import de.tuda.prg.entities.ClassNameMethodDecls;
+import de.tuda.prg.exceptions.TranslationException;
+import de.tuda.prg.parser.generalvisitors.ClassNameGetterVisitor;
 import de.tuda.prg.parser.visitorsje.ClassAnnotationCheckerVisitorJe;
 import de.tuda.prg.parser.visitorsje.MethodDefinitionVisitorCollectorJe;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.*;
 
 public class ParserHelper {
@@ -68,7 +76,7 @@ public class ParserHelper {
        String receiverName = ((NameExpr) receiverExpr).getNameAsString();
        System.out.println("Receiver of the method call = "+receiverName);
        mc.removeScope();
-       mc.setScope(new NameExpr(ParserHelper.getRMICallReceiverString(receiverName)));
+       mc.setScope(new NameExpr(FileNames.NON_ENCLAVE_WRAPPER_CLASS_BASE_NAME));
     }
 
     public static String getStringForSecType(String javaTypeString) {
@@ -83,8 +91,14 @@ public class ParserHelper {
     }
 
 
-    public static void getAllGatewayMethods(final CompilationUnit cu, final HashSet<String> gatewayMethodNames) {
-        new MethodDefinitionVisitorCollectorJe().visit(cu, gatewayMethodNames);
+    public static void getAllGatewayMethods(final CompilationUnit cu, final List<ClassNameMethodDecls> gatewayMethodDeclarations) {
+        String[] strArray = new String[1];
+        new ClassNameGetterVisitor().visit(cu, strArray);
+        String className = strArray[0];
+
+        ClassNameMethodDecls cMd = new ClassNameMethodDecls(className);
+        new MethodDefinitionVisitorCollectorJe().visit(cu, cMd.getMethodDeclarations());
+        gatewayMethodDeclarations.add(cMd);
     }
 
     public static String getRMICallReceiverString(String enclaveClassName) {
@@ -122,7 +136,45 @@ public class ParserHelper {
             }
             mainMethodBody.addStatement("while(true) {}");
         }
+    }
 
+    public static void populateNonEnclaveWrapperMethod(final MethodDeclaration mdGtwMethod, final String enclaveClassName, final MethodDeclaration wrapperVersion) {
+        if (mdGtwMethod == null) {
+            throw new TranslationException("Method declaration received in null.");
+        } else {
+            wrapperVersion.setType(mdGtwMethod.getType());
+            wrapperVersion.setParameters(mdGtwMethod.getParameters());
 
+            StringBuilder arguments = new StringBuilder();
+            for (Parameter currParam : mdGtwMethod.getParameters()) {
+                arguments.append(currParam.getNameAsString() + ", ");
+            }
+            arguments.replace(arguments.length() - 2, arguments.length(), "");
+
+            String argString = "(" + arguments.toString() + ")";
+            Type returnType = mdGtwMethod.getType();
+            final BlockStmt blockStmt = new BlockStmt();
+
+            if (returnType.isPrimitiveType()) {
+                blockStmt.addStatement(returnType+" tempVar;");
+            } else {
+                blockStmt.addStatement(returnType+" tempVar = null;");
+            }
+            blockStmt.addStatement("try { tempVar = "+getRMICallReceiverString(enclaveClassName)+"."
+                        + mdGtwMethod.getNameAsString()
+                        + argString+"; } catch (RemoteException e) {}")
+                .addStatement("return tempVar;");
+            wrapperVersion.setBody(blockStmt);
+        }
+    }
+
+    public static void populateGtwMethodNames(List<ClassNameMethodDecls> gatewayMethodDeclarations, HashSet<String> gatewayMethodNames) {
+        for (ClassNameMethodDecls clNameMethodDeclare : gatewayMethodDeclarations) {
+            Set<String> currClassGtwMethodNames = new HashSet<>();
+            for (MethodDeclaration md : clNameMethodDeclare.getMethodDeclarations()) {
+                currClassGtwMethodNames.add(md.getNameAsString());
+            }
+            gatewayMethodNames.addAll(currClassGtwMethodNames);
+        }
     }
 }

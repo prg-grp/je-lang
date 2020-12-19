@@ -1,5 +1,6 @@
 package de.tuda.prg.parser.visitorsremotecom;
 
+import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
@@ -15,6 +16,8 @@ import de.tuda.prg.exceptions.FileIOException;
 import de.tuda.prg.filehandling.FileUtils;
 import de.tuda.prg.parser.ParserHelper;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -40,30 +43,30 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Set<S
 
             final ClassOrInterfaceDeclaration interfaceDeclaration = cuRemoteInterface.addInterface(remoteInterfaceName).addExtendedType(Remote.class);
 
-            // Generating the wrapper class
-            final CompilationUnit cuWrapperClass = new CompilationUnit();
-            cuWrapperClass.addImport(RMIConstants.javaRMIAll);
-            cuWrapperClass.addImport(RMIConstants.javaRMIUnicastObj);
+            // Generating the enclave wrapper class
+            final CompilationUnit cuEncWrapperClass = new CompilationUnit();
+            cuEncWrapperClass.addImport(RMIConstants.javaRMIAll);
+            cuEncWrapperClass.addImport(RMIConstants.javaRMIUnicastObj);
             // cuWrapperClass.setPackageDeclaration(PathValues.GENERATED_JAVA_PACKAGE_NAME); TODO: is package declaration needed ?
 
             final String wrapperClassName = ParserHelper.getWrapperClassName(className);
 
-            final ClassOrInterfaceDeclaration wrapperClassDeclaration = cuWrapperClass.addClass(wrapperClassName).addExtendedType(RMIConstants.remoteObjectClass).addImplementedType(remoteInterfaceName);
+            final ClassOrInterfaceDeclaration wrapperClassDeclaration = cuEncWrapperClass.addClass(wrapperClassName).addExtendedType(RMIConstants.remoteObjectClass).addImplementedType(remoteInterfaceName);
             final ConstructorDeclaration constructor = wrapperClassDeclaration.addConstructor(Modifier.Keyword.PROTECTED);
             constructor.addThrownException(RemoteException.class);
-            final BlockStmt constructorBody = constructor.getBody();
-            constructorBody.addStatement("super();");
+            constructor.getBody().addStatement("super();");
+
             getAndAddGatewayMethodsToTheRemoteInterfaceAndWrapperClass(cOrID, interfaceDeclaration, wrapperClassDeclaration);   // Adding all the Gateway methods into the generated remote class
 
             final String remoteInterfaceAsString =  cuRemoteInterface.toString();
-            System.out.println("--------------Printing the created remote interface ---------------------------");
+            System.out.println("--------------Printing the created enclave remote interface ---------------------------");
             System.out.println(remoteInterfaceAsString);
 
             try {
                 FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX + remoteInterfaceName + ".java", remoteInterfaceAsString);   //Ideally, this file writing should be in some file writing utility class.
 
-                final String wrapperClassAsString = cuWrapperClass.toString();
-                System.out.println("--------------Printing the created wrapper class ---------------------------");
+                final String wrapperClassAsString = cuEncWrapperClass.toString();
+                System.out.println("--------------Printing the created enclave wrapper class ---------------------------");
                 System.out.println(wrapperClassAsString);
                 FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX + wrapperClassName + ".java", wrapperClassAsString);   //Ideally, this file writing should not be here.
             }
@@ -72,7 +75,6 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Set<S
             } catch (FileIOException e) {
                 e.printStackTrace();
             }
-
             // super.visit(cOrID, arg); // TODO: Is this needed ?
         }
     }
@@ -94,7 +96,6 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Set<S
                 remoteMethodInInterface.addThrownException(RemoteException.class);
                 remoteMethodInInterface.removeBody(); // Since it is a method inside an Interface.
 
-
                 wrapperMethodInClass.setType(gtwMd.getType());
                 wrapperMethodInClass.setParameters(gtwMd.getParameters());
                 wrapperMethodInClass.addAnnotation(RMIConstants.overrideAnno);
@@ -105,9 +106,4 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Set<S
             }
         }
     }
-
-
-
-
 }
-

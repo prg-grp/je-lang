@@ -2,7 +2,7 @@
 public class Encryptor {
 
 	@Secret
-	private String key;
+	private String key = "SECRET_KEY";
 
 
 	@Gateway

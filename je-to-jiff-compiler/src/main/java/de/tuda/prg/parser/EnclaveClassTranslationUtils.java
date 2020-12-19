@@ -12,7 +12,6 @@ public class EnclaveClassTranslationUtils {
 
     public static void translateEnclaveClass(final CompilationUnit cu) {
 
-
             // Step1: Visiting class declaration inside the cu
             VoidVisitor<HashSet<String>> classDeclarationVisitor = new ClassDeclarationVisitorJe();
             HashSet<String> enclaveClassNames = new HashSet<String>();
@@ -20,10 +19,9 @@ public class EnclaveClassTranslationUtils {
             System.out.println(enclaveClassNames);
             System.out.println("--------- class after visiting -----------------------");
 
-
             // Step2: Visiting methods inside the cu
             final HashSet<String> gwMethodNames = new HashSet<String>();
-            VoidVisitor<HashSet<String>> methodNameVisitor = new GatewayMethodDefinitionVisitorTransformerJe();
+            VoidVisitor<HashSet<String>> methodNameVisitor = new GatewayMethodDefinitionTransformerVisitorJe();
             methodNameVisitor.visit(cu, gwMethodNames);
 
             // Step3: Visiting declassify and endorse operators
@@ -38,9 +36,7 @@ public class EnclaveClassTranslationUtils {
     public static void addCommCodeToEnclaveClasses(final CompilationUnit cu, final Set<String> enclaveClassesToExposeNames) {
         if (ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) {
             VoidVisitor<Set<String>> classDeclarationVisitorComm = new EnclaveClassDeclarationVisitorComm();   // Adding RMI code
-            classDeclarationVisitorComm.visit(cu,enclaveClassesToExposeNames);
-        } else {
-
+            classDeclarationVisitorComm.visit(cu, enclaveClassesToExposeNames);
         }
     }
 
@@ -58,11 +54,6 @@ public class EnclaveClassTranslationUtils {
 
             VoidVisitor<?> endorseDeclassRemoverVisitor = new EndorseDeclassRemoverVisitorJe();
             endorseDeclassRemoverVisitor.visit(cu, null);
-
-        } else {
-
         }
-
     }
-
 }

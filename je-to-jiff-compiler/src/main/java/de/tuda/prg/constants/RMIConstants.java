@@ -10,9 +10,9 @@ public class RMIConstants {
 
     public static final String remoteObjectClass = "UnicastRemoteObject";
 
-    public static final String remoteInterfacePrefix = "RemoteInterface";
+    public static final String remoteInterfacePrefix = "EnclaveRemoteInterface";
 
-    public static final String remoteWrapperClassSufix = "WrapperClass";
+    public static final String remoteWrapperClassSufix = "EnclaveWrapperClass";
 
     public static final String overrideAnno = "Override";
 

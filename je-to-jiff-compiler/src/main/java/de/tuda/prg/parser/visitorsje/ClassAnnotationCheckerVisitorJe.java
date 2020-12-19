@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class ClassAnnotationCheckerVisitorJe extends VoidVisitorAdapter<ArrayList<Integer>> {
 
     @Override
-    public void visit(ClassOrInterfaceDeclaration cOrID, ArrayList<Integer> annotationPresenceIndicator) {  //Only works when you have only one class definition in the file
+    public void visit(ClassOrInterfaceDeclaration cOrID, ArrayList<Integer> annotationPresenceIndicator) {  // Only works when you have only one class definition in the file
         if (annotationPresenceIndicator != null && annotationPresenceIndicator.isEmpty()) {
             if (cOrID.isAnnotationPresent(Enclave.class)) {
                 annotationPresenceIndicator.add(1);
@@ -18,6 +18,5 @@ public class ClassAnnotationCheckerVisitorJe extends VoidVisitorAdapter<ArrayLis
             throw new IllegalArgumentException("List 'annotationPresenceIndicator' should not be null and should be empty");
         }
         // super.visit(cOrID, classNameSet); // TODO : is this needed ? this might cause some issues when there are multiple classes defined in a file.
-
     }
 }

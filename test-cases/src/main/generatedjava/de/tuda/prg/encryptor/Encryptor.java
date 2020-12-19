@@ -1,6 +1,6 @@
 public class Encryptor {
 
-    private static String key = "SecretKey";
+    private static String key = "KEY";
 
     public static String encrypt(String plaintext) {
         String plaintextE = IdentityMethods.endorse(plaintext);
