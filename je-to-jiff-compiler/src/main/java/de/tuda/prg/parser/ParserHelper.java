@@ -162,7 +162,7 @@ public class ParserHelper {
             }
             blockStmt.addStatement("try { tempVar = "+getRMICallReceiverString(enclaveClassName)+"."
                         + mdGtwMethod.getNameAsString()
-                        + argString+"; } catch (RemoteException e) {}")
+                        + argString+"; } catch (RemoteException e) { throw new RuntimeException(\"RemoteException from non-enclave to enclave RMI call\");}")
                 .addStatement("return tempVar;");
             wrapperVersion.setBody(blockStmt);
         }

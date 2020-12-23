@@ -177,7 +177,7 @@ public class Main {
             for (ClassNameMethodDecls classNameMthdDcl: gatewayMethodDeclarations) {
                 String enclaveClassName = classNameMthdDcl.getEnclaveClassName();
                 for (MethodDeclaration md: classNameMthdDcl.getMethodDeclarations()) {
-                    MethodDeclaration nonEnclWrapperMethodInClass = nonEnclWrapperClass.addMethod(md.getNameAsString(), Modifier.Keyword.PUBLIC);
+                    MethodDeclaration nonEnclWrapperMethodInClass = nonEnclWrapperClass.addMethod(md.getNameAsString(), Modifier.Keyword.PUBLIC, Modifier.Keyword.STATIC);
                     ParserHelper.populateNonEnclaveWrapperMethod(md, enclaveClassName, nonEnclWrapperMethodInClass);
                 }
             }

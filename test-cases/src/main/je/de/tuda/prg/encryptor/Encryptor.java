@@ -2,11 +2,11 @@
 public class Encryptor {
 
 	@Secret
-	private String key = "SECRET_KEY";
+	private static String key = "SECRET_KEY";
 
 
 	@Gateway
-	public String encrypt (String plaintext) {
+	public static String encrypt (String plaintext) {
 
 		String plaintextE = endorse(plaintext);
 
