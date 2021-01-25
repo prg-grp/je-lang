@@ -17,4 +17,4 @@ echo "Translating JE files..."
 java -jar ./je-to-jiff-compiler/target/je-to-jiff-compiler-jar-with-dependencies.jar $JE_PATH $JIF_PATH $JAVA_GENERATED_PATH
 
 echo "Compiling using Jif compiler..."
-eval "${JIFC_BIN}jifc" -nooutput -classpath ${JIFC_PRINCIPALS} ${JIF_PATH}/EnclavePoint.jif
+eval "${JIFC_BIN}jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${JIF_PATH}/EnclavePoint.jif
