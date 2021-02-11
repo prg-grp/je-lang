@@ -47,4 +47,4 @@ More examples are provided in `/test-cases/src/main/je/de/tuda/prg`
 	* `JIF_PATH` : Directory for the generated Jif classes to be compiled
 	* `JAVA_GENERATED_PATH` : Directory for the generated Java files
 
-2. Run ```./compile.sh```
+2. Run ```./compile-<case-study-name>.sh```
