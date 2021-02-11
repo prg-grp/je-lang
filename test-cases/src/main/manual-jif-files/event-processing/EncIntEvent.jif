@@ -1,37 +1,38 @@
-package de.tuda.prg.eventProcessing;
 
-public class EncIntEvent extends EncEvent {
-    private EncInt val;
-    private String source;
-    private String origin;
+import jif.util.*;
+// public class EncIntEvent [label L] extends EncEvent[{L}] {
+public class EncIntEvent [label L] {
+     EncInt[{L}]{L} val;
+     String{L} source;
+     String{L} origin;
 
-    public EncIntEvent(EncInt val, String source, String origin) {
+    public EncIntEvent(EncInt[{L}]{L} val, String{L} source, String{L} origin) {
         this.val = val;
         this.source = source;
         this.origin = origin;
     }
 
-    public EncInt getVal() {
+     public EncInt[{L}]{L} getVal() {
         return val;
     }
 
-    public void setVal(EncInt val) {
+    public void setVal{L}(EncInt[{L}]{L} val) {
         this.val = val;
     }
 
-    public String getSource() {
+    public String{L} getSource() {
         return source;
     }
 
-    public void setSource(String source) {
+    public void setSource{L}(String{L} source) {
         this.source = source;
     }
 
-    public String getOrigin() {
+    public String{L}  getOrigin() {
         return origin;
     }
 
-    public void setOrigin(String origin) {
+    public void setOrigin{L}(String{L} origin) {
         this.origin = origin;
     }
 }

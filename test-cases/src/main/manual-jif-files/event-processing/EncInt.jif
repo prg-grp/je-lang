@@ -1,0 +1,11 @@
+import jif.util.*;
+
+// public class EncInt[label L] extends EncEvent[{L}] {
+
+public class EncInt[label L]  {
+    Byte{L} val;
+
+    public EncInt(Byte{L} val) {
+        this.val = val;
+    }
+}
