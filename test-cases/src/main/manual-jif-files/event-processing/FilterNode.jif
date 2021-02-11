@@ -1,0 +1,31 @@
+
+import jif.util.*;
+
+public class FilterNode [principal Alice, label L] authority (Alice)  {
+    private String{Alice->*; Alice<-*} key;
+    private Predicate predicate;
+
+    public Boolean filter(EncIntEvent event) {
+
+        endorse(event, {} to {Alice<-*}) if (sanitize(event)))  {
+            boolean result;
+            try {
+                EncInt encInt = event.getVal();
+                Integer val = decrypt(encInt, key);
+                result = apply(predicate, val);
+            } catch (Exception e) {
+                  return null;
+             }
+              return declassify(result);
+        } else {
+            return null;
+        }
+    }
+    private boolean apply(Predicate predicate, Integer value) {
+        return true;
+    }
+
+    private boolean sanitize(EncIntEvent event) {
+            return true;
+    }
+}
