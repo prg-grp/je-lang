@@ -17,7 +17,7 @@ public class ClassDeclarationVisitorJe extends VoidVisitorAdapter<HashSet<String
             cOrID.setName(cOrID.getName()+ Codes.classExtensionCode);
             cOrID.addModifier(Modifier.Keyword.FINAL);   // Adding the keyword 'final'
 
-            super.visit(cOrID, classNameSet); // TODO : is this needed ?
+            // super.visit(cOrID, classNameSet); removed super 'visit' call
         }
     }
 }

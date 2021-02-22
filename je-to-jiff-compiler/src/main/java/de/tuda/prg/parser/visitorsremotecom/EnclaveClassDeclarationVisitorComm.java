@@ -37,7 +37,7 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Set<S
             final CompilationUnit cuRemoteInterface = new CompilationUnit();   //creating the corresponding remote wrapper interface
             cuRemoteInterface.addImport(RMIConstants.javaRMIAll);
 
-            // cuRemoteInterface.setPackageDeclaration(PathValues.GENERATED_JAVA_PACKAGE_NAME); TODO: is package declaration needed ?
+            // cuRemoteInterface.setPackageDeclaration(PathValues.GENERATED_JAVA_PACKAGE_NAME);  // No package declaration, no nested folders as of now
 
             final String remoteInterfaceName  = ParserHelper.getRemoteInterfaceName(className);
 
@@ -47,7 +47,7 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Set<S
             final CompilationUnit cuEncWrapperClass = new CompilationUnit();
             cuEncWrapperClass.addImport(RMIConstants.javaRMIAll);
             cuEncWrapperClass.addImport(RMIConstants.javaRMIUnicastObj);
-            // cuWrapperClass.setPackageDeclaration(PathValues.GENERATED_JAVA_PACKAGE_NAME); TODO: is package declaration needed ?
+            // cuWrapperClass.setPackageDeclaration(PathValues.GENERATED_JAVA_PACKAGE_NAME); // No package declaration, no nested folders as of now
 
             final String wrapperClassName = ParserHelper.getWrapperClassName(className);
 

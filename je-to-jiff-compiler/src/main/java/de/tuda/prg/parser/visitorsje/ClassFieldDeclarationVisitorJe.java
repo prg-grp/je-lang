@@ -9,7 +9,6 @@ import de.tuda.prg.parser.ParserHelper;
 public class ClassFieldDeclarationVisitorJe extends VoidVisitorAdapter<Void> {
     @Override
     public void visit(FieldDeclaration classField, Void arg) {
-        super.visit(classField, arg); //TODO: is it needed ?
         if (classField.isAnnotationPresent(Secret.class)) {
             if (classField.isStatic()) {
                 classField.removeModifier(Modifier.Keyword.STATIC);  // Removing the Static modifier
@@ -25,6 +24,7 @@ public class ClassFieldDeclarationVisitorJe extends VoidVisitorAdapter<Void> {
                 throw new IllegalArgumentException("Secret field is not static, all secret fields must be static.");
             }
         }
+        super.visit(classField, arg); //TODO: is it needed ?
       /*  System.out.println("Variable declaration printed: " + classField.getVariables());
         classField.getVariables().forEach(vd -> vd.setType("Random")
         );*/

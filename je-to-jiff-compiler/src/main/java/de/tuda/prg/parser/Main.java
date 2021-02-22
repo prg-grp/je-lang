@@ -200,7 +200,7 @@ public class Main {
             final CompilationUnit cu = StaticJavaParser.parse(enclaveMainClassFile);
             cu.getPackageDeclaration().get().remove();  // Removing the package declaration from the template file.
 
-            // cu.setPackageDeclaration(PathValues.GENERATED_JAVA_PACKAGE_NAME);  TODO : Is package declaration needed ?
+            // cu.setPackageDeclaration(PathValues.GENERATED_JAVA_PACKAGE_NAME);  // No package declaration, no nested folders as of now.
 
             ParserHelper.addRMIRegistryBindings(cu, enclaveClassesToExposeNames);
             final String enclaveMainClassAsString = cu.toString();
@@ -219,7 +219,7 @@ public class Main {
             final CompilationUnit cuRenoteObjectProviderFile = StaticJavaParser.parse(remoteObjectProviderClassFile);
             cuRenoteObjectProviderFile.getPackageDeclaration().get().remove();  // Removing the package declaration from the template file.
 
-            // cuRenoteObjectProviderFile.setPackageDeclaration(PathValues.GENERATED_JAVA_PACKAGE_NAME);  TODO: is package declaration needed ?
+            // cuRenoteObjectProviderFile.setPackageDeclaration(PathValues.GENERATED_JAVA_PACKAGE_NAME);  // No package declaration, no nested folders
 
             final String remoteObjectProviderClassAsString = cuRenoteObjectProviderFile.toString();
             FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX+ RMIConstants.RMI_OBJECT_PROVIDER_CLASS+".java", remoteObjectProviderClassAsString);

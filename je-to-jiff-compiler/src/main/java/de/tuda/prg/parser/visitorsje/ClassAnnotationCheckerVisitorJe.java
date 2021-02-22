@@ -17,6 +17,6 @@ public class ClassAnnotationCheckerVisitorJe extends VoidVisitorAdapter<ArrayLis
         } else {
             throw new IllegalArgumentException("List 'annotationPresenceIndicator' should not be null and should be empty");
         }
-        // super.visit(cOrID, classNameSet); // TODO : is this needed ? this might cause some issues when there are multiple classes defined in a file.
+        // super.visit(cOrID, classNameSet); // Commented out, since this can cause some issues when there are multiple classes defined in a file.
     }
 }
