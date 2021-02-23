@@ -11,6 +11,6 @@ public class ClassNameGetterVisitor extends VoidVisitorAdapter<String[]> {
     @Override
     public void visit(ClassOrInterfaceDeclaration cOrID, String[] className) {  // Only works when you have only one class definition in the file
         className[0] = cOrID.getNameAsString();
-        // super.visit(cOrID, classNameSet); // TODO : is this needed ?
+        // super.visit(cOrID, classNameSet); // Commented out, no support for nested classes
     }
 }

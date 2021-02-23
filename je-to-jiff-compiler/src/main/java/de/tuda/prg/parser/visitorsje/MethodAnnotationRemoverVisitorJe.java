@@ -10,6 +10,6 @@ public class MethodAnnotationRemoverVisitorJe extends VoidVisitorAdapter<Void> {
         if (md.isAnnotationPresent(Gateway.class)) {
             md.getAnnotationByClass(Gateway.class).get().remove();   // Removing the @Gateway annotation
         }
-        super.visit(md, arg); //TODO: is it needed ?
+        super.visit(md, arg);
     }
 }

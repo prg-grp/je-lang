@@ -45,13 +45,14 @@ public class Codes {
 	// ---------------------- Gateway operator call --------------------------------------------
 	private static  final String declassifyToLabel = "{"+principalName+"->*; "+principalName+"<-*"+"}"+" to "+"{"+principalName+"->_; "+principalName+"<-*"+"}";
 	public static final String declassifyToLabelCode = "CODEDECLASSIFYTOLABEL";
-	
+
+
+	public static final String javaFileExtension = "java";
 	
 	public static final Map<String, String> strReplacement;
 	
-	static
-    { 
-		strReplacement = new HashMap<>(); 
+	static {
+		strReplacement = new HashMap<>();
 		strReplacement.put(classExtensionCode, classNameExtension);
 
 		strReplacement.put(secFieldTypeCodeRegular, secFieldTypeRegular);
@@ -60,15 +61,12 @@ public class Codes {
 		strReplacement.put(gwReturnTypeCode, gwReturnType);
 		strReplacement.put(gwMethodBeginLabelCode, gwMethodBeginLabel);
 
-		strReplacement.put(", "+gwMethodExtensionTypeCode+" "+gwMethodExtensionParamNameCode+")", ") "+gwMethodExtension);   // Can this be improved ?, as of now the extension is added as an extra parameter with a type and name.
+		strReplacement.put(", " + gwMethodExtensionTypeCode + " " + gwMethodExtensionParamNameCode + ")", ") " + gwMethodExtension);   // Can this be improved ?, as of now the extension is added as an extra parameter with a type and name.
 
 		strReplacement.put(endorseToLabelCode, endorseToLabel);
 		strReplacement.put(declassifyToLabelCode, declassifyToLabel);
 		strReplacement.put(gwMethodParamTypeLabelCode, gwMethodParamTypeLabel);
 
-		
-    } 
-	
-	public static final String javaFileExtension = "java";
 
+	}
 }

@@ -9,12 +9,11 @@ import java.util.HashSet;
 public class NonEnclaveMethodCallVisitor extends VoidVisitorAdapter<HashSet<String>> {
     @Override
     public void visit(MethodCallExpr mc, final HashSet<String> gwMethodNamesSet) {
-      super.visit(mc, gwMethodNamesSet);
         System.out.println("Method call detected: "+mc.getName() );
-
         if (gwMethodNamesSet.contains(mc.getName().asString())) {
             System.out.println("--- A gateway method call detected, name of the method call: ---" + mc.getName().asString());
             ParserHelper.transformNonEnclaveGatewayCall(mc);
         }
+        super.visit(mc, gwMethodNamesSet);
     }
 }

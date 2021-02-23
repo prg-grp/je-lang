@@ -11,7 +11,7 @@ public class MethodDefinitionVisitorCollectorJe extends VoidVisitorAdapter<List<
         if (md.isAnnotationPresent(Gateway.class)) {
             gtwMethodDeclarationSet.add(md);
         }
-        // super.visit(md, gwMethodsSet); //TODO: is it needed ?
+        super.visit(md, gtwMethodDeclarationSet); // Keeping the 'super.visit' as the last command in the method.
         // System.out.println("Method Name Printed: " + md.getName());
     }
 }

@@ -24,7 +24,7 @@ public class ClassFieldDeclarationVisitorJe extends VoidVisitorAdapter<Void> {
                 throw new IllegalArgumentException("Secret field is not static, all secret fields must be static.");
             }
         }
-        super.visit(classField, arg); //TODO: is it needed ?
+        super.visit(classField, arg);
       /*  System.out.println("Variable declaration printed: " + classField.getVariables());
         classField.getVariables().forEach(vd -> vd.setType("Random")
         );*/

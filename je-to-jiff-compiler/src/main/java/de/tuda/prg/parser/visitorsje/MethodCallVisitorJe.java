@@ -17,6 +17,8 @@ public class MethodCallVisitorJe extends VoidVisitorAdapter<Void> {
             if (mc.getName().asString().equals(Codes.declassify)) {
                 mc.addArgument(Codes.declassifyToLabelCode);
             }
+
+            super.visit(mc, arg);
         }
 }
 

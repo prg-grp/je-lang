@@ -14,6 +14,6 @@ public class EndorseDeclassRemoverVisitorJe extends VoidVisitorAdapter<Void> {
         if (mc.getName().asString().equals(Codes.declassify)) {
             mc.setName(FileNames.IDENTITY_METHODS_CLASS_NAME+ "." +Codes.declassify);
         }
-        // super.visit(mc, arg); // TODO: is it needed
+        super.visit(mc, arg);
     }
 }

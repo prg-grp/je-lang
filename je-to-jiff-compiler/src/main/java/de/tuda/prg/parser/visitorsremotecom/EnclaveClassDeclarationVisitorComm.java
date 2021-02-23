@@ -75,7 +75,7 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Set<S
             } catch (FileIOException e) {
                 e.printStackTrace();
             }
-            // super.visit(cOrID, arg); // TODO: Is this needed ?
+            // super.visit(cOrID, arg); // Commented out, no support for nested classes
         }
     }
 

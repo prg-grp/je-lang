@@ -11,5 +11,6 @@ public class ClassAnnotationRemoverVisitorJe extends VoidVisitorAdapter<Void> {
         if (cOrID.isAnnotationPresent(Enclave.class)) {
             cOrID.getAnnotationByClass(Enclave.class).get().remove();   // Removing the @Enclave annotation
         }
+        super.visit(cOrID, arg);
     }
 }

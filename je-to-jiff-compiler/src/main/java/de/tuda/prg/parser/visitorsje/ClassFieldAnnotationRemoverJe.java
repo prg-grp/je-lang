@@ -10,6 +10,6 @@ public class ClassFieldAnnotationRemoverJe extends VoidVisitorAdapter<Void> {
         if (classField.isAnnotationPresent(Secret.class)) {
             classField.getAnnotationByClass(Secret.class).get().remove();  // Removing the @Secret annotation
         }
-        // super.visit(classField, arg);
+        super.visit(classField, arg);
     }
 }
