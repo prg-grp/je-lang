@@ -1,37 +1,26 @@
-## Welcome to GitHub Pages
+# The J<sub>E</sub> Secure Programming Language 
 
-You can use the [editor on GitHub](https://github.com/prg-grp/je-language/edit/gh-pages/README.md) to maintain and preview the content for your website in Markdown files.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+J<sub>E</sub> provides language-level abstractions to write Java applications that can run with Intel SGX.
+Parts of the program to be run inside the SGX can be specified using J<sub>E</sub> annotations. J<sub>E</sub> uses an implicit security type system to detect invalid information flows.  
 
-### Markdown
+J<sub>E</sub> follows the tierless programming approach. The program partition and security analysis are automatically performed by the J<sub>E</sub> compiler.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+Example:
 ```
+@Enclave
+class Enclave {
+	@Secret
+	private static String password;
+		
+	@Gateway
+	public static Boolean checkPassword(String guess) {
+		return declassify(password.equals(guess));
+	} 
+}
+```
+In this snippet, the *@Enclave*, *@Secret* and *@Gateway* annotations and the 'declassify' method are the J<sub>E</sub> abstractions. The class-level *@Enclave* annotation denotes that the annotated class is to be placed inside the enclave. The field-level *@Secret* annotation denotes secret fields whose values must not leak outside the SGX enclave. The *@Gateway* annotation specifies that the anotated methods are accessible from the non-enclave environment.
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
-### Jekyll Themes
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/prg-grp/je-language/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
