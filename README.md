@@ -23,9 +23,8 @@ More examples are provided in `/test-cases/src/main/je/de/tuda/prg`
 #### 1. Jif installation
 1. Visit https://www.cs.cornell.edu/jif/ and download the zip file of Jif 3.5
 2. Unzip the file and install Jif following the installation steps provided in the README file
-3. We refer to the Jif root directory as `$JIF_ROOT`
-4. Compile the principals in the the `$JIF_ROOT/tests/jif/principals/`
-5. We denote the Jif bin directory as `JIF_BIN` and it points to `$JIF_ROOT/bin/` and Jif principals directory as `JIFC_PRINCIPALS` and pointing to `$JIF_ROOT/tests/jif/principals/`
+3. We refer to the Jif root directory (it is the directory unzipped in the step 2) as `$JIF_HOME`
+4. Compile the principals in the `$JIF_HOME/tests/jif/principals/` according to the README file
 
 #### 2. Setting up Intel SGX (only needed for running the application)
 #### 2.1. Installing Intel SGX drivers
@@ -40,11 +39,6 @@ More examples are provided in `/test-cases/src/main/je/de/tuda/prg`
 4. A jar file named `je-to-jiff-compiler-jar-with-dependencies.jar` will be compiled in the `/je-to-jiff-compiler/target` directory.
 
 ## Running the compiler
-1. In the *compile.sh* file, set the following variables
-	* `JIF_BIN` and `JIFC_PRINCIPALS` are the same directory paths as described in the *Jif installation* process above.
-	* `JAVA_HOME` : It should point to the root directory of JDK. The compiler has been tested with JDK 8.
-	* `JE_PATH` : Directory of the JE source files to be compiled
-	* `JIF_PATH` : Directory for the generated Jif classes to be compiled
-	* `JAVA_GENERATED_PATH` : Directory for the generated Java files
-
-2. Run ```./compile-<case-study-name>.sh```
+1. Make sure that JDK 8 is in your system path.
+2. In the *compile.sh* file, set the `JIF_HOME` variable. (same as described in the *Jif installation* process above)
+3. Run ```./compile.sh <path-to-the-JE-files>```

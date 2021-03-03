@@ -4,9 +4,6 @@
 target/
 *.class
 
-# Other generated files
-generated-jif/
-
 
 # Log file
 *.log
@@ -42,10 +39,16 @@ lib
 *.tar.gz
 *.rar
 
-# Directories
+
+# Directories anywhere
+generated-java/
+generated-jif/
+
+# Directories in the root path
 /testing/
 /backup/
 /annotationProcessor/
 /jsgx-type-checker/
 /JifWorkingFiles/
 /test-cases/src/main/generatedjava/
+
