@@ -2,10 +2,7 @@
 
 
 J<sub>E</sub> provides language-level abstractions to write Java applications that can run with Intel SGX.
-Parts of the program to be run inside the SGX can be specified using J<sub>E</sub> annotations. J<sub>E</sub> uses an implicit security type system to detect invalid information flows.  
-
-J<sub>E</sub> follows the tierless programming approach. The program partition and security analysis are automatically performed by the J<sub>E</sub> compiler.
-
+The abstractions allow specifying privacy constraints for data and are statically checked by the J<sub>E</sub> compiler.  
 
 Example:
 ```
