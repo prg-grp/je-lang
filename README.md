@@ -51,5 +51,7 @@ class Enclave {
 ```
 In this snippet, the *@Enclave*, *@Secret* and *@Gateway* annotations and the 'declassify' method are the J<sub>E</sub> abstractions. The class-level *@Enclave* annotation denotes that the annotated class is to be placed inside the enclave. The field-level *@Secret* annotation denotes secret fields whose values must not leak outside the SGX enclave. The *@Gateway* annotation specifies that the anotated methods are accessible from the non-enclave environment.
 
+### Credits
+J<sub>E</sub> is a project developed at the Technical University of Darmstadt, University of St. Gallen and KTH Royal Institute of Technology.
 
 
