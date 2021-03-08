@@ -25,8 +25,8 @@ an insecure application when facing a realistic attacker.
 
 J<sub>E</sub> tries to address both these challenges.
 J<sub>E</sub> is a programming model that integrates a TEE,
-abstracting away low-level programming details such as initial-
-ization and loading of data into the TEE. J<sub>E</sub> only requires
+abstracting away low-level programming details such as initialization
+and loading of data into the TEE. J<sub>E</sub> only requires
 developers to add annotations to their programs to enable the
 execution within the TEE. It has a security type system that
 checks confidentiality and integrity policies against realistic
