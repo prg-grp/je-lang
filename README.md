@@ -44,6 +44,8 @@ public class NonEnclaveMain {
         String cipher = PasswordChecker.encrypt("abc");
     }
 }
+```
+```
 
 @Enclave
 class PasswordChecker {
