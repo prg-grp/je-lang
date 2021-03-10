@@ -38,8 +38,15 @@ have a look at the technical report.
 
 ### A sample J<sub>E</sub> code 
 ```
+public class NonEnclaveMain {
+
+    public static void main(String[] args) {
+        String cipher = PasswordChecker.encrypt("abc");
+    }
+}
+
 @Enclave
-class Enclave {
+class PasswordChecker {
 	@Secret
 	private static String password;
 		
