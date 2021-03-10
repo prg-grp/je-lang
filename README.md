@@ -41,7 +41,7 @@ have a look at the technical report.
 public class NonEnclaveMain {
 
     public static void main(String[] args) {
-        String cipher = PasswordChecker.encrypt("abc");
+        Boolean result = PasswordChecker.checkPassword("abc");
     }
 }
 ```
