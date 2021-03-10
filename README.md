@@ -58,7 +58,7 @@ class PasswordChecker {
 	} 
 }
 ```
-In this snippet, the *@Enclave*, *@Secret* and *@Gateway* annotations and the 'declassify' method are the J<sub>E</sub> abstractions. The class-level *@Enclave* annotation denotes that the annotated class is to be placed inside the enclave. The field-level *@Secret* annotation denotes secret fields whose values must not leak outside the SGX enclave. The *@Gateway* annotation specifies that the anotated methods are accessible from the non-enclave environment.
+The two snippets show a simple password checker application with two classes. The *NonEnclaveMain* class is to be placed outside the enclave and the *PasswordChecker* class (annotated with the *@Enclave* annotation) inside the enclave. The *@Enclave*, *@Secret* and *@Gateway* annotations and the 'declassify' method are the J<sub>E</sub> abstractions. The class-level *@Enclave* annotation denotes that the annotated class is to be placed inside the enclave. The field-level *@Secret* annotation denotes secret fields whose values must not leak outside the SGX enclave. The *@Gateway* annotation specifies that the annotated methods are accessible from the non-enclave environment.
 
 ### Credits
 J<sub>E</sub> is a project developed at the Technical University of Darmstadt, University of St. Gallen and KTH Royal Institute of Technology.
