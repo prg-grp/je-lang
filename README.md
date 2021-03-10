@@ -1,4 +1,4 @@
-# The J<sub>E</sub> Secure Programming Language 
+# The J<sub>E</sub> Programming Language 
 
 ### What is J<sub>E</sub>?  
 J<sub>E</sub> is a programming language to develop secure enclave applications.  
