@@ -33,8 +33,8 @@ More examples are provided in `/test-cases/src/main/je/de/tuda/prg`
 #### 3. Install [Maven](https://maven.apache.org/)
 
 ## Building the compiler
-1. Make sure that you have the environment variable JAVA_HOME set to JDK 9 or higher. (\TODO, instead add compiler-plugin to the pom file)
-2. Chage to the root directory of the project
+1. Make sure that you have the JAVA_HOME environment variable set to JDK 9 or higher.
+2. Change to the root directory of the project.
 3. Run `mvn package`
 4. A jar file named `je-to-jiff-compiler-jar-with-dependencies.jar` will be compiled in the `/je-to-jiff-compiler/target` directory.
 
