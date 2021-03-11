@@ -59,15 +59,15 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Set<S
             getAndAddGatewayMethodsToTheRemoteInterfaceAndWrapperClass(cOrID, interfaceDeclaration, wrapperClassDeclaration);   // Adding all the Gateway methods into the generated remote class
 
             final String remoteInterfaceAsString =  cuRemoteInterface.toString();
-            System.out.println("--------------Printing the created enclave remote interface ---------------------------");
-            System.out.println(remoteInterfaceAsString);
+            // System.out.println("--------------Printing the created enclave remote interface ---------------------------");
+            // System.out.println(remoteInterfaceAsString);
 
             try {
                 FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX + remoteInterfaceName + ".java", remoteInterfaceAsString);   //Ideally, this file writing should be in some file writing utility class.
 
                 final String wrapperClassAsString = cuEncWrapperClass.toString();
-                System.out.println("--------------Printing the created enclave wrapper class ---------------------------");
-                System.out.println(wrapperClassAsString);
+                // System.out.println("--------------Printing the created enclave wrapper class ---------------------------");
+                // System.out.println(wrapperClassAsString);
                 FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX + wrapperClassName + ".java", wrapperClassAsString);   //Ideally, this file writing should not be here.
             }
             catch (IOException e) {

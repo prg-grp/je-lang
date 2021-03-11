@@ -22,10 +22,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-
 public class Main {
     public static void main(String[] args) {
-        if (args == null || args.length < 3) {
+        if (args == null || args.length != 3) {
+            throw new IllegalArgumentException("Incorrect number of arguments to the main method.");
 
         } else {
             PathValues.JE_FOLDER_PATH = args[0];
@@ -66,19 +66,19 @@ public class Main {
                             EnclaveClassTranslationUtils.translateEnclaveClass(cu);
 
                             String afterVisitClassString = cu.toString();
-                            System.out.println(afterVisitClassString);
+                            // System.out.println(afterVisitClassString);
 
-                            System.out.println("--------------------------------");
+                            //System.out.println("--------------------------------");
 
-                            System.out.println("---------------- Now replacing the added codes ----------------");
+                            // System.out.println("---------------- Now replacing the added codes ----------------");
                             String jifCodeAddedString = afterVisitClassString;
 
                             for (String key : Codes.strReplacement.keySet()) {
                                 jifCodeAddedString = jifCodeAddedString.replace(key, Codes.strReplacement.get(key));
                             }
 
-                            System.out.println("----------------------------------Printing the files with Jif labels --------------------------------");
-                            System.out.println(jifCodeAddedString);
+                            // System.out.println("----------------------------------Printing the files with Jif labels --------------------------------");
+                            // System.out.println(jifCodeAddedString);
                             // Writing generated jif code to the file
                             FileUtils.writeStringToFile(PathValues.GENERATED_JIF_FOLDER_PREFIX+currentFileBaseName+".jif", jifCodeAddedString);
                         }
@@ -117,11 +117,11 @@ public class Main {
                             EnclaveClassTranslationUtils.addCommCodeToEnclaveClasses(cu, enclaveClassesToExposeNames);
 
                             String enclaveJavaCodeWithCommString = cu.toString();
-                            System.out.println("----------- Enclave file with added RMI code -----------------");
-                            System.out.println(enclaveJavaCodeWithCommString);
+                            // System.out.println("----------- Enclave file with the added RMI code -----------------");
+                            // System.out.println(enclaveJavaCodeWithCommString);
 
 
-                            System.out.println("---------------------Removing JE annotations -------------------------");
+                            // System.out.println("---------------------Removing JE annotations -------------------------");
                             EnclaveClassTranslationUtils.removeAllJEConstructs(cu);  // check this step, since adding communication is dependent on the annotations such as Gateway, we remove the JE language features after adding the communication code.
                             String enclaveJavaCodeWithCommNoJEAnnoString = cu.toString();
 
@@ -160,8 +160,8 @@ public class Main {
                             NonEnclaveMethodCallVisitor nonEnclaveMCVisitor = new NonEnclaveMethodCallVisitor();
                             nonEnclaveMCVisitor.visit(cu, gatewayMethodNames);  // TODO: We can't add all the remote methods into the single interface, what interfaces to be imported will be decided by this visit method.
                             String nonEnclaveClassString = cu.toString();
-                            System.out.println("------------  NonEnclave Class with added remote comm --------------------");
-                            System.out.println(nonEnclaveClassString);
+                            // System.out.println("------------  NonEnclave Class with added remote comm --------------------");
+                            // System.out.println(nonEnclaveClassString);
 
                             FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX+currentFileBaseName+".java", nonEnclaveClassString);
                         } else {

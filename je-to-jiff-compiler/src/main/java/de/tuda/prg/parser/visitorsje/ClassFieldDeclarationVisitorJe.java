@@ -14,7 +14,7 @@ public class ClassFieldDeclarationVisitorJe extends VoidVisitorAdapter<Void> {
                 classField.removeModifier(Modifier.Keyword.STATIC);  // Removing the Static modifier
                 classField.getAnnotationByClass(Secret.class).get().remove();  // Removing the @Secret annotation
                 classField.getVariables().forEach(vd -> {
-                    System.out.println("Type of the field in the Je program = " + vd.getType().asString());
+                    // System.out.println("Type of the field in the Je program = " + vd.getType().asString());
 
                     String replacementTypeString = ParserHelper.getStringForSecType(vd.getType().asString());
 
@@ -25,7 +25,7 @@ public class ClassFieldDeclarationVisitorJe extends VoidVisitorAdapter<Void> {
             }
         }
         super.visit(classField, arg);
-      /*  System.out.println("Variable declaration printed: " + classField.getVariables());
+      /*
         classField.getVariables().forEach(vd -> vd.setType("Random")
         );*/
     }

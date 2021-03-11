@@ -16,8 +16,8 @@ public class EnclaveClassTranslationUtils {
             VoidVisitor<HashSet<String>> classDeclarationVisitor = new ClassDeclarationVisitorJe();
             HashSet<String> enclaveClassNames = new HashSet<String>();
             classDeclarationVisitor.visit(cu,enclaveClassNames);
-            System.out.println(enclaveClassNames);
-            System.out.println("--------- class after visiting -----------------------");
+            // System.out.println(enclaveClassNames);
+            // System.out.println("--------- class after visiting -----------------------");
 
             // Step2: Visiting methods inside the cu
             final HashSet<String> gwMethodNames = new HashSet<String>();

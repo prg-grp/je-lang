@@ -29,6 +29,5 @@ public class GatewayMethodDefinitionTransformerVisitorJe extends VoidVisitorAdap
             }
         }
         super.visit(md, gwMethodsSet); // Keeping all the 'super.visit' calls as the last command in the method
-        // System.out.println("Method Name Printed: " + md.getName());
     }
 }

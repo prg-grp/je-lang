@@ -1,7 +1,7 @@
 # The J<sub>E</sub> Secure Programming Language 
 
 
-JE provides language-level abstractions to write Java applications that can run with Intel SGX.
+J<sub>E</sub> provides language-level abstractions to write Java applications that can run with Intel SGX.
 Parts of the program to be run inside the SGX can be specified using JE annotations. JE uses an implicit security type system to detect invalid information flows.
 Example:
 ```
@@ -27,7 +27,7 @@ More examples are provided in `/test-cases/src/main/je/de/tuda/prg`
 4. Compile the principals in the `$JIF_HOME/tests/jif/principals/` according to the README file
 
 #### 2. Setting up Intel SGX (only needed for running the application)
-#### 2.1. Installing Intel SGX drivers
+##### 2.1. Installing Intel SGX drivers
 1. Visit https://download.01.org/intel-sgx/sgx-linux/2.9.1/docs/Intel_SGX_Installation_Guide_Linux_2.9.1_Open_Source.pdf and install the SGX drivers.
 
 #### 3. Install [Maven](https://maven.apache.org/)

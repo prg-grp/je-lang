@@ -41,8 +41,15 @@ lib
 
 
 # Directories anywhere
+generatedjava/
 generated-java/
 generated-jif/
+
+prg/battleship/
+prg/battleshipLinkedList/
+prg/collection/
+
+manual-jif-files/
 
 # Directories in the root path
 /testing/
@@ -50,5 +57,5 @@ generated-jif/
 /annotationProcessor/
 /jsgx-type-checker/
 /JifWorkingFiles/
-/test-cases/src/main/generatedjava/
-
+/test-cases/src/main/java/
+/test-cases/src/main/manual-jif-files/
