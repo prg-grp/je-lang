@@ -12,8 +12,8 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>jsgx-type-checker</module>
-        <module>annotationProcessor</module>
+        <!--  <module>jsgx-type-checker</module> -->
+        <!--  <module>annotationProcessor</module> -->
         <!-- <module>java-to-jiff-compiler</module> -->
         <module>je-to-jiff-compiler</module>
         <module>test-cases</module>

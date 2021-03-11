@@ -1,8 +1,10 @@
 #!/bin/bash
+set -e
 
 # Specify the JE files directory as the first command line argument when executing this file from the terminal.
+
 # TODO: Make sure that Java 8 is in your system path.
-# TODO: Set the path of Jif home in the variable JIF_HOME.
+# TODO: On the next line, set the path of Jif home in the variable JIF_HOME.
 JIF_HOME=<jif-home-directory>
 
 if [ $# -eq 0 ]; then
