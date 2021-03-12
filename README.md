@@ -16,21 +16,23 @@ class Enclave {
 	} 
 }
 ```
-The class-level *@Enclave* annotation denotes that the annotated class should be placed inside the enclave. The field-level *@Secret* annotation denotes secret fields whose values must not leak outside the SGX enclave. The *@Gateway* annotation denotes methods which are accessible from the non-enclave environment
+The class-level *@Enclave* annotation denotes that the annotated class should be placed inside the enclave.
+The field-level *@Secret* annotation denotes secret fields whose values must not leak outside the SGX enclave.
+The *@Gateway* annotation specifies methods which are accessible from the non-enclave environment
 
-More examples are provided in `/test-cases/src/main/je/de/tuda/prg`
+More examples are provided in `/test-cases/src/je/de/tuda/prg`
 ## Prerequisites
-#### 1. Jif installation
+### 1. Jif installation
 1. Visit https://www.cs.cornell.edu/jif/ and download the zip file of Jif 3.5
 2. Unzip the file and install Jif following the installation steps provided in the README file
 3. We refer to the Jif root directory (it is the directory unzipped in the step 2) as `$JIF_HOME`
 4. Compile the principals in the `$JIF_HOME/tests/jif/principals/` according to the README file
 
-#### 2. Setting up Intel SGX (only needed for running the application)
+### 2. Setting up Intel SGX (only needed for running the application)
 ##### 2.1. Installing Intel SGX drivers
 1. Visit https://download.01.org/intel-sgx/sgx-linux/2.9.1/docs/Intel_SGX_Installation_Guide_Linux_2.9.1_Open_Source.pdf and install the SGX drivers.
 
-#### 3. Install [Maven](https://maven.apache.org/)
+### 3. Install [Maven](https://maven.apache.org/)
 
 ## Building the compiler
 1. Make sure that you have the JAVA_HOME environment variable set to JDK 9 or higher.
