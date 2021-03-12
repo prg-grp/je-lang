@@ -31,7 +31,8 @@ developers to add annotations to their programs to enable the
 execution within the TEE. It has a security type system that
 checks confidentiality and integrity policies against realistic
 attackers with full control over code running outside the TEE.
-Presently, J<sub>E</sub> works with Intel SGX as a target TEE.
+Presently, J<sub>E</sub> works with Intel SGX as a target TEE.  
+
 For the formal details of the type-system and security guarantees,
 have a look at the technical report.
 
