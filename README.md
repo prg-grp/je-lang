@@ -38,7 +38,7 @@ have a look at the technical report.
 
 
 ### A sample J<sub>E</sub> code 
-```
+```java
 public class NonEnclaveMain {
 
     public static void main(String[] args) {
@@ -46,8 +46,7 @@ public class NonEnclaveMain {
     }
 }
 ```
-```
-
+```java
 @Enclave
 class PasswordChecker {
 	@Secret
@@ -61,7 +60,15 @@ class PasswordChecker {
 ```
 The two snippets show a simple password checker application with two classes. The *NonEnclaveMain* class is to be placed outside the enclave and the *PasswordChecker* class (annotated with the *@Enclave* annotation) inside the enclave. The *@Enclave*, *@Secret* and *@Gateway* annotations and the 'declassify' method are the J<sub>E</sub> abstractions. The class-level *@Enclave* annotation denotes that the annotated class is to be placed inside the enclave. The field-level *@Secret* annotation denotes secret fields whose values must not leak outside the SGX enclave. The *@Gateway* annotation specifies that the annotated methods are accessible from the non-enclave environment.
 
+### Publications
+* **Language Support for Secure Software Development with Enclaves**
+  Aditya Oak, Amir M. Ahmadian, Musard Balliu, Guido Salvaneschi
+  In Proceedings of the 34th IEEE Computer Security Foundations Symposium, CSF, 2021
+* **Language Support for Multiple Privacy Enhancing Technologies**
+  Aditya Oak, Mira Mezini, Guido Salvaneschi
+  In Companion Proceedings of the 3rd International Conference on Art, Science, and Engineering of Programming, ‹Programming› Companion, 2019
+
+
 ### Credits
 J<sub>E</sub> is a project developed at the Technical University of Darmstadt, University of St. Gallen and KTH Royal Institute of Technology.
-
 
