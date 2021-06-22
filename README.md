@@ -34,7 +34,7 @@ attackers with full control over code running outside the TEE.
 Presently, J<sub>E</sub> works with Intel SGX as a target TEE.  
 
 For the formal details of the type-system and security guarantees,
-have a look at the technical report.
+have a look at our [paper](https://programming-group.com/assets/pdf/papers/2021_Language-Support-for-Secure-Software-Development-with-Enclaves.pdf).
 
 
 ### A sample J<sub>E</sub> code 
@@ -59,6 +59,8 @@ class PasswordChecker {
 }
 ```
 The two snippets show a simple password checker application with two classes. The *NonEnclaveMain* class is to be placed outside the enclave and the *PasswordChecker* class (annotated with the *@Enclave* annotation) inside the enclave. The ***@Enclave***, ***@Secret*** and ***@Gateway*** annotations and the ***declassify*** method are the J<sub>E</sub> abstractions. The class-level *@Enclave* annotation denotes that the annotated class is to be placed inside the enclave. The field-level *@Secret* annotation denotes secret fields whose values must not leak outside the SGX enclave. The *@Gateway* annotation specifies that the annotated methods are accessible from the non-enclave environment.
+
+### Try it out
 
 You can find the instructions to install and run J<sub>E</sub> [here](https://github.com/prg-grp/je-lang#prerequisites). A simple J<sub>E</sub> [encryptor](https://github.com/prg-grp/je-lang/tree/main/test-cases/src/je/de/tuda/prg/encryptor) program can be compiled and verified using the J<sub>E</sub> compiler.
 Instructions for automatic deployment into Intel SGX will be added soon !!!
