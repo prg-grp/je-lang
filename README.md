@@ -65,6 +65,9 @@ The two snippets show a simple password checker application with two classes. Th
 You can find the instructions to install and run J<sub>E</sub> [here](https://github.com/prg-grp/je-lang#prerequisites). A simple J<sub>E</sub> [encryptor](https://github.com/prg-grp/je-lang/tree/main/test-cases/src/je/de/tuda/prg/encryptor) program can be compiled and verified using the J<sub>E</sub> compiler.
 Instructions for automatic deployment into Intel SGX will be added soon !!!
 
+### Contact
+[Aditya Oak](https://programming-group.com/members/oak)
+
 ### Publications
 * [**Language Support for Secure Software Development with Enclaves**](https://programming-group.com/assets/pdf/papers/2021_Language-Support-for-Secure-Software-Development-with-Enclaves.pdf)  
   Aditya Oak, Amir M. Ahmadian, Musard Balliu, Guido Salvaneschi  
