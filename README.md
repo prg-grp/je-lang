@@ -5,7 +5,7 @@ J<sub>E</sub> is a programming language to develop secure enclave applications.
 J<sub>E</sub> provides high-level abstractions to specify the code to be placed inside
 the enclaves and different privacy levels for data objects.
 The static type system checks information flow and guarantees that the
-secret data is not leaked outside the encvlave.
+secret data is not leaked outside the enclave.
 
 ### Background 
 Confidential computing is a promising technology
@@ -58,17 +58,22 @@ class PasswordChecker {
 	} 
 }
 ```
-The two snippets show a simple password checker application with two classes. The *NonEnclaveMain* class is to be placed outside the enclave and the *PasswordChecker* class (annotated with the *@Enclave* annotation) inside the enclave. The *@Enclave*, *@Secret* and *@Gateway* annotations and the 'declassify' method are the J<sub>E</sub> abstractions. The class-level *@Enclave* annotation denotes that the annotated class is to be placed inside the enclave. The field-level *@Secret* annotation denotes secret fields whose values must not leak outside the SGX enclave. The *@Gateway* annotation specifies that the annotated methods are accessible from the non-enclave environment.
+The two snippets show a simple password checker application with two classes. The *NonEnclaveMain* class is to be placed outside the enclave and the *PasswordChecker* class (annotated with the *@Enclave* annotation) inside the enclave. The ***@Enclave***, ***@Secret*** and ***@Gateway*** annotations and the ***declassify*** method are the J<sub>E</sub> abstractions. The class-level *@Enclave* annotation denotes that the annotated class is to be placed inside the enclave. The field-level *@Secret* annotation denotes secret fields whose values must not leak outside the SGX enclave. The *@Gateway* annotation specifies that the annotated methods are accessible from the non-enclave environment.
+
+You can find the instructions to install and run J<sub>E</sub> [here](https://github.com/prg-grp/je-lang#prerequisites). A simple J<sub>E</sub> [encryptor](https://github.com/prg-grp/je-lang/tree/main/test-cases/src/je/de/tuda/prg/encryptor) program can be compiled and verified using the J<sub>E</sub> compiler.
+Instructions for automatic deployment into Intel SGX will be added soon !!!
 
 ### Publications
-* **Language Support for Secure Software Development with Enclaves**  
+* [**Language Support for Secure Software Development with Enclaves**](https://programming-group.com/assets/pdf/papers/2021_Language-Support-for-Secure-Software-Development-with-Enclaves.pdf)  
   Aditya Oak, Amir M. Ahmadian, Musard Balliu, Guido Salvaneschi  
   In Proceedings of the 34th IEEE Computer Security Foundations Symposium, CSF, 2021
-* **Language Support for Multiple Privacy Enhancing Technologies**  
+* [**Language Support for Multiple Privacy Enhancing Technologies**](https://dl.acm.org/doi/10.1145/3328433.3328446)  
   Aditya Oak, Mira Mezini, Guido Salvaneschi  
   In Companion Proceedings of the 3rd International Conference on Art, Science, and Engineering of Programming, ‹Programming› Companion, 2019
 
-
 ### Credits
-J<sub>E</sub> is a project developed at the Technical University of Darmstadt, University of St. Gallen and KTH Royal Institute of Technology.
+J<sub>E</sub> is a project developed at the Technical University of Darmstadt, the University of St. Gallen and the KTH Royal Institute of Technology.
+
+### Support
+* [Project CROSSING](https://www.crossing.tu-darmstadt.de/crc_1119/index.en.jsp)
 
