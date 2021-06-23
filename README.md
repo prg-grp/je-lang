@@ -79,6 +79,12 @@ Instructions for automatic deployment into Intel SGX will be added soon !!!
 ### Credits
 J<sub>E</sub> is a project developed at the Technical University of Darmstadt, the University of St. Gallen and the KTH Royal Institute of Technology.
 
+### Contributors
+* [Aditya Oak](https://programming-group.com/members/oak)
+* [Amir M. Ahmadian](https://www.kth.se/profile/ahmadia)
+* [Prof. Dr. Musard Balliu](https://people.kth.se/~musard/)
+* [Prof. Dr. Guido Salvaneschi](https://programming-group.com/members/salvaneschi)
+
 ### Supported by
-* [Project CROSSING](https://www.crossing.tu-darmstadt.de/crc_1119/index.en.jsp)
+* Project [CROSSING](https://www.crossing.tu-darmstadt.de/crc_1119/index.en.jsp)
 
