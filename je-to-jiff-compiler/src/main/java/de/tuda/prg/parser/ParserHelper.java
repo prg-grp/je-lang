@@ -91,7 +91,7 @@ public class ParserHelper {
     }
 
 
-    public static void getAllGatewayMethods(final CompilationUnit cu, final List<ClassNameMethodDecls> gatewayMethodDeclarations) {
+    public static void populateAllGatewayMethodsInCu(final CompilationUnit cu, final List<ClassNameMethodDecls> gatewayMethodDeclarations) {
         String[] strArray = new String[1];
         new ClassNameGetterVisitor().visit(cu, strArray);
         String className = strArray[0];
@@ -168,7 +168,7 @@ public class ParserHelper {
         }
     }
 
-    public static void populateGtwMethodNames(List<ClassNameMethodDecls> gatewayMethodDeclarations, HashSet<String> gatewayMethodNames) {
+    public static void populateMethodNamesFromDeclarations(List<ClassNameMethodDecls> gatewayMethodDeclarations, HashSet<String> gatewayMethodNames) {
         for (ClassNameMethodDecls clNameMethodDeclare : gatewayMethodDeclarations) {
             Set<String> currClassGtwMethodNames = new HashSet<>();
             for (MethodDeclaration md : clNameMethodDeclare.getMethodDeclarations()) {

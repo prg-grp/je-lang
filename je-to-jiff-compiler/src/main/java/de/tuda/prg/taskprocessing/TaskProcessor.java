@@ -21,9 +21,9 @@ public class TaskProcessor {
     }
 
     public void process(final File jeSrcDir) {
-        final Map<String, ArrayList> interTaskData = new HashMap<>();
+        final GlobalTaskData taskData = new GlobalTaskData();
         for (CodeXformationTask task: taskList) {
-            task.run(jeSrcDir, interTaskData);
+            task.run(jeSrcDir, taskData);
         }
     }
 

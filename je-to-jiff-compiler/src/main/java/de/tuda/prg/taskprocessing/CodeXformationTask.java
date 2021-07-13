@@ -8,6 +8,6 @@ import java.util.Map;
 
 public interface CodeXformationTask {
 
-    public void run(File jeSrcDir, Map<String, ArrayList> data);
+    public void run(File jeSrcDir, GlobalTaskData data);
 
 }

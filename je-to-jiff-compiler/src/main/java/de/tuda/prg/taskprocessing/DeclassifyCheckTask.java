@@ -7,7 +7,7 @@ import java.util.Map;
 public class DeclassifyCheckTask implements CodeXformationTask {
 
     @Override
-    public void run(File jeSrcDir, Map<String, ArrayList> data) {
+    public void run(File jeSrcDir, GlobalTaskData data) {
 
     }
 }
