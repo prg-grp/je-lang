@@ -66,7 +66,5 @@ public class Codes {
 		strReplacement.put(endorseToLabelCode, endorseToLabel);
 		strReplacement.put(declassifyToLabelCode, declassifyToLabel);
 		strReplacement.put(gwMethodParamTypeLabelCode, gwMethodParamTypeLabel);
-
-
 	}
 }

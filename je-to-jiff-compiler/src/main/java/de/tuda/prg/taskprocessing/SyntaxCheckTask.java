@@ -1,13 +1,13 @@
 package de.tuda.prg.taskprocessing;
 
-import com.github.javaparser.ast.CompilationUnit;
-
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class SyntaxCheckTask implements TransformTask {
+public class SyntaxCheckTask implements CodeXformationTask {
+
     @Override
-    public void run(CompilationUnit cu, Map<String, ArrayList> data) {
-        //TODO: Add impl
+    public void run(File jeSrcDir, Map<String, ArrayList> data) {
+
     }
 }

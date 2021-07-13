@@ -4,8 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class SecFieldsModificationTask implements CodeXformationTask {
-
+public class EnclaveClassXformationTask implements  CodeXformationTask {
     @Override
     public void run(File jeSrcDir, Map<String, ArrayList> data) {
 

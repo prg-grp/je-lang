@@ -13,6 +13,8 @@ import de.tuda.prg.entities.ClassNameMethodDecls;
 import de.tuda.prg.exceptions.FileIOException;
 import de.tuda.prg.filehandling.FileUtils;
 import de.tuda.prg.parser.visitorsremotecom.NonEnclaveMethodCallVisitor;
+import de.tuda.prg.taskprocessing.TaskOrderedList;
+import de.tuda.prg.taskprocessing.TaskProcessor;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
@@ -42,6 +44,9 @@ public class Main {
         final HashSet<String> gatewayMethodNames = new HashSet<>();
         final List<ClassNameMethodDecls> gatewayMethodDeclarations = new ArrayList<>();
         final HashSet<String> enclaveClassesToExposeNames = new HashSet<String>();  // Names of the enclave wrapper classes to be bound to the RMI registry.
+
+        TaskProcessor taskProcessor = new TaskProcessor(TaskOrderedList.getTaskList());
+        taskProcessor.process(new File(PathValues.JE_FOLDER_PATH));
 
         // First try block, translation of Enclave classes to Jif
         try {
@@ -119,8 +124,6 @@ public class Main {
                             String enclaveJavaCodeWithCommString = cu.toString();
                             // System.out.println("----------- Enclave file with the added RMI code -----------------");
                             // System.out.println(enclaveJavaCodeWithCommString);
-
-
                             // System.out.println("---------------------Removing JE annotations -------------------------");
                             EnclaveClassTranslationUtils.removeAllJEConstructs(cu);  // check this step, since adding communication is dependent on the annotations such as Gateway, we remove the JE language features after adding the communication code.
                             String enclaveJavaCodeWithCommNoJEAnnoString = cu.toString();
