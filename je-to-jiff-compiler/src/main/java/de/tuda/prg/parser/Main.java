@@ -2,27 +2,17 @@ package de.tuda.prg.parser;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.Modifier;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import de.tuda.prg.constants.Codes;
 import de.tuda.prg.constants.FileNames;
 import de.tuda.prg.constants.PathValues;
 import de.tuda.prg.constants.RMIConstants;
-import de.tuda.prg.entities.ClassNameMethodDecls;
 import de.tuda.prg.exceptions.FileIOException;
 import de.tuda.prg.filehandling.FileUtils;
-import de.tuda.prg.parser.visitorsremotecom.NonEnclaveMethodCallVisitor;
 import de.tuda.prg.taskprocessing.TaskOrderedList;
 import de.tuda.prg.taskprocessing.TaskProcessor;
-import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
