@@ -3,6 +3,8 @@ package de.tuda.prg.taskprocessing;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.visitor.VoidVisitor;
+import com.github.javaparser.printer.DotPrinter;
+import com.github.javaparser.printer.YamlPrinter;
 import de.tuda.prg.exceptions.FileIOException;
 import de.tuda.prg.parser.ParserHelper;
 import de.tuda.prg.parser.visitorsje.ClassFieldDeclarationVisitorJe;
@@ -10,7 +12,9 @@ import de.tuda.prg.parser.visitorsje.DeclassifyReturnScopeCheckerVisitorJe;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Map;
 

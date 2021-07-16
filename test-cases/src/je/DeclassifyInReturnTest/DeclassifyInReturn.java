@@ -11,6 +11,8 @@ public class Encryptor {
         String plaintextE = endorse(plaintext);
 
         String result = plaintextE+key;
+        
+        // String resultDeclass = declassify(result);
 
         return declassify(result);
     }

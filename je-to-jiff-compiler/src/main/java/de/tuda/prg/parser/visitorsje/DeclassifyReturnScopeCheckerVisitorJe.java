@@ -1,5 +1,6 @@
 package de.tuda.prg.parser.visitorsje;
 
+import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.stmt.ReturnStmt;
@@ -13,16 +14,18 @@ import java.util.Optional;
 public class DeclassifyReturnScopeCheckerVisitorJe extends VoidVisitorAdapter<Void> {
     @Override
     public void visit(MethodCallExpr mc, Void arg) {
-        if (mc.getName().asString().equals(Codes.endorse)) {
+        if (mc.getName().asString().equals(Codes.declassify)) {
              Optional<Node> parentNodeOpt = mc.getParentNode();
              if (parentNodeOpt.isPresent()) {
                  Node parentNode = parentNodeOpt.get();
-                 System.out.println("The parent of the declassify statement = "+parentNode.toString());
                  try {
                      ReturnStmt parentReturn = (ReturnStmt) parentNode;
                  } catch (ClassCastException e) {
-                     // throw new TranslationException("The direct parent of the declassify statement is not a \"return\" statement");
-                     throw e;
+                     // throw e;
+                     CompilationUnit cu = (CompilationUnit) mc.findRootNode();
+                     String cuFileName = cu.getStorage().get().getFileName();
+                     throw new TranslationException("The direct parent of the declassify statement is not a \"return\" statement, in file = "+ cuFileName
+                             +", line number = "+mc.getName().getBegin().get().line);
                  }
              }
         }

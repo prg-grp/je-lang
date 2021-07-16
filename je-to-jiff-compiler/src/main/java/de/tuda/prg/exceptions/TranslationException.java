@@ -7,4 +7,11 @@ public class TranslationException extends RuntimeException {
     public TranslationException(String exceptionMessage) {
         this.exceptionMessage = exceptionMessage;
     }
+
+    @Override
+    public String toString() {
+        return "TranslationException{" +
+                "exceptionMessage='" + exceptionMessage + '\'' +
+                '}';
+    }
 }

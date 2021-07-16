@@ -6,4 +6,11 @@ public class RMICodeAdditionException extends RuntimeException {
     public RMICodeAdditionException(String exceptionMessage) {
         this.exceptionMessage = exceptionMessage;
     }
+
+    @Override
+    public String toString() {
+        return "RMICodeAdditionException{" +
+                "exceptionMessage='" + exceptionMessage + '\'' +
+                '}';
+    }
 }
