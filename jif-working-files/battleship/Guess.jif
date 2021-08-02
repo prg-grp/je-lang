@@ -1,0 +1,26 @@
+package Jifs;
+
+public class Guess[principal Alice] {
+
+    private int{Alice->*; Alice<-_} x;
+
+    private int{Alice->*; Alice<-_} y;
+
+    public Guess(int{} xCord, int{} yCord) {
+        x = xCord;
+        y = yCord;
+    }
+
+    public Guess(int gridSize) {
+        x = 1;
+        y = 2;
+    }
+
+    public int{Alice->*; Alice<-_} getX() {
+        return x;
+    }
+
+    public int{Alice->*; Alice<-_} getY() {
+        return y;
+    }
+}

@@ -21,7 +21,7 @@ public class TaskOrderedList {
 
 
         // taskList.add(new SyntaxCheckTask());            // No. 1
-        // taskList.add(new AutomatedExceptionHandlingTask());   // No. 2
+        taskList.add(new AutomatedExceptionHandlingTask());   // No. 2
         taskList.add(new DeclassifyCheckTask());        // No. 3
         taskList.add(new SecFieldsModificationTask());  // No. 4
         taskList.add(new EnclaveClassXformationTask()); // No. 5

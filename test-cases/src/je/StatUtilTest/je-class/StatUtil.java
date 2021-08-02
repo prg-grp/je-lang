@@ -1,0 +1,33 @@
+package medicalData;
+
+@Enclave
+public class StatUtil {
+
+    @Secret
+    static int key = 5;
+
+    @Gateway
+    public static Record process(Record rec) {
+        Record recE = endorse(rec);
+        Record record = decrypt(rec, key);
+        return declassify(record);
+    }
+
+    public static Record decrypt(Record record, int offset) {
+        char[] cipher = record.getData();
+        int len = cipher.length;
+        char[] result = new char[len];
+        for (int i = 0; i < cipher.length; i++) {
+            char character = cipher[i];
+            if (character != ' ') {
+                int originalAlphabetPosition = character - 'a';
+                int newAlphabetPosition = (originalAlphabetPosition + offset) % 26;
+                char newCharacter = (char) ('a' + newAlphabetPosition);
+                result[i] = newCharacter;
+            } else {
+                result[i] = character;
+            }
+        }
+        return new Record(result);
+    }
+}
