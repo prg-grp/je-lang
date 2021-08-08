@@ -2,10 +2,10 @@ package medicalData;
 
 public class StatUtil {
 
-    @SECRET
+    @Secret
     static int key = 5;
 
-    @GATEWAY
+    @Gateway
     public static Record process(Record rec) {
         Record recE = endorse(rec);
         Record record = decrypt(recE, key);

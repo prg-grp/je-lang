@@ -1,14 +1,14 @@
 package Jifs;
 
-public class Record {
+public class Record[principal P] {
 
-    protected char[] data;
+    protected char{*->*; P<-_}[]{*->*;*<-_} data;
 
-    public Record(char[] medData) {
+    public Record(char{*->*; P<-_}[]{*->*;*<-_} medData) {
         data = medData;
     }
 
-    public char[] getData() {
+    public char{*->*;P<-_}[]{*->*;*<-_} getData() {
         return data;
     }
 }
