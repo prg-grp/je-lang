@@ -2,10 +2,10 @@ package Jifs;
 
 public class StatUtil [principal Alice] authority(Alice) {
 
-    // SECRET
+    // @Secret
     int{Alice->*; Alice<-*} key = 5;
 
-    // GATEWAY
+    // @Gateway with parametrized Record
     public Record[Alice]{Alice->_; Alice<-*} process{Alice<-*}(Record[Alice]{Alice->_;Alice<-_}  rec) where authority(Alice) {
         Record recE = endorse(rec, {} to {Alice->*;Alice<-*});
         Record record = decrypt(recE, key);
@@ -14,8 +14,10 @@ public class StatUtil [principal Alice] authority(Alice) {
     }
 
     public Record[Alice]{Alice->*;Alice<-_} decrypt{Alice<-*}(Record[Alice]{Alice->*;Alice<-*} record, int{Alice->*;Alice<-*} offset) {
+            // <Top->;U>
             char{*->*;Alice<-_}[] cipher;
             {
+                // <Top->;U>
                 char{*->*;Alice<-_}[] x = null;
                 try {
                     x = record.getData();
@@ -32,6 +34,7 @@ public class StatUtil [principal Alice] authority(Alice) {
                 }
                 len = y;
             }
+            // <Top->;U>
             char{*->*;Alice<-_}[] result = new char[len];
             {
                 int in = 0;
@@ -40,6 +43,7 @@ public class StatUtil [principal Alice] authority(Alice) {
                 } catch (NullPointerException e) {
                 }
                 for (int i = 0; i < in; i++) {
+                    // <T;U>
                     char{Alice->*; Alice<-*} character;
                     {
                         char r = ' ';
