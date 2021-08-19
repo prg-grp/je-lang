@@ -1,25 +1,24 @@
 package Jifs;
 
-// @Enclave
+// Enclave
 public class Grid [principal Alice] authority(Alice) {
 
     // SECRET
-    boolean[][]{Alice->*; Alice<-*} gridA;
+    boolean{Alice->*; Alice<-*}[][]{Alice->*; Alice<-*} gridA;
 
-    // @Gateway
-    public boolean{Alice->_; Alice<-*} applyGuessA{Alice<-*}(Guess[Alice]{} guess) where authority(Alice) {
-        Guess guessE = endorse(guess, {} to {Alice<-*});
+    // Gateway
+    public boolean{Alice->_; Alice<-*} applyGuessA{Alice<-*}(GuessP[Alice]{} guess) where authority(Alice) {
+        GuessP[Alice] guessE = endorse(guess, {} to {Alice<-*});
         boolean result = applyA(guessE);
-        boolean resultB = endorse(result, {Alice->*;Alice<-_} to {Alice->*;Alice<-*});
-        return declassify(resultB, {Alice->*;Alice<-*} to {Alice->_;Alice<-*});
+        return declassify(result, {Alice->*; Alice<-*} to {Alice->_; Alice<-*});
     }
 
-    private boolean{Alice->*;Alice<-_} applyA(Guess[Alice]{Alice<-*} guess) {
+    private boolean{Alice->*; Alice<-*} applyA(GuessP[Alice]{Alice<-*} guess) {
         int x;
         {
             int f = 0;
             try {
-                f = guess.getX();
+                f = guess.x;
             } catch (NullPointerException e) {
             }
             x = f;
@@ -28,14 +27,14 @@ public class Grid [principal Alice] authority(Alice) {
         {
             int v = 0;
             try {
-                v = guess.getY();
+                v = guess.y;//endorse(guess.y, {} to {Alice<-*});
             } catch (NullPointerException e) {
             }
             y = v;
         }
         boolean b;
         {
-            boolean{Alice->*;Alice<-_} z = false;
+            boolean z = false;
             try {
                 z = gridA[x][y];
             } catch (NullPointerException e) {

@@ -1,5 +1,6 @@
 package medicalData;
 
+@Enclave
 public class StatUtil {
 
     @Secret

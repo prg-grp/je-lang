@@ -6,49 +6,35 @@ public class StatUtil [principal Alice] authority(Alice) {
     int{Alice->*; Alice<-*} key = 5;
 
     // @Gateway with parametrized Record
-    public Record[Alice]{Alice->_; Alice<-*} process{Alice<-*}(Record[Alice]{Alice->_;Alice<-_}  rec) where authority(Alice) {
-        Record recE = endorse(rec, {} to {Alice->*;Alice<-*});
-        Record record = decrypt(recE, key);
-        Record recResult = endorse(record, {Alice->*;Alice<-_} to {Alice->*;Alice<-*});
-        return declassify(recResult, {Alice->*;Alice<-*} to {Alice->_;Alice<-*});
+    public char{Alice->*; Alice<-*}[]{Alice->_; Alice<-*} process{Alice<-*}(char[]{} rec) where authority(Alice) {
+        char[]{Alice<-*} recE = endorse(rec, {} to {Alice<-*});
+        char[]{Alice->*; Alice<-*} result = decrypt(recE, key);
+        return declassify(result, {Alice->*; Alice<-*} to {Alice->_; Alice<-*});
     }
 
-    public Record[Alice]{Alice->*;Alice<-_} decrypt{Alice<-*}(Record[Alice]{Alice->*;Alice<-*} record, int{Alice->*;Alice<-*} offset) {
-            // <Top->;U>
-            char{*->*;Alice<-_}[] cipher;
-            {
-                // <Top->;U>
-                char{*->*;Alice<-_}[] x = null;
-                try {
-                    x = record.getData();
-                } catch (NullPointerException e) {
-                }
-                cipher = x;
-            }
+    public char[]{Alice->*; Alice<-*} decrypt(char[]{Alice<-*} record, int{Alice->*; Alice<-*} offset) {
             int len;
             {
                 int y = 0;
                 try {
-                    y = cipher.length;
+                    y = record.length;
                 } catch (NullPointerException e) {
                 }
                 len = y;
             }
-            // <Top->;U>
-            char{*->*;Alice<-_}[] result = new char[len];
+            //char[]{Alice->*; Alice<-*} result = new char[len];
             {
                 int in = 0;
                 try {
-                    in = cipher.length;
+                    in = record.length;
                 } catch (NullPointerException e) {
                 }
                 for (int i = 0; i < in; i++) {
-                    // <T;U>
-                    char{Alice->*; Alice<-*} character;
+                    char character;
                     {
                         char r = ' ';
                         try {
-                            r = cipher[i];
+                            r = record[i];
                         } catch (NullPointerException e) {
                         } catch (ArrayIndexOutOfBoundsException e) {
                         }
@@ -59,19 +45,19 @@ public class StatUtil [principal Alice] authority(Alice) {
                         int newAlphabetPosition = (originalAlphabetPosition + offset) % 26;
                         char newCharacter = (char) ('a' + newAlphabetPosition);
                         try {
-                            result[i] = newCharacter;
+                            record[i] = newCharacter;
                         } catch (NullPointerException e) {
                         } catch (ArrayIndexOutOfBoundsException e) {
                         }
                     } else {
                         try {
-                            result[i] = character;
+                            record[i] = character;
                         } catch (NullPointerException e) {
                         } catch (ArrayIndexOutOfBoundsException e) {
                         }
                     }
                 }
             }
-            return new Record[Alice](result);
+            return record;
     }
 }

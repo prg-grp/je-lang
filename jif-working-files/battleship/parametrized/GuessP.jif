@@ -1,0 +1,8 @@
+package Jifs;
+
+public class GuessP [principal P] {
+
+    public int{P<-*} x;
+
+    public int{P<-*} y;
+}
