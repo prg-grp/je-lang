@@ -2,9 +2,9 @@ package Jifs;
 
 public class Record[principal P] {
 
-    protected char{P<-*}[]{P<-*} data;
+    protected char{P->*;P<-*}[]{P->*;P<-*} data;
 
-    public Record(char{P<-*}[]{P<-*} medData) {
+    public Record(char{P->*;P<-*}[]{P->*;P<-*} medData) {
         data = medData;
     }
 

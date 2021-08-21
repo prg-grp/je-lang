@@ -13,9 +13,9 @@ public class StatUtil [principal Alice] authority(Alice) {
     }
 
     public Record[Alice]{Alice->*; Alice<-*} decrypt{Alice<-*}(Record[Alice]{Alice<-*} record, int{Alice->*; Alice<-*} offset) {
-            char{Alice<-*}[]{Alice<-*} cipher;
+            char{Alice->*; Alice<-*}[]{Alice->*; Alice<-*} cipher;
             {
-                char{Alice<-*}[]{Alice<-*}  x = null;
+                char{Alice->*; Alice<-*}[]{Alice->*; Alice<-*} x = null;
                 try {
                     x = record.data;
                 } catch (NullPointerException e) {
@@ -67,6 +67,6 @@ public class StatUtil [principal Alice] authority(Alice) {
                     }
                 }
             }
-            return new Record(result);
+            return new Record[Alice](result);
     }
 }

@@ -7,12 +7,12 @@ public class StatUtil [principal Alice] authority(Alice) {
 
     // @Gateway with parametrized Record
     public char[]{Alice->_; Alice<-*} process{Alice<-*}(char[]{} rec) where authority(Alice) {
-        char[]{Alice<-*} recE = endorse(rec, {} to {Alice->*; Alice<-*});
-        char[]{Alice->*; Alice<-*} result = decrypt(recE, key);
+        char[]{Alice<-*} recE = endorse(rec, {} to {Alice<-*});
+        char[] result = decrypt(recE, key);
         return declassify(result, {Alice->*; Alice<-*} to {Alice->_; Alice<-*});
     }
 
-    public char{Alice->*; Alice<-*}[] decrypt(char[]{Alice<-*} record, int{Alice->*; Alice<-*} offset) {
+    public char{Alice<-*}[]{Alice->*; Alice<-*} decrypt(char[]{Alice<-*} record, int{Alice->*; Alice<-*} offset) {
             int len;
             {
                 int y = 0;
@@ -27,6 +27,7 @@ public class StatUtil [principal Alice] authority(Alice) {
                 in = record.length;
             } catch (NullPointerException e) {
             }
+            char[]{Alice->*} result = new char[in];
             for (int i = 0; i < in; i++) {
                 char character;
                 {
@@ -43,18 +44,18 @@ public class StatUtil [principal Alice] authority(Alice) {
                     int newAlphabetPosition = (originalAlphabetPosition + offset) % 26;
                     char newCharacter = (char) ('a' + newAlphabetPosition);
                     try {
-                        record[i] = newCharacter;
+                        result[i] = newCharacter;
                     } catch (NullPointerException e) {
                     } catch (ArrayIndexOutOfBoundsException e) {
                     }
                 } else {
                     try {
-                        record[i] = character;
+                        result[i] = character;
                     } catch (NullPointerException e) {
                     } catch (ArrayIndexOutOfBoundsException e) {
                     }
                 }
             }
-            return record;
+            return result;
     }
 }
