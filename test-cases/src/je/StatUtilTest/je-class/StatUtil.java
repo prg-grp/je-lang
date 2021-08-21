@@ -14,18 +14,58 @@ public class StatUtil {
     }
 
     public static Record decrypt(Record record, int offset) {
-        char[] cipher = record.getData();
-        int len = cipher.length;
+        char[] cipher;
+        {
+            char[] z = null;
+            try {
+                z = record.getData();
+            } catch (NullPointerException e) {
+            }
+            cipher = z;
+        }
+        int len;
+        {
+            int o = 0;
+            try {
+                o = cipher.length;
+            } catch (NullPointerException e) {
+            }
+            len = o;
+        }
         char[] result = new char[len];
-        for (int i = 0; i < cipher.length; i++) {
-            char character = cipher[i];
-            if (character != ' ') {
-                int originalAlphabetPosition = character - 'a';
-                int newAlphabetPosition = (originalAlphabetPosition + offset) % 26;
-                char newCharacter = (char) ('a' + newAlphabetPosition);
-                result[i] = newCharacter;
-            } else {
-                result[i] = character;
+        {
+            int sq = 0;
+            try {
+                sq = cipher.length;
+            } catch (NullPointerException e) {
+            }
+            for (int i = 0; i < sq; i++) {
+                char character;
+                {
+                    char n = ' ';
+                    try {
+                        n = cipher[i];
+                    } catch (NullPointerException e) {
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                    }
+                    character = n;
+                }
+                if (character != ' ') {
+                    int originalAlphabetPosition = character - 'a';
+                    int newAlphabetPosition = (originalAlphabetPosition + offset) % 26;
+                    char newCharacter = (char) ('a' + newAlphabetPosition);
+                    try {
+                        result[i] = newCharacter;
+                    } catch (NullPointerException e) {
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                    }
+                } else {
+                    try {
+                        result[i] = character;
+                    } catch (NullPointerException e) {
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                    }
+                }
             }
         }
         return new Record(result);
