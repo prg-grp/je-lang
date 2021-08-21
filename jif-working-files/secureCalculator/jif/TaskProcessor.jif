@@ -1,0 +1,23 @@
+package SecureCalculator;
+
+import jif.util.List;
+
+// @Enclave
+public class TaskProcessor {
+
+    // @Secret
+    static Double salary = 11.7;
+
+    // @Gateway
+    public static Double process(List taskList) {
+        // endorse(taskList)
+        List taskListE = taskList;
+        Double result = salary;
+        for (int i = 0; i < taskListE.size(); i++) {
+            Object task = taskListE.get(i);
+            result = ((Task)task).run(result);
+        }
+        // declassify(result)
+        return result;
+    }
+}
