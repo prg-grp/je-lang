@@ -1,0 +1,48 @@
+package Jifs;
+
+public class StatUtil [principal Alice] authority(Alice) {
+
+    // @Secret
+    private int{Alice->*; Alice<-*} key = 5;
+
+    // @Gateway
+    public String{Alice->_; Alice<-*} process{Alice<-*}(String{} rec) where authority(Alice) {
+        String{Alice<-*} recE = endorse(rec, {} to {Alice<-*});
+        String{Alice->*; Alice<-*} result = decrypt(recE, key);
+        return declassify(result, {Alice->*; Alice<-*} to {Alice->_; Alice<-*});
+    }
+
+    public String{Alice->*; Alice<-*} decrypt(String{Alice<-*} record, int{Alice->*; Alice<-*} offset) {
+            int len;
+            {
+                int y = 0;
+                try {
+                    y = record.length();
+                } catch (NullPointerException e) {
+                }
+                len = y;
+            }
+            String{Alice->*; Alice<-*} result = "";
+            for (int i = 0; i < len; i++) {
+                char character;
+                {
+                    char r = ' ';
+                    try {
+                        r = record.charAt(i);
+                    } catch (NullPointerException e) {
+                    } catch (StringIndexOutOfBoundsException e) {
+                    }
+                    character = r;
+                }
+                if (character != ' ') {
+                    int originalAlphabetPosition = character - 'a';
+                    int newAlphabetPosition = (originalAlphabetPosition + offset) % 26;
+                    char newCharacter = (char) ('a' + newAlphabetPosition);
+                    result += newCharacter;
+                } else {
+                    result += character;
+                }
+            }
+            return result;
+    }
+}
