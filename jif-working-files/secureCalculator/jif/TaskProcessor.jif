@@ -2,22 +2,39 @@ package SecureCalculator;
 
 import jif.util.List;
 
-// @Enclave
-public class TaskProcessor {
+public final class TaskProcessor [principal Alice] authority (Alice) {
 
-    // @Secret
-    static Double salary = 11.7;
+    Double{Alice->*; Alice<-*} salary = 11.7;
 
-    // @Gateway
-    public static Double process(List taskList) {
-        // endorse(taskList)
-        List taskListE = taskList;
+    public Double{Alice->_; Alice<-*} process{Alice<-*}(List{} taskList) where authority(Alice) {
+        List taskListE = endorse(taskList, {} to {Alice<-*});
         Double result = salary;
-        for (int i = 0; i < taskListE.size(); i++) {
-            Object task = taskListE.get(i);
-            result = ((Task)task).run(result);
+        {
+            int q = 0;
+            try {
+                q = taskListE.size();
+            } catch (NullPointerException e) {
+            }
+            for (int i = 0; i < q; i++) {
+                Object task;
+                {
+                    Object j = null;
+                    try {
+                        j = taskListE.get(i);
+                    } catch (NullPointerException e) {
+                    }
+                    task = j;
+                }
+                {
+                    Double c = null;
+                    try {
+                        c = ((Task) task).run(result);
+                    } catch (NullPointerException e) {
+                    }
+                    result += c;
+                }
+            }
         }
-        // declassify(result)
-        return result;
+        return declassify(result, {Alice->*; Alice<-*} to {Alice->_; Alice<-*});
     }
 }

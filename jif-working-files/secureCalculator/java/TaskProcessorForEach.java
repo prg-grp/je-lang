@@ -12,8 +12,7 @@ public class TaskProcessor {
     public static Double process(List<Task> taskList) {
         List<Task> taskListE = endorse(taskList);
         Double result = salary;
-        for (int i=0; i<taskListE.size(); i++) {
-            Task task = taskListE.get(i);
+        for (Task task : taskListE) {
             result += task.run(result);
         }
         return declassify(result);

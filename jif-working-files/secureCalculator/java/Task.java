@@ -1,8 +1,9 @@
 package SecureCalculator;
 
+@Enclave
 public class Task {
 
     public Double run(Double input) {
-        return input * 0.19;
+        return input;
     }
 }
