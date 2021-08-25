@@ -6,13 +6,13 @@ public class StatUtil_String [principal Alice] authority(Alice) {
     private int{Alice->*; Alice<-*} key = 5;
 
     // @Gateway
-    public Record_String{Alice->_; Alice<-*} process{Alice<-*}(Record_String{} rec) where authority(Alice) {
+    public Record_String[Alice]{Alice->_; Alice<-*} process{Alice<-*}(Record_String[Alice]{} rec) where authority(Alice) {
         Record_String recE = endorse(rec, {} to {Alice<-*});
         Record_String result = decrypt(recE, key);
         return declassify(result, {Alice->*; Alice<-*} to {Alice->_; Alice<-*});
     }
 
-    public Record_String{Alice->*; Alice<-*} decrypt{Alice<-*}(Record_String{Alice<-*} record, int{Alice->*; Alice<-*} offset) {
+    public Record_String[Alice]{Alice->*; Alice<-*} decrypt{Alice<-*}(Record_String[Alice]{Alice<-*} record, int{Alice->*; Alice<-*} offset) {
 
             String cipher;
             {
@@ -53,6 +53,6 @@ public class StatUtil_String [principal Alice] authority(Alice) {
                     result += character;
                 }
             }
-            return new Record_String(result);
+            return new Record_String[Alice](result);
     }
 }

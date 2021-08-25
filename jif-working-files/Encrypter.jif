@@ -8,7 +8,7 @@ final class SGXClass [principal Alice] authority(Alice) {
 
 		String{_->_; Alice<-*} plaintextE = endorse(plaintext, {} to {_->_; Alice<-*});
 
-		String {Alice->*; Alice<-*} result = plaintextE+key;
+		String result = plaintextE+key;
 
 		String {Alice->_; Alice<-*} result1 = declassify(result, {Alice->*; Alice<-*} to {Alice->_; Alice<-*});
 

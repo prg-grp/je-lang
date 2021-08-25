@@ -12,7 +12,65 @@ public class StatUtil [principal Alice] authority(Alice) {
         return declassify(result, {Alice->*; Alice<-*} to {Alice->_; Alice<-*});
     }
 
-    public Record[Alice]{Alice->*; Alice<-*} decrypt{Alice<-*}(Record[Alice]{Alice<-*} record, int{Alice->*; Alice<-*} offset) {
+    public Record[Alice] decrypt(Record[Alice] record, int offset) {
+            char[] cipher;
+            {
+                char[] x = null;
+                try {
+                    x = record.data;
+                } catch (NullPointerException e) {
+                }
+                cipher = x;
+            }
+            int len;
+            {
+                int y = 0;
+                try {
+                    y = cipher.length;
+                } catch (NullPointerException e) {
+                }
+                len = y;
+            }
+            char[] result = new char[len];
+            {
+                int in = 0;
+                try {
+                    in = cipher.length;
+                } catch (NullPointerException e) {
+                }
+                for (int i = 0; i < in; i++) {
+                    char character;
+                    {
+                        char r = ' ';
+                        try {
+                            r = cipher[i];
+                        } catch (NullPointerException e) {
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                        }
+                        character = r;
+                    }
+                    if (character != ' ') {
+                        int originalAlphabetPosition = character - 'a';
+                        int newAlphabetPosition = (originalAlphabetPosition + offset) % 26;
+                        char newCharacter = (char) ('a' + newAlphabetPosition);
+                        try {
+                            result[i] = newCharacter;
+                        } catch (NullPointerException e) {
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                        }
+                    } else {
+                        try {
+                            result[i] = character;
+                        } catch (NullPointerException e) {
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                        }
+                    }
+                }
+            }
+            return new Record[Alice](result);
+    }
+
+    /*public Record[Alice]{Alice->*; Alice<-*} decrypt{Alice<-*}(Record[Alice]{Alice<-*} record, int{Alice->*; Alice<-*} offset) {
             char{Alice->*; Alice<-*}[]{Alice->*; Alice<-*} cipher;
             {
                 char{Alice->*; Alice<-*}[]{Alice->*; Alice<-*} x = null;
@@ -68,5 +126,5 @@ public class StatUtil [principal Alice] authority(Alice) {
                 }
             }
             return new Record[Alice](result);
-    }
+    }*/
 }

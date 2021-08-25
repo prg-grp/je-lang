@@ -7,13 +7,13 @@ public class Grid [principal Alice] authority(Alice) {
     boolean{Alice->*; Alice<-*}[][]{Alice->*; Alice<-*} gridA;
 
     // Gateway
-    public boolean{Alice->_; Alice<-*} applyGuessA{Alice<-*}(GuessP[Alice]{} guess) where authority(Alice) {
-        GuessP[Alice] guessE = endorse(guess, {} to {Alice<-*});
+    public boolean{Alice->_; Alice<-*} applyGuessA{Alice<-*}(GuessP{} guess) where authority(Alice) {
+        GuessP guessE = endorse(guess, {} to {Alice<-*});
         boolean result = applyA(guessE);
         return declassify(result, {Alice->*; Alice<-*} to {Alice->_; Alice<-*});
     }
 
-    private boolean{Alice->*; Alice<-*} applyA(GuessP[Alice]{Alice<-*} guess) {
+    private boolean{Alice->*; Alice<-*} applyA(GuessP{Alice<-*} guess) {
         int x;
         {
             int f = 0;

@@ -1,0 +1,11 @@
+package Jifs;
+
+public class Record_String {
+
+    protected String data;
+
+    public Record_String(String medData) {
+        data = medData;
+    }
+
+}
