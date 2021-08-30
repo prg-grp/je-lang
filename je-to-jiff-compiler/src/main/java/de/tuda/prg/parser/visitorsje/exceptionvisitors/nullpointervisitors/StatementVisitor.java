@@ -2,6 +2,7 @@ package de.tuda.prg.parser.visitorsje.exceptionvisitors.nullpointervisitors;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.*;
@@ -21,6 +22,7 @@ public class StatementVisitor extends VoidVisitorAdapter<Object> { // MyVisitor 
     private List<NameExpr> names;
     private List<Expression> toReplace;
     private HashMap<NameExpr, Type> types;
+    private HashMap<MethodDeclaration, Type> returnTypes;
 
     /**
      * Start Visiting calls visit on the received root node and puts and declares the Lists for the Nodes
@@ -30,6 +32,7 @@ public class StatementVisitor extends VoidVisitorAdapter<Object> { // MyVisitor 
      */
     public void startVisiting(CompilationUnit n, Object arg) {
         types = new HashMap<>();
+        returnTypes = new HashMap<>();
         NameExpressionVisitor nameExpressionVisitor = new NameExpressionVisitor();
         usedNames = nameExpressionVisitor.startVisiting(n, arg);
         visit(n, arg);
@@ -204,6 +207,12 @@ public class StatementVisitor extends VoidVisitorAdapter<Object> { // MyVisitor 
     }
 
 
+    @Override
+    public void visit(MethodDeclaration n, Object arg) {
+        returnTypes.put(n, n.getType());
+        super.visit(n, arg);
+    }
+    
     /**
      *
      * @param n
@@ -224,7 +233,7 @@ public class StatementVisitor extends VoidVisitorAdapter<Object> { // MyVisitor 
                             NameExpr var = VisitorHelper.getNameExpr(toReplace.get(0));
                             Type t = types.get(var);
                             if (t==null) {
-                                t = new PrimitiveType();
+                                t = PrimitiveType.booleanType();
                             }
 
                             VariableDeclarationExpr vdExp = new VariableDeclarationExpr();
