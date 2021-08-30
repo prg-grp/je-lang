@@ -8,28 +8,15 @@ public class Grid {
 
     @Gateway
     public static int applyGuessA(Guess guess) {
-        uess guessE = endorse(guess);
+        Guess guessE = endorse(guess);
         int result = applyA(guessE);
         return declassify(result);;
     }
 
     private static boolean applyA(Guess guess) {
-            int x = guess.getX();
-            int y = guess.getY();
+            int x = guess.x;
+            int y = guess.y;
             boolean b = gridA[x][y];
             return b;
-    }
-
-    public static void init(int gridSize, int numberShips) {
-        int count = 0;
-        gridA = new boolean[gridSize][gridSize];
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < gridSize; j++) {
-                if (i == 0 && count < numberShips) {
-                    gridA[i][j] = true;
-                    count = count + 1;
-                }
-            }
-        }
     }
 }

@@ -17,6 +17,7 @@ import de.tuda.prg.filehandling.FileUtils;
 import de.tuda.prg.parser.visitorsje.genericvisitors.GenericVisitor;
 import de.tuda.prg.parser.visitorsje.genericvisitors.NameVisitor;
 import de.tuda.prg.parser.visitorsje.genericvisitors.VariableVisitor;
+import de.tuda.prg.parser.ParserHelper;
 
 /* Handles the exceptions statically as required by JIF. */
 public class AutomatedGenericHandling implements CodeXformationTask {
@@ -33,38 +34,42 @@ public class AutomatedGenericHandling implements CodeXformationTask {
                     String currentFileBaseName = FilenameUtils.removeExtension(currentFileName);
                     if (FilenameUtils.getExtension(file.getPath()).equals("java")) {  //Change this later
                         CompilationUnit cu = StaticJavaParser.parse(file);
+                        if (ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) {
 
-                        String beforeVisitClassString = cu.toString();
+                            String beforeVisitClassString = cu.toString();
 
-                        GenericVisitor genericVisitor = new GenericVisitor();
-                        List<String> generics = genericVisitor.startVisiting(cu, null);
+                            GenericVisitor genericVisitor = new GenericVisitor();
+                            List<String> generics = genericVisitor.startVisiting(cu, null);
 
-                        VariableVisitor variableVisitor = new VariableVisitor();
-                        Map<String, String> map = variableVisitor.startVisiting(cu, generics);
+                            VariableVisitor variableVisitor = new VariableVisitor();
+                            Map<String, String> map = variableVisitor.startVisiting(cu, generics);
 
-                        String out = cu.toString();
-                        out = out.replaceAll("<>", "");
-                        for (String generic : generics) {
-                            out = out.replaceAll(generic+" ", "Object ");
+                            String out = cu.toString();
+                            out = out.replaceAll("<>", "");
+                            for (String generic : generics) {
+                                out = out.replaceAll(generic+" ", "Object ");
+                            }
+                            cu = StaticJavaParser.parse(out);
+                            out = cu.toString();
+
+                            for(String key : map.keySet()) {
+                                String val = map.get(key);
+                                String regex = key+"\\.";
+                                String rep = "\\(\\("+val+"\\)"+key+"\\)\\.";
+                                out = out.replaceAll(regex, rep);
+                            }
+
+                            cu = StaticJavaParser.parse(out);
+                            //NameVisitor nameVisitor = new NameVisitor();
+                            //nameVisitor.startVisiting(cu, map);
+
+                            String afterVisitClassString = cu.toString(); // Class after adding Exceptions
+
+                            FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX + currentFileBaseName + "_beforeGenericHandling.java", beforeVisitClassString);
+                            FileUtils.writeStringToFile(PathValues.JE_FOLDER_PATH + "/" + file.getName(), afterVisitClassString);
+                        } else {
+                            System.out.println("Not an enclave class");
                         }
-                        cu = StaticJavaParser.parse(out);
-                        out = cu.toString();
-
-                        for(String key : map.keySet()) {
-                            String val = map.get(key);
-                            String regex = key+"\\.";
-                            String rep = "\\(\\("+val+"\\)"+key+"\\)\\.";
-                            out = out.replaceAll(regex, rep);
-                        }
-
-                        cu = StaticJavaParser.parse(out);
-                        //NameVisitor nameVisitor = new NameVisitor();
-                        //nameVisitor.startVisiting(cu, map);
-
-                        String afterVisitClassString = cu.toString(); // Class after adding Exceptions
-
-                        FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX + currentFileBaseName + "_beforeGenericHandling.java", beforeVisitClassString);
-                        FileUtils.writeStringToFile(PathValues.JE_FOLDER_PATH + "/" + file.getName(), afterVisitClassString);
                     }
                 }
             }

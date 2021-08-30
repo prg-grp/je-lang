@@ -14,6 +14,7 @@ import de.tuda.prg.constants.PathValues;
 import de.tuda.prg.exceptions.FileIOException;
 import de.tuda.prg.filehandling.FileUtils;
 import de.tuda.prg.parser.visitorsje.exceptionvisitors.nullpointervisitors.BlockStatementVisitor;
+import de.tuda.prg.parser.ParserHelper;
 
 /* Handles the exceptions statically as required by JIF. */
 public class AutomatedExceptionHandlingTask implements CodeXformationTask {
@@ -31,15 +32,20 @@ public class AutomatedExceptionHandlingTask implements CodeXformationTask {
                     if (FilenameUtils.getExtension(file.getPath()).equals("java")) {  //Change this later
                         final CompilationUnit cu = StaticJavaParser.parse(file);
 
-                        String beforeVisitClassString = cu.toString();
+                        if (ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) {
 
-                        BlockStatementVisitor visitor = new BlockStatementVisitor(); // Visitor which visits the nodes
-                        visitor.startVisiting(cu, null); // Start visiting nodes and receive resulting Hashmap
-                        
-                        String afterVisitClassString = cu.toString(); // Class after adding Exceptions
+                            String beforeVisitClassString = cu.toString();
 
-                        FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX + currentFileBaseName + "_beforeExHandling.java", beforeVisitClassString);
-                        FileUtils.writeStringToFile(PathValues.JE_FOLDER_PATH + "/" + file.getName(), afterVisitClassString);
+                            BlockStatementVisitor visitor = new BlockStatementVisitor(); // Visitor which visits the nodes
+                            visitor.startVisiting(cu, null); // Start visiting nodes and receive resulting Hashmap
+                            
+                            String afterVisitClassString = cu.toString(); // Class after adding Exceptions
+
+                            FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX + currentFileBaseName + "_beforeExHandling.java", beforeVisitClassString);
+                            FileUtils.writeStringToFile(PathValues.JE_FOLDER_PATH + "/" + file.getName(), afterVisitClassString);
+                        } else {
+                            System.out.println("Not an enclave class");
+                        }
                     }
                 }
             }
