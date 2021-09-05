@@ -10,7 +10,7 @@ public class Grid {
     public static int applyGuessA(Guess guess) {
         Guess guessE = endorse(guess);
         int result = applyA(guessE);
-        return declassify(result);;
+        return declassify(result);
     }
 
     private static boolean applyA(Guess guess) {
