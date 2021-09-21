@@ -22,6 +22,9 @@ public class Codes {
 	private static final String secFieldTypeArray = "[]{"+principalName+"->*; "+principalName+"<-*"+"}";
 	public static final String secFieldTypeCodeArray = "CODESECFIELDTYPEARRAY";
 
+	private static final String secFieldTypeMatrix = "[][]{"+principalName+"->*; "+principalName+"<-*"+"}";
+	public static final String secFieldTypeCodeMatrix = "CODESECFIELDTYPEMATRIX";
+
 	// ---------------------- Gateway methods related ----------------------------------------------
 	private static final String gwReturnType = "{"+principalName+"->_; "+principalName+"<-*"+"}";
 	public static final String gwReturnTypeCode = "CODEGWRETURNTYPE";
@@ -57,6 +60,7 @@ public class Codes {
 
 		strReplacement.put(secFieldTypeCodeRegular, secFieldTypeRegular);
 		strReplacement.put(secFieldTypeCodeArray, secFieldTypeArray);
+		strReplacement.put(secFieldTypeCodeMatrix, secFieldTypeMatrix);
 
 		strReplacement.put(gwReturnTypeCode, gwReturnType);
 		strReplacement.put(gwMethodBeginLabelCode, gwMethodBeginLabel);

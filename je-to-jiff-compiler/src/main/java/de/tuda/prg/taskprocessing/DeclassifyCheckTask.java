@@ -31,10 +31,8 @@ public class DeclassifyCheckTask implements CodeXformationTask {
                     System.out.println("Currently processing : " + currentFileName);
                     String currentFileBaseName = FilenameUtils.removeExtension(currentFileName);
                     if (FilenameUtils.getExtension(file.getPath()).equals("java")) {  //Change this later
-
                         // final CompilationUnit cu = StaticJavaParser.parse(new File(file));
                         final CompilationUnit cu = StaticJavaParser.parse(file);
-
                         if (ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) {
                             VoidVisitor<?> declassifyReturnMcVisitor = new DeclassifyReturnScopeCheckerVisitorJe();
                             declassifyReturnMcVisitor.visit(cu, null);

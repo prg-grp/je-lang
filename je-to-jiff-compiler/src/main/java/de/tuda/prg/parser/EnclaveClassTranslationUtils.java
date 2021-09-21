@@ -13,24 +13,36 @@ public class EnclaveClassTranslationUtils {
     public static void translateEnclaveClass(final CompilationUnit cu) {
 
             // Step1: Visiting class declaration inside the cu
+            System.out.println("--------- class before visiting -----------------------");
             VoidVisitor<HashSet<String>> classDeclarationVisitor = new ClassDeclarationVisitorJe();
             HashSet<String> enclaveClassNames = new HashSet<String>();
             classDeclarationVisitor.visit(cu,enclaveClassNames);
-            // System.out.println(enclaveClassNames);
-            // System.out.println("--------- class after visiting -----------------------");
+            System.out.println(enclaveClassNames);
+            System.out.println(cu.toString());
+            System.out.println("--------- class after visiting -----------------------");
 
             // Step2: Visiting methods inside the cu
+            System.out.println("--------- gw methods before visiting -----------------------");
             final HashSet<String> gwMethodNames = new HashSet<String>();
             VoidVisitor<HashSet<String>> methodNameVisitor = new GatewayMethodDefinitionTransformerVisitorJe();
             methodNameVisitor.visit(cu, gwMethodNames);
+            System.out.println(gwMethodNames);
+            System.out.println(cu.toString());
+            System.out.println("--------- gw methods after visiting -----------------------");
 
             // Step3: Visiting declassify and endorse operators
+            System.out.println("--------- before visiting methodCalls -----------------------");
             VoidVisitor<?> methodCallVisitor = new MethodCallVisitorJe();
             methodCallVisitor.visit(cu, null);
+            System.out.println(cu.toString());
+            System.out.println("--------- after visiting methodCalls -----------------------");
 
             // Step4: Visiting fields inside the cu (e.g. secret fields)
+            System.out.println("--------- before visiting fields -----------------------");
             VoidVisitor<?> variableDeclarationVisitor = new ClassFieldDeclarationVisitorJe();
             variableDeclarationVisitor.visit(cu, null);
+            System.out.println(cu.toString());
+            System.out.println("--------- after visiting fields -----------------------");
     }
 
     public static void addCommCodeToEnclaveClasses(final CompilationUnit cu, final Set<String> enclaveClassesToExposeNames) {

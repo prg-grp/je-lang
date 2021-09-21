@@ -18,7 +18,7 @@ public class EnclaveClassXformationTask implements  CodeXformationTask {
     // First try block, translation of Enclave classes to Jif
     @Override
     public void run(File jeSrcDir, GlobalTaskData interTaskData) {
-
+        System.out.println("Task processing started : Task name: EnclaveClassXformationTask.");
         try {
             File[] directoryListing = jeSrcDir.listFiles();
             if (directoryListing != null) {
@@ -34,24 +34,28 @@ public class EnclaveClassXformationTask implements  CodeXformationTask {
                         if (ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) {
 
                             //Extracting the names of the Gateway methods inside the Enclave Class.
-                            ParserHelper.populateAllGatewayMethodsInCu(cu.clone(), interTaskData.gatewayMethodDeclarations);
+                            System.out.println("Before populate");
+                            ParserHelper.populateAllGatewayMethodsInCu(cu, interTaskData.gatewayMethodDeclarations);
+                            System.out.println("After populate");
 
+                            System.out.println("Before translation");
                             EnclaveClassTranslationUtils.translateEnclaveClass(cu);
+                            System.out.println("After translation");
 
                             String afterVisitClassString = cu.toString();
-                            // System.out.println(afterVisitClassString);
+                            System.out.println(afterVisitClassString);
 
-                            //System.out.println("--------------------------------");
+                            System.out.println("--------------------------------");
 
-                            // System.out.println("---------------- Now replacing the added codes ----------------");
+                            System.out.println("---------------- Now replacing the added codes ----------------");
                             String jifCodeAddedString = afterVisitClassString;
 
                             for (String key : Codes.strReplacement.keySet()) {
                                 jifCodeAddedString = jifCodeAddedString.replace(key, Codes.strReplacement.get(key));
                             }
 
-                            // System.out.println("----------------------------------Printing the files with Jif labels --------------------------------");
-                            // System.out.println(jifCodeAddedString);
+                            System.out.println("----------------------------------Printing the files with Jif labels --------------------------------");
+                            System.out.println(jifCodeAddedString);
                             // Writing generated jif code to the file
                             FileUtils.writeStringToFile(PathValues.GENERATED_JIF_FOLDER_PREFIX + currentFileBaseName + ".jif", jifCodeAddedString);
                         } else {

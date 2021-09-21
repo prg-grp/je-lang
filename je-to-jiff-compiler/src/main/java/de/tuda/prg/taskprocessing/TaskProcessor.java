@@ -24,6 +24,7 @@ public class TaskProcessor {
         final GlobalTaskData taskData = new GlobalTaskData();
         for (CodeXformationTask task: taskList) {
             task.run(jeSrcDir, taskData);
+            System.out.println("---------NEXT TASK STARTED---------");
         }
     }
 

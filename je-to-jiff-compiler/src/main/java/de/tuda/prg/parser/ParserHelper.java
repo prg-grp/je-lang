@@ -82,7 +82,9 @@ public class ParserHelper {
     public static String getStringForSecType(String javaTypeString) {
         String trimmedString = javaTypeString.trim();
         String str;
-        if (trimmedString.endsWith("[]")) {
+        if (trimmedString.endsWith("[][]")) {
+            str = trimmedString.substring(0, trimmedString.length() - 4)+ Codes.secFieldTypeCodeMatrix;
+        } else if (trimmedString.endsWith("[]")) {
             str = trimmedString.substring(0, trimmedString.length() - 2)+ Codes.secFieldTypeCodeArray;
         } else {
             str = javaTypeString+Codes.secFieldTypeCodeRegular;

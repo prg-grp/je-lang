@@ -8,6 +8,6 @@ public class SecFieldsModificationTask implements CodeXformationTask {
 
     @Override
     public void run(File jeSrcDir, GlobalTaskData data) {
-
+        System.out.println("Task processing started : Task name: SecFieldsModificationTask.");
     }
 }
