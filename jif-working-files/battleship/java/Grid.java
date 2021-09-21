@@ -14,9 +14,9 @@ public class Grid {
     }
 
     private static boolean applyA(Guess guess) {
-            int x = guess.x;
-            int y = guess.y;
-            boolean b = gridA[x][y];
-            return b;
+        int x = guess.x;
+        int y = guess.y;
+        boolean b = gridA[x][y];
+        return b;
     }
 }

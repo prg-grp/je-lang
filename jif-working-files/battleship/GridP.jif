@@ -1,7 +1,7 @@
 package Jifs;
 
 // Enclave
-public class Grid [principal Alice] authority(Alice) {
+public final class Grid [principal Alice] authority(Alice) {
 
     // SECRET
     boolean{Alice->*; Alice<-*}[][]{Alice->*; Alice<-*} gridA;
@@ -27,7 +27,7 @@ public class Grid [principal Alice] authority(Alice) {
         {
             int v = 0;
             try {
-                v = guess.y;//endorse(guess.y, {} to {Alice<-*});
+                v = guess.y;
             } catch (NullPointerException e) {
             }
             y = v;
