@@ -1,15 +1,15 @@
 package de.tuda.prg.parser.visitorsje;
 
+import java.util.Optional;
+
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
-import de.tuda.prg.constants.Codes;
-import de.tuda.prg.constants.FileNames;
 import de.tuda.prg.exceptions.TranslationException;
 
-import java.util.Optional;
+import de.tuda.prg.constants.Codes;
 
 public class DeclassifyReturnScopeCheckerVisitorJe extends VoidVisitorAdapter<Void> {
     @Override

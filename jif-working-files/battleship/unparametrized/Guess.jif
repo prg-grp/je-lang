@@ -1,0 +1,8 @@
+package Jifs;
+
+public class Guess {
+
+    protected int x;
+
+    protected int y;
+}

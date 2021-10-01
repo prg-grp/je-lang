@@ -10,20 +10,27 @@ public class Codes {
 
 
 	public static final String principalName = "Alice";
+	public static final String parameterPrincipalName = "P";
 	
 	// ---------------------- ClassName extension --------------------------------------------------------------------
 	private static final String classNameExtension = " [principal "+principalName+"] authority ("+principalName+")";
 	public static final String classExtensionCode = "CODECLSEXT";
-	
+
+	private static final String classNameExtensionParametrized = " [principal "+parameterPrincipalName+"]";
+	public static final String classExtensionCodeParametrized = "CODECLSPEXT";
+
 	// ---------------------- Secret fields ---------------------------------------------------------
 	private static final String secFieldTypeRegular = "{"+principalName+"->*; "+principalName+"<-*"+"}";
 	public static final String secFieldTypeCodeRegular = "CODESECFIELDTYPEREGULAR";
 
-	private static final String secFieldTypeArray = "[]{"+principalName+"->*; "+principalName+"<-*"+"}";
+	private static final String secFieldTypeParametrizedClass = "{"+parameterPrincipalName+"->*; "+parameterPrincipalName+"<-*"+"}";
+	public static final String secFieldTypeCodeParametrizedClass = "CODESECFIELDTYPEPARAMETRIZEDCLASS";
+
+	private static final String secFieldTypeArray = "{"+principalName+"->*; "+principalName+"<-*"+"}[]{"+principalName+"->*; "+principalName+"<-*"+"}";
 	public static final String secFieldTypeCodeArray = "CODESECFIELDTYPEARRAY";
 
-	private static final String secFieldTypeMatrix = "[][]{"+principalName+"->*; "+principalName+"<-*"+"}";
-	public static final String secFieldTypeCodeMatrix = "CODESECFIELDTYPEMATRIX";
+	private static final String secFieldTypeArray2D = "{"+principalName+"->*; "+principalName+"<-*"+"}[][]{"+principalName+"->*; "+principalName+"<-*"+"}";
+	public static final String secFieldTypeCodeArray2D = "CODESECFIELDTYPEMATRIX";
 
 	// ---------------------- Gateway methods related ----------------------------------------------
 	private static final String gwReturnType = "{"+principalName+"->_; "+principalName+"<-*"+"}";
@@ -41,6 +48,22 @@ public class Codes {
 	private static final String gwMethodParamTypeLabel = "{}";
 	public static final String gwMethodParamTypeLabelCode = "CODEGWMETHODPARAMTYPELABEL";
 
+	private static final String gwMethodParamTypeLabelParametrized = "[Alice]{}";
+	public static final String gwMethodParamTypeLabelParametrizedCode = "CODEGWMETHODPARAMTYPEPARAMETRIZEDLABEL";
+
+	// ---------------------- Encapsulated methods related --------------------------------------------
+	private static final String infReturnType = "{"+principalName+"->*; "+principalName+"<-*"+"}";
+	public static final String infReturnTypeCode = "CODEINFRETURNTYPELABEL";
+
+	private static final String infReturnTypeParametrized = "[Alice]{"+principalName+"->*; "+principalName+"<-*"+"}";
+	public static final String infReturnTypeParametrizedCode = "CODEINFRETURNTYPEPARAMETRIZEDLABEL";
+
+	private static final String infMethodParamTypeLabel = "{"+principalName+"<-*"+"}";
+	public static final String infMethodParamTypeLabelCode = "CODEINFMETHODPARAMTYPELABEL";
+
+	private static final String infMethodParamTypeLabelParametrized = "[Alice]{"+principalName+"<-*"+"}";
+	public static final String infMethodParamTypeLabelParametrizedCode = "CODEINFMETHODPARAMTYPEPARAMETRIZEDLABEL";
+
 	// ---------------------- Endorse operator call --------------------------------------------
 	private static  final String endorseToLabel = "{}"+" to "+"{"+principalName+"<-*"+"}";
 	public static final String endorseToLabelCode = "CODEENDORSETOLABEL";
@@ -57,18 +80,28 @@ public class Codes {
 	static {
 		strReplacement = new HashMap<>();
 		strReplacement.put(classExtensionCode, classNameExtension);
+		strReplacement.put(classExtensionCodeParametrized, classNameExtensionParametrized);
 
 		strReplacement.put(secFieldTypeCodeRegular, secFieldTypeRegular);
+		strReplacement.put(secFieldTypeCodeParametrizedClass, secFieldTypeParametrizedClass);
 		strReplacement.put(secFieldTypeCodeArray, secFieldTypeArray);
-		strReplacement.put(secFieldTypeCodeMatrix, secFieldTypeMatrix);
+		strReplacement.put(secFieldTypeCodeArray2D, secFieldTypeArray2D);
 
 		strReplacement.put(gwReturnTypeCode, gwReturnType);
 		strReplacement.put(gwMethodBeginLabelCode, gwMethodBeginLabel);
 
 		strReplacement.put(", " + gwMethodExtensionTypeCode + " " + gwMethodExtensionParamNameCode + ")", ") " + gwMethodExtension);   // Can this be improved ?, as of now the extension is added as an extra parameter with a type and name.
 
+		strReplacement.put(infReturnTypeCode, infReturnType);
+		strReplacement.put(infMethodParamTypeLabelCode, infMethodParamTypeLabel);
+
+		strReplacement.put(infReturnTypeParametrizedCode, infReturnTypeParametrized);
+		strReplacement.put(infMethodParamTypeLabelParametrizedCode, infMethodParamTypeLabelParametrized);
+
 		strReplacement.put(endorseToLabelCode, endorseToLabel);
 		strReplacement.put(declassifyToLabelCode, declassifyToLabel);
+
 		strReplacement.put(gwMethodParamTypeLabelCode, gwMethodParamTypeLabel);
+		strReplacement.put(gwMethodParamTypeLabelParametrizedCode, gwMethodParamTypeLabelParametrized);
 	}
 }

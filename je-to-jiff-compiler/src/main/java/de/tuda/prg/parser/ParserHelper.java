@@ -34,6 +34,14 @@ public class ParserHelper {
         return (annotationStatusIndicator.size() == 1);
     }
 
+    public static boolean isMainClass(final CompilationUnit cu) {
+        String[] strArray = new String[1];
+        new ClassNameGetterVisitor().visit(cu, strArray);
+        String className = strArray[0];
+        if (className.equals("Main")) return true;
+        else return false;
+    }
+
     public static Map<String, List<MethodDeclaration>> getMethodDeclarationWithAnnotations(ClassOrInterfaceDeclaration cd, Set<String> annotationSet) {
         Map<String, List<MethodDeclaration>> annotationMethodsMap = new HashMap<>();
         if (annotationSet != null && !annotationSet.isEmpty()) {
@@ -83,11 +91,24 @@ public class ParserHelper {
         String trimmedString = javaTypeString.trim();
         String str;
         if (trimmedString.endsWith("[][]")) {
-            str = trimmedString.substring(0, trimmedString.length() - 4)+ Codes.secFieldTypeCodeMatrix;
+            str = trimmedString.substring(0, trimmedString.length() - 4)+ Codes.secFieldTypeCodeArray2D;
         } else if (trimmedString.endsWith("[]")) {
             str = trimmedString.substring(0, trimmedString.length() - 2)+ Codes.secFieldTypeCodeArray;
         } else {
             str = javaTypeString+Codes.secFieldTypeCodeRegular;
+        }
+        return str;
+    }
+
+    public static String getStringForParametrizedType(String javaTypeString) {
+        String trimmedString = javaTypeString.trim();
+        String str;
+        if (trimmedString.endsWith("[][]")) {
+            str = trimmedString.substring(0, trimmedString.length() - 4)+ Codes.secFieldTypeCodeParametrizedClass;
+        } else if (trimmedString.endsWith("[]")) {
+            str = trimmedString.substring(0, trimmedString.length() - 2)+ Codes.secFieldTypeCodeParametrizedClass;
+        } else {
+            str = javaTypeString+Codes.secFieldTypeCodeParametrizedClass;
         }
         return str;
     }
@@ -177,6 +198,17 @@ public class ParserHelper {
                 currClassGtwMethodNames.add(md.getNameAsString());
             }
             gatewayMethodNames.addAll(currClassGtwMethodNames);
+        }
+    }
+
+    public static boolean checkJavaTypes(Type t) {
+        if (t.isPrimitiveType()) return true;
+        else if (t.getElementType().isPrimitiveType()) return true;
+        else {
+            switch(t.getElementType().asString()) {
+                case "String" : return true;
+                default : return false;
+            }
         }
     }
 }

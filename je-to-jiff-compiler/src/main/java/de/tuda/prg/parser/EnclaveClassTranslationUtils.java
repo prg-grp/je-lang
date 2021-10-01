@@ -3,6 +3,7 @@ package de.tuda.prg.parser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 import de.tuda.prg.parser.visitorsje.*;
+import de.tuda.prg.parser.visitorsje.encapsmethodcallvisitors.*;
 import de.tuda.prg.parser.visitorsremotecom.EnclaveClassDeclarationVisitorComm;
 
 import java.util.HashSet;
@@ -18,30 +19,37 @@ public class EnclaveClassTranslationUtils {
             HashSet<String> enclaveClassNames = new HashSet<String>();
             classDeclarationVisitor.visit(cu,enclaveClassNames);
             System.out.println(enclaveClassNames);
-            System.out.println(cu.toString());
+            //System.out.println(cu.toString());
             System.out.println("--------- class after visiting -----------------------");
 
-            // Step2: Visiting methods inside the cu
+            // Step2: Visiting all other methods besides GatewayMethods
+            System.out.println("--------- non-gw methods before visiting -----------------------");
+            VoidVisitor methodNameVisitor = new NonGatewayMethodDefinitionTransformerVisitorJe();
+            methodNameVisitor.visit(cu, null);
+            //System.out.println(cu.toString());
+            System.out.println("--------- non-gw methods after visiting -----------------------");
+
+            // Step3: Visiting methods inside the cu
             System.out.println("--------- gw methods before visiting -----------------------");
             final HashSet<String> gwMethodNames = new HashSet<String>();
-            VoidVisitor<HashSet<String>> methodNameVisitor = new GatewayMethodDefinitionTransformerVisitorJe();
-            methodNameVisitor.visit(cu, gwMethodNames);
-            System.out.println(gwMethodNames);
-            System.out.println(cu.toString());
+            VoidVisitor<HashSet<String>> GatewayMethodNameVisitor = new GatewayMethodDefinitionTransformerVisitorJe();
+            GatewayMethodNameVisitor.visit(cu, gwMethodNames);
+            //System.out.println(gwMethodNames);
+            //System.out.println(cu.toString());
             System.out.println("--------- gw methods after visiting -----------------------");
 
-            // Step3: Visiting declassify and endorse operators
+            // Step4: Visiting declassify and endorse operators
             System.out.println("--------- before visiting methodCalls -----------------------");
             VoidVisitor<?> methodCallVisitor = new MethodCallVisitorJe();
             methodCallVisitor.visit(cu, null);
-            System.out.println(cu.toString());
+            //System.out.println(cu.toString());
             System.out.println("--------- after visiting methodCalls -----------------------");
 
-            // Step4: Visiting fields inside the cu (e.g. secret fields)
+            // Step5: Visiting fields inside the cu (e.g. secret fields)
             System.out.println("--------- before visiting fields -----------------------");
             VoidVisitor<?> variableDeclarationVisitor = new ClassFieldDeclarationVisitorJe();
             variableDeclarationVisitor.visit(cu, null);
-            System.out.println(cu.toString());
+            //System.out.println(cu.toString());
             System.out.println("--------- after visiting fields -----------------------");
     }
 
