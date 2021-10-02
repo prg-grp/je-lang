@@ -15,16 +15,7 @@ public class GridWithoutGuess {
     }
 
     private static boolean applyA(int x, int y) {
-        boolean b;
-        {
-            boolean c = false;
-            try {
-                c = gridA[x][y];
-            } catch (NullPointerException e) {
-            } catch (ArrayIndexOutOfBoundsException e) {
-            }
-            b = c;
-        }
+        boolean b = gridA[x][y];
         return b;
     }
 }

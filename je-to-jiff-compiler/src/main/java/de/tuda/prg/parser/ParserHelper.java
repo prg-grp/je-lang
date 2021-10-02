@@ -104,9 +104,9 @@ public class ParserHelper {
         String trimmedString = javaTypeString.trim();
         String str;
         if (trimmedString.endsWith("[][]")) {
-            str = trimmedString.substring(0, trimmedString.length() - 4)+ Codes.secFieldTypeCodeParametrizedClass;
+            str = trimmedString.substring(0, trimmedString.length() - 4)+ Codes.secFieldTypeCodeArray2DParametrizedClass;
         } else if (trimmedString.endsWith("[]")) {
-            str = trimmedString.substring(0, trimmedString.length() - 2)+ Codes.secFieldTypeCodeParametrizedClass;
+            str = trimmedString.substring(0, trimmedString.length() - 2)+ Codes.secFieldTypeCodeArrayParametrizedClass;
         } else {
             str = javaTypeString+Codes.secFieldTypeCodeParametrizedClass;
         }

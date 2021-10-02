@@ -1,8 +1,0 @@
-package Jifs;
-
-public class GuessP {
-
-    public int x;
-
-    public int y;
-}

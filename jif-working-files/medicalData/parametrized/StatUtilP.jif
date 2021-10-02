@@ -6,13 +6,13 @@ public class StatUtil [principal Alice] authority(Alice) {
     int{Alice->*; Alice<-*} key = 5;
 
     // @Gateway with parametrized Record
-    public Record[Alice]{Alice->_; Alice<-*} process{Alice<-*}(Record[Alice]{}  rec) where authority(Alice) {
-        Record recE = endorse(rec, {} to {Alice<-*});
-        Record result = decrypt(recE, key);
+    public RecordP[Alice]{Alice->_; Alice<-*} process{Alice<-*}(RecordP[Alice]{}  rec) where authority(Alice) {
+        RecordP recE = endorse(rec, {} to {Alice<-*});
+        RecordP result = decrypt(recE, key);
         return declassify(result, {Alice->*; Alice<-*} to {Alice->_; Alice<-*});
     }
 
-    public Record[Alice] decrypt(Record[Alice] record, int offset) {
+    public RecordP[Alice] decrypt(RecordP[Alice] record, int offset) {
             char[] cipher;
             {
                 char[] x = null;
@@ -67,7 +67,7 @@ public class StatUtil [principal Alice] authority(Alice) {
                     }
                 }
             }
-            return new Record[Alice](result);
+            return new RecordP[Alice](result);
     }
 
     /*public Record[Alice]{Alice->*; Alice<-*} decrypt{Alice<-*}(Record[Alice]{Alice<-*} record, int{Alice->*; Alice<-*} offset) {

@@ -2,8 +2,9 @@ package de.tuda.prg.parser;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.visitor.VoidVisitor;
+
+import de.tuda.prg.parser.encapsmethodcallvisitors.*;
 import de.tuda.prg.parser.visitorsje.*;
-import de.tuda.prg.parser.visitorsje.encapsmethodcallvisitors.*;
 import de.tuda.prg.parser.visitorsremotecom.EnclaveClassDeclarationVisitorComm;
 
 import java.util.HashSet;

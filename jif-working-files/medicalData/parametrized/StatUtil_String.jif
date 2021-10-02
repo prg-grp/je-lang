@@ -1,58 +1,53 @@
-package Jifs;
+public final class StatUtil [principal Alice] authority (Alice) {
 
-public class StatUtil_String [principal Alice] authority(Alice) {
-
-    // @Secret
     private int{Alice->*; Alice<-*} key = 5;
 
-    // @Gateway
-    public Record_String[Alice]{Alice->_; Alice<-*} process{Alice<-*}(Record_String[Alice]{} rec) where authority(Alice) {
-        Record_String recE = endorse(rec, {} to {Alice<-*});
-        Record_String result = decrypt(recE, key);
+    public Record[Alice]{Alice->_; Alice<-*} process{Alice<-*}(Record[Alice]{} rec) where authority(Alice) {
+        Record recE = endorse(rec, {} to {Alice<-*});
+        Record result = decrypt(recE, key);
         return declassify(result, {Alice->*; Alice<-*} to {Alice->_; Alice<-*});
     }
 
-    public Record_String[Alice]{Alice->*; Alice<-*} decrypt{Alice<-*}(Record_String[Alice]{Alice<-*} record, int{Alice->*; Alice<-*} offset) {
-
-            String cipher;
+    public Record[Alice]{Alice->*; Alice<-*} decrypt{Alice<-*}(Record[Alice]{Alice<-*} record, int{Alice->*; Alice<-*} offset) {
+        String cipher;
+        {
+            String r = new String();
+            try {
+                r = record.getData();
+            } catch (NullPointerException e) {
+            }
+            cipher = r;
+        }
+        int len;
+        {
+            int w = 0;
+            try {
+                w = cipher.length();
+            } catch (NullPointerException e) {
+            }
+            len = w;
+        }
+        String result = "";
+        for (int i = 0; i < len; i++) {
+            char character;
             {
-                String x = null;
+                char u = ' ';
                 try {
-                    x = record.data;
+                    u = cipher.charAt(i);
                 } catch (NullPointerException e) {
+                } catch (StringIndexOutOfBoundsException e) {
                 }
-                cipher = x;
+                character = u;
             }
-            int len;
-            {
-                int y = 0;
-                try {
-                    y = cipher.length();
-                } catch (NullPointerException e) {
-                }
-                len = y;
+            if (character != ' ') {
+                int originalAlphabetPosition = character - 'a';
+                int newAlphabetPosition = (originalAlphabetPosition + offset) % 26;
+                char newCharacter = (char) ('a' + newAlphabetPosition);
+                result += newCharacter;
+            } else {
+                result += character;
             }
-            String result = "";
-            for (int i = 0; i < len; i++) {
-                char character;
-                {
-                    char r = ' ';
-                    try {
-                        r = cipher.charAt(i);
-                    } catch (NullPointerException e) {
-                    } catch (StringIndexOutOfBoundsException e) {
-                    }
-                    character = r;
-                }
-                if (character != ' ') {
-                    int originalAlphabetPosition = character - 'a';
-                    int newAlphabetPosition = (originalAlphabetPosition + offset) % 26;
-                    char newCharacter = (char) ('a' + newAlphabetPosition);
-                    result += newCharacter;
-                } else {
-                    result += character;
-                }
-            }
-            return new Record_String[Alice](result);
+        }
+        return new Record[Alice](result);
     }
 }

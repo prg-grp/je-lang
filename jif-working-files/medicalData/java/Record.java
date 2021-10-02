@@ -1,14 +1,12 @@
-package medicalData;
-
 public class Record {
 
-    protected char[] data;
+    protected String data;
 
-    public Record(char[] medData) {
+    public Record(String medData) {
         data = medData;
     }
 
-    public char[] getData() {
+    public String getData() {
         return data;
     }
 }

@@ -7,10 +7,10 @@ public class Grid {
     static boolean[][] gridA;
 
     @Gateway
-    public static int applyGuessA(Guess guess) {
+    public static boolean applyGuessA(Guess guess) {
         Guess guessE = endorse(guess);
-        int result = applyA(guessE);
-        return declassify(result);
+        boolean resultE = applyA(guessE);
+        return declassify(resultE);
     }
 
     private static boolean applyA(Guess guess) {

@@ -1,34 +1,31 @@
-package medicalData;
-
 @Enclave
 public class StatUtil {
 
     @Secret
-    static int key = 5;
+    private static int key = 5;
 
     @Gateway
     public static Record process(Record rec) {
         Record recE = endorse(rec);
-        Record record = decrypt(recE, key);
-        return declassify(record);
+        Record result = decrypt(recE, key);
+        return declassify(result);
     }
 
-    public static Record decrypt(Record record, int offset) {
-        char[] cipher = record.getData();
-        int len = cipher.length;
-        char[] result = new char[len];
-        for (int i=0; i<cipher.length; i++) {
-            char character = cipher[i];
+    public Record decrypt(Record record, int offset) {
+        String cipher = record.data;
+        int len = cipher.length();
+        String result = "";
+        for (int i = 0; i < len; i++) {
+            char character = cipher.charAt(i);
             if (character != ' ') {
                 int originalAlphabetPosition = character - 'a';
                 int newAlphabetPosition = (originalAlphabetPosition + offset) % 26;
                 char newCharacter = (char) ('a' + newAlphabetPosition);
-                result[i] = newCharacter;
+                result += newCharacter;
             } else {
-                result[i] = character;
+                result += character;
             }
         }
-
         return new Record(result);
     }
 }

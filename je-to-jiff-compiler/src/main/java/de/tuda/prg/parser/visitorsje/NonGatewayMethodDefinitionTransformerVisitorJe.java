@@ -1,4 +1,4 @@
-package de.tuda.prg.parser.visitorsje.encapsmethodcallvisitors;
+package de.tuda.prg.parser.visitorsje;
 
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -18,7 +18,8 @@ public class NonGatewayMethodDefinitionTransformerVisitorJe extends VoidVisitorA
             if (md.isStatic()) md.removeModifier(Modifier.Keyword.STATIC);   // Removing the static modifier
             final String methodReturnType = md.getTypeAsString();
             if (!"void".equals(methodReturnType)) {
-                md.setType(md.getTypeAsString() + Codes.infReturnTypeCode); // Setting the return type of the inferred method
+                if (ParserHelper.checkJavaTypes(md.getType())) md.setType(md.getTypeAsString() + Codes.infReturnTypeCode); // Setting the return type of the gateway method
+                else md.setType(md.getTypeAsString() + Codes.infReturnTypeParametrizedCode); 
             }
             md.getParameters().forEach(param -> {
                 //param.setType(param.getTypeAsString() + Codes.infMethodParamTypeLabelCode);
