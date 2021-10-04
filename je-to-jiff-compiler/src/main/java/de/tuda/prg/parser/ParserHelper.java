@@ -21,6 +21,7 @@ import de.tuda.prg.exceptions.TranslationException;
 import de.tuda.prg.parser.generalvisitors.ClassNameGetterVisitor;
 import de.tuda.prg.parser.visitorsje.ClassAnnotationCheckerVisitorJe;
 import de.tuda.prg.parser.visitorsje.MethodDefinitionVisitorCollectorJe;
+import de.tuda.prg.parser.visitorsje.encapsulatedmethodsvisitor.GatewayMethodCallCollectorJe;
 
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -122,6 +123,15 @@ public class ParserHelper {
         ClassNameMethodDecls cMd = new ClassNameMethodDecls(className);
         new MethodDefinitionVisitorCollectorJe().visit(cu, cMd.getMethodDeclarations());
         gatewayMethodDeclarations.add(cMd);
+    }
+
+    public static void populateAllEncapsulatedMethodsInsideGatewayMethod(final CompilationUnit cu, final List<MethodCallExpr> gatewayMethodCalls) {
+        String[] strArray = new String[1];
+        new ClassNameGetterVisitor().visit(cu, strArray);
+        String className = strArray[0];
+
+        GatewayMethodCallCollectorJe gwmcec = new GatewayMethodCallCollectorJe();
+        gwmcec.visit(cu, gatewayMethodCalls);
     }
 
     public static String getRMICallReceiverString(String enclaveClassName) {

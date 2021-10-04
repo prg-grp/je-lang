@@ -1,14 +1,21 @@
 package de.tuda.prg.parser;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.visitor.GenericVisitorAdapter;
 import com.github.javaparser.ast.visitor.VoidVisitor;
+import com.github.javaparser.ast.expr.MethodCallExpr;
 
-import de.tuda.prg.parser.encapsmethodcallvisitors.*;
+import de.tuda.prg.parser.userdefinedclassvisitors.*;
 import de.tuda.prg.parser.visitorsje.*;
+import de.tuda.prg.parser.visitorsje.encapsulatedmethodsvisitor.GatewayMethodCallCollectorJe;
+import de.tuda.prg.parser.visitorsje.encapsulatedmethodsvisitor.ParameterIdentificationVisitor;
 import de.tuda.prg.parser.visitorsremotecom.EnclaveClassDeclarationVisitorComm;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 public class EnclaveClassTranslationUtils {
 
@@ -25,8 +32,18 @@ public class EnclaveClassTranslationUtils {
 
             // Step2: Visiting all other methods besides GatewayMethods
             System.out.println("--------- non-gw methods before visiting -----------------------");
+            List<MethodCallExpr> methodCalls = new ArrayList<MethodCallExpr>();
+            VoidVisitor gatewayMethodCaller = new GatewayMethodCallCollectorJe();
+            gatewayMethodCaller.visit(cu, methodCalls);
+            System.out.println(methodCalls.toString());
+
+
+            ParameterIdentificationVisitor paramVisitor = new ParameterIdentificationVisitor();
+            List<String> parameters = paramVisitor.visit(cu, methodCalls);
+            System.out.println(parameters.toString());
+
             VoidVisitor methodNameVisitor = new NonGatewayMethodDefinitionTransformerVisitorJe();
-            methodNameVisitor.visit(cu, null);
+            methodNameVisitor.visit(cu, parameters);
             //System.out.println(cu.toString());
             System.out.println("--------- non-gw methods after visiting -----------------------");
 

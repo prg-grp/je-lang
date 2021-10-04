@@ -1,4 +1,4 @@
-package de.tuda.prg.parser.encapsmethodcallvisitors;
+package de.tuda.prg.parser.userdefinedclassvisitors;
 
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
@@ -12,7 +12,7 @@ import de.tuda.prg.parser.ParserHelper;
 
 import java.util.HashSet;
 
-public class UserClassVisitorJe extends VoidVisitorAdapter<Void>  {
+public class UserDefinedClassVisitor extends VoidVisitorAdapter<Void>  {
     @Override
     public void visit(ClassOrInterfaceDeclaration cOrID, Void arg) {
             cOrID.setName(cOrID.getName()+ Codes.classExtensionCodeParametrized);
@@ -52,9 +52,8 @@ public class UserClassVisitorJe extends VoidVisitorAdapter<Void>  {
         md.getParameters().forEach(param -> {
             //param.setType(param.getTypeAsString() + Codes.infMethodParamTypeLabelCode);
             if (ParserHelper.checkJavaTypes(param.getType())) param.setType(ParserHelper.getStringForParametrizedType(param.getType().asString()));
-            //else param.setType(param.getTypeAsString() + Codes.infMethodParamTypeLabelParametrizedCode);
+            else param.setType(param.getTypeAsString() + Codes.infMethodParamTypeLabelParametrizedCode);
         }); // Adding security label to the gateway parameter
-        //System.out.println("After parameter type check");
         super.visit(md, arg); // Keeping all the 'super.visit' calls as the last command in the method
     }
 

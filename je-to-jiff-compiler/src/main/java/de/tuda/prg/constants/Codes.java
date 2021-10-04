@@ -62,7 +62,16 @@ public class Codes {
 	public static final String infMethodParamTypeLabelCode = "CODEINFMETHODPARAMTYPELABEL";
 
 	private static final String infMethodParamTypeLabelParametrized = "["+principalName+"]{"+principalName+"<-*"+"}";
-	public static final String infMethodParamTypeLabelParametrizedCode = "CODEINFMETHODPARAMTYPEPARAMETRIZEDLABEL";
+	public static final String infMethodParamTypeLabelParametrizedCode = "CODEINFMETHODPARAMSECRETTYPEPARAMETRIZEDLABEL";
+
+	private static final String infMethodParamSecretTypeLabel = "{"+principalName+"->*; "+principalName+"<-*"+"}";
+	public static final String infMethodParamSecretTypeLabelCode = "CODEINFMETHODPARAMSECRETTYPELABEL";
+
+	private static final String infMethodParamSecretTypeLabelParametrized = "["+principalName+"]{"+principalName+"->*; "+principalName+"<-*"+"}";
+	public static final String infMethodParamSecretTypeLabelParametrizedCode = "CODEINFMETHODPARAMTYPEPARAMETRIZEDLABEL";
+
+	private static final String objectCreationTypeParameter = "["+principalName+"]";
+	public static final String objectCreationTypeParameterCode = "CODEOBJECTCREATIONEXPRLABEL";
 
 	// ---------------------- Endorse operator call --------------------------------------------
 	private static  final String endorseToLabel = "{}"+" to "+"{"+principalName+"<-*"+"}";
@@ -112,10 +121,15 @@ public class Codes {
 		strReplacement.put(infReturnTypeParametrizedCode, infReturnTypeParametrized);
 		strReplacement.put(infMethodParamTypeLabelParametrizedCode, infMethodParamTypeLabelParametrized);
 
+		strReplacement.put(infMethodParamSecretTypeLabelCode, infMethodParamSecretTypeLabel);
+		strReplacement.put(infMethodParamSecretTypeLabelParametrizedCode, infMethodParamSecretTypeLabelParametrized);
+		
 		strReplacement.put(endorseToLabelCode, endorseToLabel);
 		strReplacement.put(declassifyToLabelCode, declassifyToLabel);
 
 		strReplacement.put(gwMethodParamTypeLabelCode, gwMethodParamTypeLabel);
 		strReplacement.put(gwMethodParamTypeLabelParametrizedCode, gwMethodParamTypeLabelParametrized);
+
+		strReplacement.put(objectCreationTypeParameterCode, objectCreationTypeParameter);
 	}
 }

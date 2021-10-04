@@ -34,9 +34,9 @@ public class EnclaveClassXformationTask implements  CodeXformationTask {
                         if (ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) {
 
                             //Extracting the names of the Gateway methods inside the Enclave Class.
-                            System.out.println("Before populate");
+                            System.out.println("Before populate GW Methods");
                             ParserHelper.populateAllGatewayMethodsInCu(cu, interTaskData.gatewayMethodDeclarations);
-                            System.out.println("After populate");
+                            System.out.println("After populate GW Methods");
 
                             System.out.println("Before translation");
                             EnclaveClassTranslationUtils.translateEnclaveClass(cu);

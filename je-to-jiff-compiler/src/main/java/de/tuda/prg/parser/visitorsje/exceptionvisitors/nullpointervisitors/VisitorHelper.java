@@ -78,9 +78,6 @@ public class VisitorHelper {
             CatchClause cc2 = new CatchClause(); // initialize cc
             cc2.setParameter(new Parameter().setName(exceptionName).setType(ArrayIndexOutOfBoundsException.class)); // Set Parameter of Exception to handle to NullPointerException
             catchClauses.add(cc2);
-           /*CatchClause cc3 = new CatchClause(); // initialize cc
-            cc3.setParameter(new Parameter().setName(exceptionName).setType(NegativeArraySizeException.class)); // Set Parameter of Exception to handle to NullPointerException
-            catchClauses.add(cc3);*/
         }
 
 

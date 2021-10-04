@@ -14,6 +14,7 @@ import de.tuda.prg.constants.PathValues;
 import de.tuda.prg.exceptions.FileIOException;
 import de.tuda.prg.filehandling.FileUtils;
 import de.tuda.prg.parser.visitorsje.exceptionvisitors.nullpointervisitors.BlockStatementVisitor;
+import de.tuda.prg.parser.visitorsje.exceptionvisitors.nullpointervisitors.TryStmtVisitor;
 import de.tuda.prg.parser.ParserHelper;
 
 /* Handles the exceptions statically as required by JIF. */
@@ -38,6 +39,9 @@ public class AutomatedExceptionHandlingTask implements CodeXformationTask {
 
                             BlockStatementVisitor visitor = new BlockStatementVisitor(); // Visitor which visits the nodes
                             visitor.startVisiting(cu, null); // Start visiting nodes and receive resulting Hashmap
+
+                            TryStmtVisitor tsVisitor = new TryStmtVisitor();
+                            tsVisitor.visit(cu, null);
                             
                             String afterVisitClassString = cu.toString(); // Class after adding Exceptions
 
