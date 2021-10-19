@@ -67,7 +67,8 @@ The battleship game (presented in [[1]](#myersRoDecl)) is a two-player game. In 
 public class Grid {
 
     @Secret
-    static boolean[][] myGrid = {{true, false}, {true, true}};
+    static boolean[][] myGrid = {{true, false},
+                                 {false, true}};
 
     @Gateway
     public static boolean applyGuess(Guess guess) {
