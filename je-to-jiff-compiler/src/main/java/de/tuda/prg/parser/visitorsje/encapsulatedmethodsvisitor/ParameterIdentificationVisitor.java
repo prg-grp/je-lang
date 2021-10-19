@@ -23,9 +23,11 @@ public class ParameterIdentificationVisitor extends GenericVisitorAdapter<List<S
         List<String> parameterJifType = new ArrayList<String>();
         gwEncapsMethodCalls.forEach(mce -> {
             mce.getArguments().forEach(arg -> {
-                Optional field = cu.findFirst(FieldDeclaration.class, isFieldDecl(arg.asNameExpr()));
-                if (field.isPresent()) parameterJifType.add("secret");
-                else parameterJifType.add("endorsed");
+                if (arg.isNameExpr()) {
+                    Optional field = cu.findFirst(FieldDeclaration.class, isFieldDecl(arg.asNameExpr()));
+                    if (field.isPresent()) parameterJifType.add("secret");
+                    else parameterJifType.add("endorsed");
+                }
             });
         });
         return parameterJifType;

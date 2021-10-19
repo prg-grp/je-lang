@@ -13,7 +13,7 @@ import org.apache.commons.io.FilenameUtils;
 import de.tuda.prg.constants.PathValues;
 import de.tuda.prg.exceptions.FileIOException;
 import de.tuda.prg.filehandling.FileUtils;
-
+import de.tuda.prg.parser.visitorsje.genericvisitors.ClassCastExceptionVisitor;
 import de.tuda.prg.parser.visitorsje.genericvisitors.GenericVisitor;
 import de.tuda.prg.parser.visitorsje.genericvisitors.NameVisitor;
 import de.tuda.prg.parser.visitorsje.genericvisitors.VariableVisitor;
@@ -55,13 +55,15 @@ public class AutomatedGenericHandling implements CodeXformationTask {
                             for(String key : map.keySet()) {
                                 String val = map.get(key);
                                 String regex = key+"\\.";
+
                                 String rep = "\\(\\("+val+"\\)"+key+"\\)\\.";
                                 out = out.replaceAll(regex, rep);
                             }
 
                             cu = StaticJavaParser.parse(out);
-                            //NameVisitor nameVisitor = new NameVisitor();
-                            //nameVisitor.startVisiting(cu, map);
+                            
+                            ClassCastExceptionVisitor ccev = new ClassCastExceptionVisitor();
+                            ccev.visit(cu, null);
 
                             String afterVisitClassString = cu.toString(); // Class after adding Exceptions
 

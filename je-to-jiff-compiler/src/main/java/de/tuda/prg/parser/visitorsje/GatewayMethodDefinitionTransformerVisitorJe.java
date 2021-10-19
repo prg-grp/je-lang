@@ -26,6 +26,7 @@ public class GatewayMethodDefinitionTransformerVisitorJe extends VoidVisitorAdap
                 md.setName(md.getName() + Codes.gwMethodBeginLabelCode); // Adding the gateway method begin label
                 md.getParameters().forEach(param -> {
                     if (ParserHelper.checkJavaTypes(param.getType())) param.setType(param.getTypeAsString() + Codes.gwMethodParamTypeLabelCode);
+                    else if (ParserHelper.checkJifTypes(param.getType())) param.setType(param.getTypeAsString() + Codes.gwMethodParamTypeLabelGenericCode);
                     else param.setType(param.getTypeAsString() + Codes.gwMethodParamTypeLabelParametrizedCode);
                 }); // Adding security label to the gateway parameter
                 md.addParameter(Codes.gwMethodExtensionTypeCode, Codes.gwMethodExtensionParamNameCode);

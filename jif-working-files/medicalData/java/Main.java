@@ -27,7 +27,7 @@ public class Main {
             }
         }
         System.out.println("");
-        return new Record(result);
+        return new StatRecord(result);
     }
 
 }

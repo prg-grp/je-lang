@@ -1,0 +1,12 @@
+import jif.util.List;
+
+public final class Foo [principal Alice] authority (Alice) {
+
+    Double{Alice->*; Alice<-*} var1 = new Double(11.7);
+
+    public Double{Alice->_; Alice<-*} bar{Alice<-*}(List[{}] lst) where authority(Alice) {
+        List lstE = endorse(lst, {Alice<-*});
+        Double result = var1;
+        return declassify(result, {Alice->*; Alice<-*} to {Alice->_; Alice<-*});
+    }
+}

@@ -7,10 +7,12 @@ import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.ArrayAccessExpr;
 import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.CatchClause;
 import com.github.javaparser.ast.stmt.TryStmt;
+import com.github.javaparser.ast.type.PrimitiveType;
 import com.github.javaparser.ast.type.Type;
 
 import java.util.List;
@@ -135,6 +137,8 @@ public class VisitorHelper {
                 return "false";
             case "char":
                 return "\' \'";
+            case "double":
+                return "0.0";
             default:
                 return "null";
         }
@@ -151,6 +155,20 @@ public class VisitorHelper {
             if (iter.isNameExpr()) return (NameExpr) iter;
         }
         return null;
+    }
+
+    public static Type getTypeExpr(Expression n) {
+        System.out.println("-----------GETTYPEEXPRESSION"+n.toString()+"------------");
+        String exp = n.toString();
+        if (exp.contains("equals")) {
+            return PrimitiveType.booleanType();
+        } else if (exp.contains("size")) {
+            return PrimitiveType.intType();
+        } if (exp.contains("length")) {
+            return PrimitiveType.intType();
+        } else {
+            return PrimitiveType.booleanType();
+        }
     }
 
 }

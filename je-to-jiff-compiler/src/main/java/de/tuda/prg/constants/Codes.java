@@ -19,6 +19,9 @@ public class Codes {
 	private static final String classNameExtensionParametrized = " [principal "+parameterPrincipalName+"]";
 	public static final String classExtensionCodeParametrized = "CODECLSPEXT";
 
+	private static final String extendClassNameExtensionParametrized = "["+parameterPrincipalName+"]";
+	public static final String extendClassExtensionCodeParametrized = "CODEEXTCLSPEXT";
+
 	// ---------------------- Secret fields ---------------------------------------------------------
 	private static final String secFieldTypeRegular = "{"+principalName+"->*; "+principalName+"<-*"+"}";
 	public static final String secFieldTypeCodeRegular = "CODESECFIELDTYPEREGULAR";
@@ -50,6 +53,9 @@ public class Codes {
 
 	private static final String gwMethodParamTypeLabelParametrized = "[Alice]{}";
 	public static final String gwMethodParamTypeLabelParametrizedCode = "CODEGWMETHODPARAMTYPEPARAMETRIZEDLABEL";
+
+	private static final String gwMethodParamTypeLabelGeneric = "[{}]";
+	public static final String gwMethodParamTypeLabelGenericCode = "CODEGWMETHODPARAMTYPEGENERICLABEL";
 
 	// ---------------------- Encapsulated methods related --------------------------------------------
 	private static final String infReturnType = "{"+principalName+"->*; "+principalName+"<-*"+"}";
@@ -100,6 +106,7 @@ public class Codes {
 		strReplacement = new HashMap<>();
 		strReplacement.put(classExtensionCode, classNameExtension);
 		strReplacement.put(classExtensionCodeParametrized, classNameExtensionParametrized);
+		strReplacement.put(extendClassExtensionCodeParametrized, extendClassNameExtensionParametrized);
 
 		strReplacement.put(secFieldTypeCodeRegular, secFieldTypeRegular);
 		strReplacement.put(secFieldTypeCodeArray, secFieldTypeArray);
@@ -129,6 +136,7 @@ public class Codes {
 
 		strReplacement.put(gwMethodParamTypeLabelCode, gwMethodParamTypeLabel);
 		strReplacement.put(gwMethodParamTypeLabelParametrizedCode, gwMethodParamTypeLabelParametrized);
+		strReplacement.put(gwMethodParamTypeLabelGenericCode, gwMethodParamTypeLabelGeneric);
 
 		strReplacement.put(objectCreationTypeParameterCode, objectCreationTypeParameter);
 	}

@@ -217,8 +217,16 @@ public class ParserHelper {
         else {
             switch(t.getElementType().asString()) {
                 case "String" : return true;
+                case "Double" : return true;
                 default : return false;
             }
+        }
+    }
+
+    public static boolean checkJifTypes(Type t) {
+        switch(t.getElementType().asString()) {
+            case "List" : return true;
+            default : return false;
         }
     }
 }

@@ -6,7 +6,7 @@ public final class TaskProcessor [principal Alice] authority (Alice) {
 
     int{Alice->*; Alice<-*} salary = 11;
 
-    public Double{Alice->_; Alice<-*} process{Alice<-*}(List{} taskList) where authority(Alice) {
+    public Double{Alice->_; Alice<-*} process{Alice<-*}(List[{}] taskList) where authority(Alice) {
         List taskListE = endorse(taskList, {} to {Alice<-*});
         int result = salary;
         {

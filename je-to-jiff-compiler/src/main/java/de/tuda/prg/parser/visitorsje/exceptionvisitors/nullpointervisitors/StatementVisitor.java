@@ -22,7 +22,6 @@ public class StatementVisitor extends VoidVisitorAdapter<Object> { // MyVisitor 
     private List<NameExpr> names;
     private List<Expression> toReplace;
     private HashMap<NameExpr, Type> types;
-    private HashMap<MethodDeclaration, Type> returnTypes;
 
     /**
      * Start Visiting calls visit on the received root node and puts and declares the Lists for the Nodes
@@ -32,7 +31,6 @@ public class StatementVisitor extends VoidVisitorAdapter<Object> { // MyVisitor 
      */
     public void startVisiting(CompilationUnit n, Object arg) {
         types = new HashMap<>();
-        returnTypes = new HashMap<>();
         NameExpressionVisitor nameExpressionVisitor = new NameExpressionVisitor();
         usedNames = nameExpressionVisitor.startVisiting(n, arg);
         visit(n, arg);
@@ -206,12 +204,6 @@ public class StatementVisitor extends VoidVisitorAdapter<Object> { // MyVisitor 
         super.visit(n, arg);
     }
 
-
-    @Override
-    public void visit(MethodDeclaration n, Object arg) {
-        returnTypes.put(n, n.getType());
-        super.visit(n, arg);
-    }
     
     /**
      *
@@ -220,6 +212,7 @@ public class StatementVisitor extends VoidVisitorAdapter<Object> { // MyVisitor 
      */
     @Override
     public void visit(BlockStmt n, Object arg) {
+        System.out.println("-----------STARTED VISITING BLOCKSTATEMENT------------");
         List<NameExpr> names_old = names;
         List<Expression> toReplace_old = toReplace;
         n.getStatements()
@@ -230,10 +223,18 @@ public class StatementVisitor extends VoidVisitorAdapter<Object> { // MyVisitor 
                         if (!p.isExpressionStmt()) p.accept(this, arg);
                         if (toReplace.size()>0) {
                             BlockStmt bs = new BlockStmt();
-                            NameExpr var = VisitorHelper.getNameExpr(toReplace.get(0));
-                            Type t = types.get(var);
-                            if (t==null) {
-                                t = PrimitiveType.booleanType();
+                            System.out.println("-----------TO REPLACE : "+toReplace.get(0).toString()+"------------");
+                            Expression expression = toReplace.get(0);
+                            Type t;
+                            if (expression.isMethodCallExpr() || expression.isFieldAccessExpr()) {
+                                System.out.println("-----------EXTRACT RETURN TYPE OF MC OR ACC------------");
+                                t = VisitorHelper.getTypeExpr(expression);
+                            } else {
+                                NameExpr var = VisitorHelper.getNameExpr(expression);
+                                t = types.get(var);
+                                if (t==null) {
+                                    t = PrimitiveType.booleanType();
+                                }
                             }
 
                             VariableDeclarationExpr vdExp = new VariableDeclarationExpr();
@@ -253,6 +254,7 @@ public class StatementVisitor extends VoidVisitorAdapter<Object> { // MyVisitor 
                         }
                     }
                 });
+        System.out.println("-----------ENDED VISITING BLOCKSTATEMENT------------");
         names = names_old;
         toReplace = toReplace_old;
     }

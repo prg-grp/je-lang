@@ -18,6 +18,9 @@ public class UserDefinedClassVisitor extends VoidVisitorAdapter<Void>  {
             cOrID.setName(cOrID.getName()+ Codes.classExtensionCodeParametrized);
             //cOrID.addModifier(Modifier.Keyword.FINAL);   // Adding the keyword 'final'
             // super.visit(cOrID, classNameSet); removed super 'visit' call, no support for nested classes
+            cOrID.getExtendedTypes().forEach(ext -> {
+                ext.setName(ext.getName()+Codes.extendClassExtensionCodeParametrized);
+            });
             super.visit(cOrID, arg);
     }
 
