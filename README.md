@@ -61,7 +61,7 @@ class PasswordChecker {
 ```
 The two snippets show a simple password checker application with two classes. The *NonEnclaveMain* class is to be placed outside the enclave and the *PasswordChecker* class (annotated with the *@Enclave* annotation) inside the enclave. The ***@Enclave***, ***@Secret*** and ***@Gateway*** annotations and the ***declassify*** method are the J<sub>E</sub> abstractions. The class-level *@Enclave* annotation denotes that the annotated class is to be placed inside the enclave. The field-level *@Secret* annotation denotes secret fields whose values must not leak outside the SGX enclave. The *@Gateway* annotation specifies that the annotated methods are accessible from the non-enclave environment.
 #### Battleship Game
-The battleship game (present in [[1]](#myersRoDecl)) is a two-player game. In this game, each player has a secret two-dimensional grid and they place some random battleships on their grids. The goal is to guess all the battleship locations on the opponent's grid. In this scenario, each player needs to trust the opponent's guess and release some secret information based on this guess. This case study demonstrates the use of ***endorse*** method in combination with the ***declassify*** method. Since the grid contains  secret information, the *Grid* class is placed inside the enclave.
+The battleship game (presented in [[1]](#myersRoDecl)) is a two-player game. In this game, each player has a secret two-dimensional grid and they place some random battleships on their grids. The goal is to guess all the battleship locations on the opponent's grid. In this scenario, each player needs to trust the opponent's guess and release some secret information based on this guess. This case study demonstrates the use of ***endorse*** method in combination with the ***declassify*** method. Since the grid contains  secret information, the *Grid* class is placed inside the enclave.
 ```java
 @Enclave
 public class Grid {
@@ -125,7 +125,7 @@ Instructions for automatic deployment into Intel SGX will be added soon !!!
 [Aditya Oak](https://programming-group.com/members/oak)
 
 ### Publications
-* * [**Enclave-Based Secure Programming with J<sub>E</sub>**](https://programming-group.com/assets/pdf/papers/2021_Enclave-Based-Secure-Programming-with-JE.pdf)  
+*[**Enclave-Based Secure Programming with J<sub>E</sub>**](https://programming-group.com/assets/pdf/papers/2021_Enclave-Based-Secure-Programming-with-JE.pdf)  
   Aditya Oak, Amir M. Ahmadian, Musard Balliu, Guido Salvaneschi  
   IEEE Secure Development (SecDev), 2021
 * [**Language Support for Secure Software Development with Enclaves**](https://programming-group.com/assets/pdf/papers/2021_Language-Support-for-Secure-Software-Development-with-Enclaves.pdf)  
