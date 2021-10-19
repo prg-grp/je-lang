@@ -35,7 +35,6 @@ public class Main {
 
     private static void init() {
         gridA = new boolean[gridSize][gridSize];
-        Grid.init(gridSize, numberShips);
     }
 
     private static void updateGridA(Guess guess) {
