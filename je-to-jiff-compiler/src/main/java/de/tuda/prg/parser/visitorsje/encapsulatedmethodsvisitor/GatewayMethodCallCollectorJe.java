@@ -23,11 +23,11 @@ public class GatewayMethodCallCollectorJe extends VoidVisitorAdapter<List<Method
     @Override
     public void visit(MethodDeclaration md, List<MethodCallExpr> gwEncapsMethodCalls) {
         if (md.isAnnotationPresent(Gateway.class)) {
-            System.out.println("Is an enclave class : Collect all Methodcalls");
+            System.out.println("Is an Gateway Method : Collect all Methodcalls");
             super.visit(md, gwEncapsMethodCalls);
             System.out.println("End of Methoddeclaration");
         } else {
-            System.out.println("Not an enclave class");
+            System.out.println("Not an Gateway Method");
             return;
         }
     }

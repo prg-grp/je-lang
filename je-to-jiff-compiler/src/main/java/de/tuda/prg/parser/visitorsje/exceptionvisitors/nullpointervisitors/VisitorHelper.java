@@ -158,7 +158,7 @@ public class VisitorHelper {
     }
 
     public static Type getTypeExpr(Expression n) {
-        System.out.println("-----------GETTYPEEXPRESSION"+n.toString()+"------------");
+        System.out.println("-----------GETTYPEEXPRESSION: "+n.toString()+"------------");
         String exp = n.toString();
         if (exp.contains("equals")) {
             return PrimitiveType.booleanType();

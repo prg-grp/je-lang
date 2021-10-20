@@ -15,6 +15,8 @@ public class NonGatewayMethodDefinitionTransformerVisitorJe extends VoidVisitorA
     public void visit(MethodDeclaration md, List<String> parameters) {
         if (!md.isAnnotationPresent(Gateway.class)) {
             // Process all other Methods that are not GW Methods
+            System.out.println(parameters);
+            
 
             if (md.isStatic()) md.removeModifier(Modifier.Keyword.STATIC);   // Removing the static modifier
             final String methodReturnType = md.getTypeAsString();

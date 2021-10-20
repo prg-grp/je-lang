@@ -37,7 +37,6 @@ public class EnclaveClassTranslationUtils {
             gatewayMethodCaller.visit(cu, methodCalls);
             System.out.println(methodCalls.toString());
 
-
             ParameterIdentificationVisitor paramVisitor = new ParameterIdentificationVisitor();
             List<String> parameters = paramVisitor.visit(cu, methodCalls);
             System.out.println(parameters.toString());
