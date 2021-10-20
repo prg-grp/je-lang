@@ -1,0 +1,27 @@
+package Jifs;
+
+// Enclave
+public class GridWithoutGuess [principal Alice] authority(Alice) {
+
+    // SECRET
+    boolean{Alice->*; Alice<-*}[][]{Alice->*; Alice<-*} gridA;
+
+    // Gateway
+    public boolean{Alice->_; Alice<-*} applyGuessA{Alice<-*}(int{} x, int{} y) where authority(Alice) {
+        int xE = endorse(x, {} to {Alice<-*});
+        int yE = endorse(y, {} to {Alice<-*});
+        boolean result = applyA(xE, yE, false);
+        return declassify(result, {Alice->*; Alice<-*} to {Alice->_; Alice<-*});
+    }
+
+    private boolean{b} applyA(int x, int y, Boolean b) {
+        boolean z = false;
+        try {
+            z = gridA[x][y];
+        } catch (NullPointerException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
+        b.set(z);
+        return b;
+    }
+}

@@ -1,0 +1,8 @@
+package Jifs;
+
+public class GuessP [principal P] {
+
+    protected int{P->*; P<-*} x;
+
+    protected int{P->*; P<-*} y;
+}

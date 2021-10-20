@@ -1,0 +1,11 @@
+package Jifs;
+
+public class RecordP[principal P] {
+
+    protected char{P->*;P<-*}[]{P->*;P<-*} data;
+
+    public RecordP(char{P->*;P<-*}[]{P->*;P<-*} medData) {
+        data = medData;
+    }
+
+}

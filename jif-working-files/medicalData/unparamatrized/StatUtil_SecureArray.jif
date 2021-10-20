@@ -1,0 +1,60 @@
+package Jifs;
+
+public class StatUtil_SecureArray [principal Alice] authority(Alice) {
+
+    // @Secret
+    private int{Alice->*; Alice<-*} key = 5;
+
+    // @Gateway with parametrized Record
+    public char[]{Alice->_; Alice<-*} process{Alice<-*}(char{Alice->*; Alice<-*}[]{} rec) where authority(Alice) {
+        char{Alice->*; Alice<-*}[]{Alice<-*} recE = endorse(rec, {} to {Alice<-*});
+        char{Alice->*; Alice<-*}[]{Alice->*; Alice<-*} result = decrypt(recE, key);
+        return declassify(result, {Alice->*; Alice<-*} to {Alice->_; Alice<-*});
+    }
+
+    public char{Alice->*; Alice<-*}[]{Alice->*; Alice<-*} decrypt(char{Alice->*; Alice<-*}[]{Alice<-*} record, int{Alice->*; Alice<-*} offset) {
+            int len;
+            {
+                int y = 0;
+                try {
+                    y = record.length;
+                } catch (NullPointerException e) {
+                }
+                len = y;
+            }
+            int in = 0;
+            try {
+                in = record.length;
+            } catch (NullPointerException e) {
+            }
+            for (int i = 0; i < in; i++) {
+                char character;
+                {
+                    char r = ' ';
+                    try {
+                        r = record[i];
+                    } catch (NullPointerException e) {
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                    }
+                    character = r;
+                }
+                if (character != ' ') {
+                    int originalAlphabetPosition = character - 'a';
+                    int newAlphabetPosition = (originalAlphabetPosition + offset) % 26;
+                    char newCharacter = (char) ('a' + newAlphabetPosition);
+                    try {
+                        record[i] = newCharacter;
+                    } catch (NullPointerException e) {
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                    }
+                } else {
+                    try {
+                        record[i] = character;
+                    } catch (NullPointerException e) {
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                    }
+                }
+            }
+            return record;
+    }
+}

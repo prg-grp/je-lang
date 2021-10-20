@@ -1,0 +1,11 @@
+package Jifs;
+
+public class Record_String[principal P] {
+
+    protected String{P->*;P<-*} data;
+
+    public Record_String(String{P->*;P<-*} medData) {
+        data = medData;
+    }
+
+}

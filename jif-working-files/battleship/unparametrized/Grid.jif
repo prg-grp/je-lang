@@ -1,0 +1,44 @@
+package Jifs;
+
+public final class Grid [principal Alice] authority(Alice) {
+
+    boolean{Alice->*; Alice<-*}[][]{Alice->*; Alice<-*} gridA;
+
+    public boolean{Alice->_; Alice<-*} applyGuessA{Alice<-*}(Guess{} guess) where authority(Alice) {
+        Guess guessE = endorse(guess, {} to {Alice<-*});
+        boolean result = applyA(guessE);
+        return declassify(result, {Alice->*; Alice<-*} to {Alice->_; Alice<-*});
+    }
+
+    private boolean{Alice->*; Alice<-*} applyA(Guess{Alice<-*} guess) {
+        int x;
+        {
+            int f = 0;
+            try {
+                f = guess.x;
+            } catch (NullPointerException e) {
+            }
+            x = f;
+        }
+        int y;
+        {
+            int v = 0;
+            try {
+                v = guess.y;
+            } catch (NullPointerException e) {
+            }
+            y = v;
+        }
+        boolean b;
+        {
+            boolean z = false;
+            try {
+                z = gridA[x][y];
+            } catch (NullPointerException e) {
+            } catch (ArrayIndexOutOfBoundsException e) {
+            }
+            b = z;
+        }
+        return b;
+    }
+}

@@ -1,0 +1,7 @@
+package SecureCalculator;
+
+public class Task {
+    public int run (int input) {
+        return input;
+    }
+}

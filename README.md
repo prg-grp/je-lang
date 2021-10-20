@@ -42,5 +42,5 @@ More examples are provided in `/test-cases/src/je/de/tuda/prg`
 
 ## Running the compiler
 1. Make sure that JDK 8 is in your system path.
-2. In the *compile.sh* file, set the `JIF_HOME` variable. (same as described in the *Jif installation* process above)
+2. In the *compile.sh* file, set the `JIF_HOME` variable. (the same as described in the *Jif installation* process above)
 3. Run ```./compile.sh <path-to-the-JE-files>```

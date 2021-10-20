@@ -4,11 +4,11 @@ public class PathValues {
 
     public static final String GENERATED_JAVA_PACKAGE_NAME = "compiled";
 
-    public static String JE_FOLDER_PATH;
+    public static String JE_FOLDER_PATH;  // Gets the value from main args
 
-    public static String GENERATED_JIF_FOLDER_PREFIX;
+    public static String GENERATED_JIF_FOLDER_PREFIX; // Gets the value from main args
 
-    public static String GENERATED_JAVA_FOLDER_PREFIX;
+    public static String GENERATED_JAVA_FOLDER_PREFIX; // Gets the value from main args
 
     public static String ENCLAVE_MAIN_CLASS_TEMPLATE_FILE_NAME = "je-to-jiff-compiler/src/main/java/de/tuda/prg/templateclasses/EnclaveMainClass.java";
 

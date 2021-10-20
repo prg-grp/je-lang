@@ -21,6 +21,7 @@ import de.tuda.prg.exceptions.TranslationException;
 import de.tuda.prg.parser.generalvisitors.ClassNameGetterVisitor;
 import de.tuda.prg.parser.visitorsje.ClassAnnotationCheckerVisitorJe;
 import de.tuda.prg.parser.visitorsje.MethodDefinitionVisitorCollectorJe;
+import de.tuda.prg.parser.visitorsje.encapsulatedmethodsvisitor.GatewayMethodCallCollectorJe;
 
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -32,6 +33,14 @@ public class ParserHelper {
         ArrayList<Integer> annotationStatusIndicator = new ArrayList<Integer>();
         classAnnotationCheckerVisitorJe.visit(cu, annotationStatusIndicator);
         return (annotationStatusIndicator.size() == 1);
+    }
+
+    public static boolean isMainClass(final CompilationUnit cu) {
+        String[] strArray = new String[1];
+        new ClassNameGetterVisitor().visit(cu, strArray);
+        String className = strArray[0];
+        if (className.equals("Main")) return true;
+        else return false;
     }
 
     public static Map<String, List<MethodDeclaration>> getMethodDeclarationWithAnnotations(ClassOrInterfaceDeclaration cd, Set<String> annotationSet) {
@@ -82,7 +91,9 @@ public class ParserHelper {
     public static String getStringForSecType(String javaTypeString) {
         String trimmedString = javaTypeString.trim();
         String str;
-        if (trimmedString.endsWith("[]")) {
+        if (trimmedString.endsWith("[][]")) {
+            str = trimmedString.substring(0, trimmedString.length() - 4)+ Codes.secFieldTypeCodeArray2D;
+        } else if (trimmedString.endsWith("[]")) {
             str = trimmedString.substring(0, trimmedString.length() - 2)+ Codes.secFieldTypeCodeArray;
         } else {
             str = javaTypeString+Codes.secFieldTypeCodeRegular;
@@ -90,8 +101,21 @@ public class ParserHelper {
         return str;
     }
 
+    public static String getStringForParametrizedType(String javaTypeString) {
+        String trimmedString = javaTypeString.trim();
+        String str;
+        if (trimmedString.endsWith("[][]")) {
+            str = trimmedString.substring(0, trimmedString.length() - 4)+ Codes.secFieldTypeCodeArray2DParametrizedClass;
+        } else if (trimmedString.endsWith("[]")) {
+            str = trimmedString.substring(0, trimmedString.length() - 2)+ Codes.secFieldTypeCodeArrayParametrizedClass;
+        } else {
+            str = javaTypeString+Codes.secFieldTypeCodeParametrizedClass;
+        }
+        return str;
+    }
 
-    public static void getAllGatewayMethods(final CompilationUnit cu, final List<ClassNameMethodDecls> gatewayMethodDeclarations) {
+
+    public static void populateAllGatewayMethodsInCu(final CompilationUnit cu, final List<ClassNameMethodDecls> gatewayMethodDeclarations) {
         String[] strArray = new String[1];
         new ClassNameGetterVisitor().visit(cu, strArray);
         String className = strArray[0];
@@ -99,6 +123,15 @@ public class ParserHelper {
         ClassNameMethodDecls cMd = new ClassNameMethodDecls(className);
         new MethodDefinitionVisitorCollectorJe().visit(cu, cMd.getMethodDeclarations());
         gatewayMethodDeclarations.add(cMd);
+    }
+
+    public static void populateAllEncapsulatedMethodsInsideGatewayMethod(final CompilationUnit cu, final List<MethodCallExpr> gatewayMethodCalls) {
+        String[] strArray = new String[1];
+        new ClassNameGetterVisitor().visit(cu, strArray);
+        String className = strArray[0];
+
+        GatewayMethodCallCollectorJe gwmcec = new GatewayMethodCallCollectorJe();
+        gwmcec.visit(cu, gatewayMethodCalls);
     }
 
     public static String getRMICallReceiverString(String enclaveClassName) {
@@ -168,13 +201,32 @@ public class ParserHelper {
         }
     }
 
-    public static void populateGtwMethodNames(List<ClassNameMethodDecls> gatewayMethodDeclarations, HashSet<String> gatewayMethodNames) {
+    public static void populateMethodNamesFromDeclarations(List<ClassNameMethodDecls> gatewayMethodDeclarations, HashSet<String> gatewayMethodNames) {
         for (ClassNameMethodDecls clNameMethodDeclare : gatewayMethodDeclarations) {
             Set<String> currClassGtwMethodNames = new HashSet<>();
             for (MethodDeclaration md : clNameMethodDeclare.getMethodDeclarations()) {
                 currClassGtwMethodNames.add(md.getNameAsString());
             }
             gatewayMethodNames.addAll(currClassGtwMethodNames);
+        }
+    }
+
+    public static boolean checkJavaTypes(Type t) {
+        if (t.isPrimitiveType()) return true;
+        else if (t.getElementType().isPrimitiveType()) return true;
+        else {
+            switch(t.getElementType().asString()) {
+                case "String" : return true;
+                case "Double" : return true;
+                default : return false;
+            }
+        }
+    }
+
+    public static boolean checkJifTypes(Type t) {
+        switch(t.getElementType().asString()) {
+            case "List" : return true;
+            default : return false;
         }
     }
 }

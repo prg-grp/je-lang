@@ -1,0 +1,24 @@
+package SecureCalculator;
+
+import jif.util.List;
+
+public final class TaskProcessor [principal Alice] authority (Alice) {
+
+    Double{Alice->*; Alice<-*} salary = 11.7;
+
+    public Double{Alice->_; Alice<-*} process{Alice<-*}(List{} taskList) where authority(Alice) {
+        List taskListE = endorse(taskList, {} to {Alice<-*});
+        Double result = salary;
+        for (Object task : taskListE) {
+            {
+                Double f = null;
+                try {
+                    f = ((Task) task).run(result);
+                } catch (NullPointerException e) {
+                }
+                result += f;
+            }
+        }
+        return declassify(result, {Alice->*; Alice<-*} to {Alice->_; Alice<-*});
+    }
+}
