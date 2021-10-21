@@ -30,11 +30,13 @@ public class NonGatewayMethodDefinitionTransformerVisitorJe extends VoidVisitorA
                 System.out.println("Index of parameter is: "+i);
                 //param.setType(param.getTypeAsString() + Codes.infMethodParamTypeLabelCode);
                 if (ParserHelper.checkJavaTypes(param.getType())) {
-                    if (parameters.get(i).equals("endorsed")) param.setType(param.getTypeAsString() + Codes.infMethodParamTypeLabelCode);
-                    else if (parameters.get(i).equals("secret")) param.setType(param.getTypeAsString() + Codes.infMethodParamSecretTypeLabelCode);
+                    //if (parameters.get(i).equals("endorsed")) param.setType(param.getTypeAsString() + Codes.infMethodParamTypeLabelCode);
+                    //else if (parameters.get(i).equals("secret")) param.setType(param.getTypeAsString() + Codes.infMethodParamSecretTypeLabelCode);
+                    param.setType(param.getTypeAsString() + Codes.infMethodParamSecretTypeLabelCode);
                 } else {
-                    if (parameters.get(i).equals("endorsed")) param.setType(param.getTypeAsString() + Codes.infMethodParamTypeLabelParametrizedCode);
-                    else if (parameters.get(i).equals("secret")) param.setType(param.getTypeAsString() + Codes.infMethodParamSecretTypeLabelParametrizedCode);
+                    //if (parameters.get(i).equals("endorsed")) param.setType(param.getTypeAsString() + Codes.infMethodParamTypeLabelParametrizedCode);
+                    //else if (parameters.get(i).equals("secret")) param.setType(param.getTypeAsString() + Codes.infMethodParamSecretTypeLabelParametrizedCode);
+                    param.setType(param.getTypeAsString() + Codes.infMethodParamSecretTypeLabelParametrizedCode);
                 }
             });
         }

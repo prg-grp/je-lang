@@ -1,8 +1,11 @@
 package de.tuda.prg.parser.visitorsje;
 
+import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import de.tuda.prg.constants.Codes;
+import de.tuda.prg.parser.ParserHelper;
 
 public class MethodCallVisitorJe extends VoidVisitorAdapter<Void> {
         @Override
@@ -18,6 +21,14 @@ public class MethodCallVisitorJe extends VoidVisitorAdapter<Void> {
                 mc.addArgument(Codes.declassifyToLabelCode);
             }
             super.visit(mc, arg);
+        }
+
+        @Override
+        public void visit(VariableDeclarator vd, Void arg) {
+            if (vd.toString().contains(Codes.endorse) && !ParserHelper.checkJavaTypes(vd.getType())) {
+                vd.setType(vd.getType().toString()+Codes.principalParameterCode);
+            }
+            super.visit(vd, arg);
         }
 }
 

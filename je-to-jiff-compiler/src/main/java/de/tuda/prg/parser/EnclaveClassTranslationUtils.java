@@ -19,7 +19,7 @@ import java.util.List;
 
 public class EnclaveClassTranslationUtils {
 
-    public static void translateEnclaveClass(final CompilationUnit cu) {
+    public static void   translateEnclaveClass(final CompilationUnit cu) {
 
             // Step1: Visiting class declaration inside the cu
             System.out.println("--------- class before visiting -----------------------");

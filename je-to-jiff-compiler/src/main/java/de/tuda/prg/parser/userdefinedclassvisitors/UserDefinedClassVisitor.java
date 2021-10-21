@@ -30,7 +30,7 @@ public class UserDefinedClassVisitor extends VoidVisitorAdapter<Void>  {
         field.getVariables().forEach(vd -> {
             System.out.println("Type of the field in the Je program = " + vd.getType().asString());
 
-            String replacementTypeString = ParserHelper.getStringForParametrizedType(vd.getType().asString());
+            String replacementTypeString = ParserHelper.getStringForParametrizedType(vd.getType());
 
             System.out.println("replacementTypeString = " + replacementTypeString);
 
@@ -43,19 +43,15 @@ public class UserDefinedClassVisitor extends VoidVisitorAdapter<Void>  {
     @Override
     public void visit(MethodDeclaration md, Void arg) {
         if (md.isStatic()) md.removeModifier(Modifier.Keyword.STATIC);   // Removing the static modifier
-        //System.out.println("After static check");
-        final String methodReturnType = md.getTypeAsString();
-        //System.out.println("After String extract check");
-        if (!"void".equals(methodReturnType)) {
+        if (!"void".equals(md.getType().toString())) {
             //System.out.println("After void check : "+ md.getTypeAsString() + Codes.infReturnTypeCode);
-            md.setType(ParserHelper.getStringForParametrizedType(methodReturnType)); // Setting the return type of the inferred method
+            md.setType(ParserHelper.getStringForParametrizedType(md.getType())); // Setting the return type of the inferred method
             //System.out.println("After set type");
         }
         //System.out.println("After return type check");
         md.getParameters().forEach(param -> {
             //param.setType(param.getTypeAsString() + Codes.infMethodParamTypeLabelCode);
-            if (ParserHelper.checkJavaTypes(param.getType())) param.setType(ParserHelper.getStringForParametrizedType(param.getType().asString()));
-            else param.setType(param.getTypeAsString() + Codes.infMethodParamTypeLabelParametrizedCode);
+            param.setType(ParserHelper.getStringForParametrizedType(param.getType()));
         }); // Adding security label to the gateway parameter
         super.visit(md, arg); // Keeping all the 'super.visit' calls as the last command in the method
     }
@@ -63,7 +59,7 @@ public class UserDefinedClassVisitor extends VoidVisitorAdapter<Void>  {
     @Override
     public void visit(ConstructorDeclaration cd, Void arg) {
         cd.getParameters().forEach(param -> {
-            if (ParserHelper.checkJavaTypes(param.getType())) param.setType(ParserHelper.getStringForParametrizedType(param.getType().asString()));
+            param.setType(ParserHelper.getStringForParametrizedType(param.getType()));
         });
     }
 }

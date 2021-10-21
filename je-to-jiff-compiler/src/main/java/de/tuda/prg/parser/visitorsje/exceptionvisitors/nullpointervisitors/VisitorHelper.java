@@ -167,7 +167,7 @@ public class VisitorHelper {
         } if (exp.contains("length")) {
             return PrimitiveType.intType();
         } else {
-            return PrimitiveType.booleanType();
+            return null;
         }
     }
 

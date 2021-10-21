@@ -88,30 +88,74 @@ public class ParserHelper {
        mc.setScope(new NameExpr(FileNames.NON_ENCLAVE_WRAPPER_CLASS_BASE_NAME));
     }
 
-    public static String getStringForSecType(String javaTypeString) {
+    public static String getStringForSecType(Type javaType) {
+        if (checkJavaTypes(javaType)) return getStringForSecPrimitiveType(javaType.toString(), false);
+        else if (checkJifTypes(javaType)) return getStringForSecJifType(javaType.toString(), false);
+        else return getStringForUserType(javaType.toString(), false);
+    }
+
+    private static String getStringForSecPrimitiveType(String javaTypeString, boolean parametrized) {
+        String secFieldTypeReg, secFieldTypeArray, secFieldTypeArray2D;
+        if (!parametrized) {
+            secFieldTypeReg = Codes.secFieldTypeCodeRegular;
+            secFieldTypeArray = Codes.secFieldTypeCodeArray;
+            secFieldTypeArray2D = Codes.secFieldTypeCodeArray2D;
+        } else {
+            secFieldTypeReg = Codes.secFieldPrimitiveTypeCodeParametrizedClass;
+            secFieldTypeArray = Codes.secFieldPrimitiveTypeCodeArrayParametrizedClass;
+            secFieldTypeArray2D = Codes.secFieldPrimitiveTypeCodeArray2DParametrizedClass;
+        }
         String trimmedString = javaTypeString.trim();
         String str;
         if (trimmedString.endsWith("[][]")) {
-            str = trimmedString.substring(0, trimmedString.length() - 4)+ Codes.secFieldTypeCodeArray2D;
+            str = trimmedString.substring(0, trimmedString.length() - 4)+ secFieldTypeArray2D;
         } else if (trimmedString.endsWith("[]")) {
-            str = trimmedString.substring(0, trimmedString.length() - 2)+ Codes.secFieldTypeCodeArray;
+            str = trimmedString.substring(0, trimmedString.length() - 2)+ secFieldTypeArray;
         } else {
-            str = javaTypeString+Codes.secFieldTypeCodeRegular;
+            str = javaTypeString+secFieldTypeReg;
         }
         return str;
     }
 
-    public static String getStringForParametrizedType(String javaTypeString) {
+    private static String getStringForSecJifType(String javaTypeString, boolean parametrized) {
         String trimmedString = javaTypeString.trim();
         String str;
         if (trimmedString.endsWith("[][]")) {
-            str = trimmedString.substring(0, trimmedString.length() - 4)+ Codes.secFieldTypeCodeArray2DParametrizedClass;
+            str = trimmedString.substring(0, trimmedString.length() - 4)+ Codes.secFieldJifTypeCodeArray2D;
         } else if (trimmedString.endsWith("[]")) {
-            str = trimmedString.substring(0, trimmedString.length() - 2)+ Codes.secFieldTypeCodeArrayParametrizedClass;
+            str = trimmedString.substring(0, trimmedString.length() - 2)+ Codes.secFieldJifTypeCodeArray;
         } else {
-            str = javaTypeString+Codes.secFieldTypeCodeParametrizedClass;
+            str = javaTypeString+Codes.secFieldJifTypeCodeRegular;
         }
         return str;
+    }
+
+    private static String getStringForUserType(String javaTypeString, boolean parametrized) {
+        String secFieldTypeReg, secFieldTypeArray, secFieldTypeArray2D;
+        if (!parametrized) {
+            secFieldTypeReg = Codes.secFieldUserTypeCodeRegular;
+            secFieldTypeArray = Codes.secFieldUserTypeCodeArray;
+            secFieldTypeArray2D = Codes.secFieldUserTypeCodeArray2D;
+        } else {
+            secFieldTypeReg = Codes.secFieldUserTypeCodeParametrizedClass;
+            secFieldTypeArray = Codes.secFieldUserTypeCodeArrayParametrizedClass;
+            secFieldTypeArray2D = Codes.secFieldUserTypeCodeArray2DParametrizedClass;
+        }
+        String trimmedString = javaTypeString.trim();
+        String str;
+        if (trimmedString.endsWith("[][]")) {
+            str = trimmedString.substring(0, trimmedString.length() - 4)+ secFieldTypeArray;
+        } else if (trimmedString.endsWith("[]")) {
+            str = trimmedString.substring(0, trimmedString.length() - 2)+ secFieldTypeArray2D;
+        } else {
+            str = javaTypeString+secFieldTypeReg;
+        }
+        return str;
+    }
+
+    public static String getStringForParametrizedType(Type javaType) {
+        if (checkJavaTypes(javaType)) return getStringForSecPrimitiveType(javaType.toString(), true);
+        else return getStringForUserType(javaType.toString(), true);
     }
 
 
@@ -215,6 +259,11 @@ public class ParserHelper {
         if (t.isPrimitiveType()) return true;
         else if (t.getElementType().isPrimitiveType()) return true;
         else {
+            System.out.println(t.asString());
+            switch(t.asString()) {
+                case "String" : return true;
+                case "Double" : return true;
+            }
             switch(t.getElementType().asString()) {
                 case "String" : return true;
                 case "Double" : return true;

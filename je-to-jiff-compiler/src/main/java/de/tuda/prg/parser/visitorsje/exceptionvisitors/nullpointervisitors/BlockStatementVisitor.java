@@ -4,6 +4,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+import com.github.javaparser.symbolsolver.model.typesystem.NullType;
 
 public class BlockStatementVisitor extends VoidVisitorAdapter {
     StatementExpressionVisitor statementExpressionVisitor = new StatementExpressionVisitor(); // Visits all ExpressionStatements
@@ -17,8 +18,8 @@ public class BlockStatementVisitor extends VoidVisitorAdapter {
     @Override
     public void visit(MethodDeclaration n, Object arg) { // Visit all implemented Methods
         if (n.getBody().isPresent()) {
-            statementExpressionVisitor.startVisiting(n.getBody().get(), arg);
-            statementVisitor.startVisiting(n.getBody().get(), arg);
+            statementExpressionVisitor.startVisiting(n.getBody().get(), n.getType());
+            statementVisitor.startVisiting(n.getBody().get(), n.getType());
         }
     }
 
