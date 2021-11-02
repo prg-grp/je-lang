@@ -45,7 +45,7 @@ public class AutomatedExceptionHandlingTask implements CodeXformationTask {
                             
                             String afterVisitClassString = cu.toString(); // Class after adding Exceptions
 
-                            FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX + currentFileBaseName + "_beforeExHandling.java", beforeVisitClassString);
+                            //FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX + currentFileBaseName + "_beforeExHandling.java", beforeVisitClassString);
                             FileUtils.writeStringToFile(PathValues.JE_FOLDER_PATH + "/" + file.getName(), afterVisitClassString);
                         } else {
                             System.out.println("Not an enclave class");

@@ -30,6 +30,7 @@ public class TaskOrderedList {
         taskList.add(new SecFieldsModificationTask());  // No. 6
         taskList.add(new EnclaveClassXformationTask()); // No. 7
         taskList.add(new RMICodeAdderTask()); // No. 8
+        taskList.add(new EnclaveInitializationFilesTask());
 
        // taskList.add(new SyntaxCheckTask());
         // No. 6  further create new tasks to be inserted here

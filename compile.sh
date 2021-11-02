@@ -19,9 +19,9 @@ JE_PATH=$1
 mkdir ${JE_PATH}/generated-jif
 GENERATED_JIF_PATH=${JE_PATH}/generated-jif/
 mkdir ${JE_PATH}/generated-java
-GENERATED_JAVA_PATH=${JE_PATH}/generated-java/
+GENERATED_JAVA_PATH=${JE_PATH}/generated-java
 
-java -jar ./je-to-jiff-compiler/target/je-to-jiff-compiler-jar-with-dependencies.jar $JE_PATH $GENERATED_JIF_PATH $GENERATED_JAVA_PATH
+java -jar ./je-to-jiff-compiler/target/je-to-jiff-compiler-jar-with-dependencies.jar $JE_PATH $GENERATED_JIF_PATH $GENERATED_JAVA_PATH/
 
 echo "Compiling using Jif compiler..."
 eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERATED_JIF_PATH}/*
@@ -31,3 +31,6 @@ eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERA
 #eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERATED_JIF_PATH}/StatRecord.jif ${GENERATED_JIF_PATH}/EncRecord.jif ${GENERATED_JIF_PATH}/StatUtil.jif
 #eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERATED_JIF_PATH}/EncInt.jif ${GENERATED_JIF_PATH}/FilterNode.jif ${GENERATED_JIF_PATH}/EncEvent.jif ${GENERATED_JIF_PATH}/EncIntEvent.jif ${GENERATED_JIF_PATH}/GreaterPredicate.jif
 #eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERATED_JIF_PATH}/Task.jif ${GENERATED_JIF_PATH}/TaskProcessor.jif
+
+javac -g:none $GENERATED_JAVA_PATH/enclaveJar/*
+jar cvf enclave.jar -C GENERATED_JAVA_PATH/enclaveJar .
