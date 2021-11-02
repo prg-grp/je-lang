@@ -52,18 +52,17 @@ public class JARSeperator {
     }
 
     private void seperate(final File generetedJavaDir, boolean enclave) {
-        ArrayList<String> toAdd;
-        boolean added = true;
         String name = "";
         if (enclave) name = "EnclaveMainClass";
         else name = "Main";
         File base = find(generetedJavaDir, name);
         if (enclave) enclaveJAR.add(FilenameUtils.removeExtension(base.getName()));
         else nonEnclaveJAR.add(FilenameUtils.removeExtension(base.getName()));
-        int currentSize = enclaveJAR.size();
+        int maxSize = enclave ? enclaveJAR.size() : nonEnclaveJAR.size();
+        int currentSize = enclave ? enclaveJAR.size() : nonEnclaveJAR.size();
         try {
             String sourceCode = StaticJavaParser.parse(base).toString();
-            while (currentSize<=enclaveJAR.size()) {
+            while (currentSize<=maxSize) {
                 System.out.println(" ");
                 System.out.print(base.toString());
                 System.out.print(" : ");
@@ -79,7 +78,8 @@ public class JARSeperator {
                         else nonEnclaveJAR.add(fileName);
                     }
                 }
-                if (currentSize<enclaveJAR.size()) {
+                maxSize = enclave ? enclaveJAR.size() : nonEnclaveJAR.size();
+                if (currentSize<maxSize) {
                     if (enclave) base = find(generetedJavaDir, enclaveJAR.get(currentSize));
                     else base = find(generetedJavaDir, nonEnclaveJAR.get(currentSize));
                     sourceCode = StaticJavaParser.parse(base).toString();
