@@ -1,5 +1,3 @@
-package battleship;
-
 @Enclave
 public class Grid {
 

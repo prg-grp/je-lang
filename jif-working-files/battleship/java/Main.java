@@ -1,5 +1,3 @@
-package battleship;
-
 import java.util.Random;
 
 public class Main {
@@ -17,7 +15,6 @@ public class Main {
             gridSize = 7;
             numberShips = 5;
         }
-        init();
 
         int resultA = 0;
 

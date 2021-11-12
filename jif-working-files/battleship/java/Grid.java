@@ -1,10 +1,8 @@
-package battleship;
-
 @Enclave
 public class Grid {
 
     @Secret
-    static boolean[][] gridA;
+    static boolean[][] gridA = {{true, false}, {true, true}};
 
     @Gateway
     public static boolean applyGuessA(Guess guess) {

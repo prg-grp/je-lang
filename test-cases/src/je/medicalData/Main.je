@@ -1,33 +1,27 @@
-package medicalData;
-
-
 public class Main {
 
 
     public static void main(String[] args) {
         int offset = 5;
-        Record record = new Record("this is some data".toCharArray());
-        Record recordE = encrypt(record, 26-5);
-        StatUtil.process(recordE);
+        EncRecord record = encrypt("This is a message", 26-5);
+        StatUtil.process(record);
     }
 
-    public static Record encrypt(Record record, int offset) {
-        char[] cipher = record.data;
-        char[] result = new char[cipher.length];
-        for (int i=0; i<cipher.length; i++) {
-            char character = cipher[i];
+    public static EncRecord encrypt(String message, int key) {
+        int len = message.length();
+        String result = "";
+        for (int i = 0; i < len; i++) {
+            char character = message.charAt(i);
             if (character != ' ') {
                 int originalAlphabetPosition = character - 'a';
-                int newAlphabetPosition = (originalAlphabetPosition + offset) % 26;
+                int newAlphabetPosition = (originalAlphabetPosition + key) % 26;
                 char newCharacter = (char) ('a' + newAlphabetPosition);
-                result[i] = newCharacter;
-                System.out.print(newCharacter);
+                result += newCharacter;
             } else {
-                result[i] = character;
+                result += character;
             }
         }
-        System.out.println("");
-        return new StatRecord(result);
+        return new EncRecord(result);
     }
 
 }

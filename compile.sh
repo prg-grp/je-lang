@@ -32,5 +32,10 @@ eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERA
 #eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERATED_JIF_PATH}/EncInt.jif ${GENERATED_JIF_PATH}/FilterNode.jif ${GENERATED_JIF_PATH}/EncEvent.jif ${GENERATED_JIF_PATH}/EncIntEvent.jif ${GENERATED_JIF_PATH}/GreaterPredicate.jif
 #eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERATED_JIF_PATH}/Task.jif ${GENERATED_JIF_PATH}/TaskProcessor.jif
 
+echo "Compiling Enclave Jar..."
 javac -g:none $GENERATED_JAVA_PATH/enclaveJar/*
-jar cvf enclave.jar -C GENERATED_JAVA_PATH/enclaveJar .
+jar cvf enclave.jar -C $GENERATED_JAVA_PATH/enclaveJar .
+
+echo "Compiling NonEnclave Jar..."
+javac -g:none $GENERATED_JAVA_PATH/nonEnclaveJar/*
+jar cvf nonEnclave.jar -C $GENERATED_JAVA_PATH/nonEnclaveJar .

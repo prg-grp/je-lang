@@ -11,7 +11,7 @@ public class StatUtil {
         return declassify(result);
     }
 
-    public StatRecord decrypt(EncRecord record) {
+    public static StatRecord decrypt(EncRecord record) {
         String cipher = record.encData;
         int len = cipher.length();
         String result = "";
