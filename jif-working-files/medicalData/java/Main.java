@@ -23,5 +23,4 @@ public class Main {
         }
         return new EncRecord(result);
     }
-
 }

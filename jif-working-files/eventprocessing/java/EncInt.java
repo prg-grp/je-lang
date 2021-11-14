@@ -1,3 +1,7 @@
 public class EncInt {
-    int encryptedInt = 5;
+    int encryptedInt;
+
+    public EncInt(int i) {
+        encryptedInt = i;
+    }
 }

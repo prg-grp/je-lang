@@ -39,7 +39,7 @@ public class ParserHelper {
         String[] strArray = new String[1];
         new ClassNameGetterVisitor().visit(cu, strArray);
         String className = strArray[0];
-        if (className.equals("Main")) return true;
+        if (className.equals("Main") || className.equals("Generator")) return true; // TODO: How to handle subclasses of MAIN not calles from Enclave?
         else return false;
     }
 
@@ -77,15 +77,18 @@ public class ParserHelper {
 
 
    public static void transformNonEnclaveGatewayCall(final MethodCallExpr mc) {
+        System.out.println(mc.toString());
         Expression receiverExpr = mc.getScope().get(); // extract the receiver  // The receiver has to be the class name. It cannot be an identifier, as we are only dealing with the 'static` methods.
-       // Here, the run time type of the 'receiverExpr' is "NameExpr"
+        // Here, the run time type of the 'receiverExpr' is "NameExpr"
 
-
-       // Skipping any checks on the expression assuming it is a class name expression.
-       String receiverName = ((NameExpr) receiverExpr).getNameAsString();
-       System.out.println("Receiver of the method call = "+receiverName);
-       mc.removeScope();
-       mc.setScope(new NameExpr(FileNames.NON_ENCLAVE_WRAPPER_CLASS_BASE_NAME));
+        // Skipping any checks on the expression assuming it is a class name expression.
+        // Added Name Expression check because of filter method of streams
+        if (receiverExpr.isNameExpr()) {
+            String receiverName = ((NameExpr) receiverExpr).getNameAsString();
+            System.out.println("Receiver of the method call = "+receiverName);
+            mc.removeScope();
+            mc.setScope(new NameExpr(FileNames.NON_ENCLAVE_WRAPPER_CLASS_BASE_NAME));
+        }
     }
 
     public static String getStringForSecType(Type javaType) {

@@ -15,11 +15,11 @@ public class FilterNode {
         return declassify(apply(val));
     }
 
-    private int decrypt(EncInt val) {
+    private static int decrypt(EncInt val) {
         return val.encryptedInt;
     }
 
-    private boolean apply(int val) {
+    private static boolean apply(int val) {
         return predicate.test(val);
     }
 }
