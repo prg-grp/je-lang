@@ -2,7 +2,7 @@
 public class Grid {
 
     @Secret
-    static boolean[][] gridA = {{true, false}, {true, true}};
+    static boolean[][] gridA = { { false, true, false }, { true, false, false }, { false, false, false }, { false, false, false }, { true, true, true } };
 
     @Gateway
     public static boolean applyGuessA(Guess guess) {

@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class Main {
 
-    static boolean[][] gridA;
+    static boolean[][] gridA = { {false, true , false, false, false}, { true, false, false, false, false}, {false, false , false, false, false}, {false, false , false, false, false},  {true, true, true, false, false} };
     static int gridSize;
     static int numberShips;
 
@@ -12,7 +12,7 @@ public class Main {
             gridSize = Integer.valueOf(args[0]);
             numberShips = gridSize/2;
         } else {
-            gridSize = 7;
+            gridSize = 5;
             numberShips = 5;
         }
 

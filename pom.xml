@@ -16,6 +16,7 @@
         <!--  <module>annotationProcessor</module> -->
         <!-- <module>java-to-jiff-compiler</module> -->
         <module>je-to-jiff-compiler</module>
+        <!-- <module>jif-working-files</module> -->
         <module>test-cases</module>
     </modules>
 
