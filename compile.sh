@@ -35,13 +35,13 @@ eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERA
 echo "Compiling Enclave Directory..."
 echo "Manifest-Version: 1.0" >> $GENERATED_JAVA_PATH/enclaveJar/"MANIFEST.MF"
 echo "Main-Class: EnclaveMainClass" >> $GENERATED_JAVA_PATH/enclaveJar/"MANIFEST.MF"
-javac -g:none $GENERATED_JAVA_PATH/enclaveJar/*.java
+javac $GENERATED_JAVA_PATH/enclaveJar/*.java
 
 
 echo "Compiling NonEnclave Directory..."
 echo "Manifest-Version: 1.0" >> $GENERATED_JAVA_PATH/nonEnclaveJar/"MANIFEST.MF"
 echo "Main-Class: Main" >> $GENERATED_JAVA_PATH/nonEnclaveJar/"MANIFEST.MF"
-javac -g:none $GENERATED_JAVA_PATH/nonEnclaveJar/*.java
+javac $GENERATED_JAVA_PATH/nonEnclaveJar/*.java
 
 
 echo "Extracting Enclave Jar..."
