@@ -2,11 +2,12 @@ import java.util.Random;
 
 public class Main {
 
-    static boolean[][] gridA = { {false, true , false, false, false}, { true, false, false, false, false}, {false, false , false, false, false}, {false, false , false, false, false},  {true, true, true, false, false} };
+    static boolean[][] gridA = { {false, false , false, false, false}, {false, false , false, false, false}, {false, false , false, false, false}, {false, false , false, false, false}, {false, false , false, false, false}};
     static int gridSize;
     static int numberShips;
 
     public static void main(String[] args) {
+        System.out.println("Started Game");
         boolean gameOver = false;
         if (args.length > 0) {
             gridSize = Integer.valueOf(args[0]);
@@ -21,10 +22,12 @@ public class Main {
         while(!gameOver) {
             Guess g1 = getGuessA();
             updateGridA(g1);
-            if (Grid.applyGuessA(g1)) resultA += 1;
+            boolean b = Grid.applyGuessA(g1);
+            if (b) resultA += 1;
             if (resultA == numberShips) {
                 gameOver = true;
             }
+            System.out.println("ResultA : "+resultA);
         }
 
         System.out.println("GAME is Over! A destroyed: "+resultA);

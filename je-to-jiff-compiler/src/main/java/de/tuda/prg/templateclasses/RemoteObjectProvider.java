@@ -9,7 +9,7 @@ public class RemoteObjectProvider {
         try {
             remoteObj = Naming.lookup("rmi://localhost:1099/" + objectName);
         } catch (RemoteException | NotBoundException | MalformedURLException e) {
-            throw new RuntimeException("RMI lookup failed.");
+            throw new RuntimeException("RMI lookup failed."+e.getMessage());
         }
         return remoteObj;
     }

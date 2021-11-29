@@ -16,4 +16,9 @@ public class UserClassTranslationUtils {
         UserDefinedClassVisitor userClassVisitorJe = new UserDefinedClassVisitor();
         userClassVisitorJe.visit(cu, null);
     }
+
+    public static void addSerializableToUserClass(final CompilationUnit cu) {
+        ImplementSerializableInterface implementSerializableInterfaceVisitor = new ImplementSerializableInterface();
+        implementSerializableInterfaceVisitor.visit(cu, null);
+    }
 }
