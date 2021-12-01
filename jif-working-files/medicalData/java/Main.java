@@ -7,20 +7,9 @@ import java.util.ArrayList;
 
 public class Main {
 
-    String rec1 = "{
-        dateRep : 24/11/2021,
-        day : 24,
-        month : 11,
-        year : 2021,
-        cases : 66884,
-        deaths : 335,
-        countriesAndTerritories : Germany,
-        geoId : DE,
-        countryterritoryCode : DEU,
-        popData2020 : 83166711,
-        continentExp : Europe
-     }";
-     String rec2 = "{
+    String rec1 = "myData";
+    //String rec1 = "dateRep : 24/11/2021, day : 24, month : 11, year : 2021, cases : 66884, deaths : 335, countriesAndTerritories : Germany, geoId : DE, countryterritoryCode : DEU, popData2020 : 83166711, continentExp : Europe";
+    /*String rec2 = "
         dateRep : 23/11/2021,
         day : 23,
         month : 11,
@@ -31,9 +20,8 @@ public class Main {
         geoId : DE,
         countryterritoryCode : DEU,
         popData2020 : 83166711,
-        continentExp : Europe
-     }";
-     String rec3 = "{
+        continentExp : Europe";
+     String rec3 = "
         dateRep : 22/11/2021,
         day : 22,
         month : 11,
@@ -44,9 +32,8 @@ public class Main {
         geoId : DE,
         countryterritoryCode : DEU,
         popData2020 : 83166711,
-        continentExp : Europe
-     }";
-     String rec4 = "{
+        continentExp : Europe";
+     String rec4 = "
         dateRep : 21/11/2021,
         day : 21,
         month : 11,
@@ -57,9 +44,8 @@ public class Main {
         geoId : DE,
         countryterritoryCode : DEU,
         popData2020 : 83166711,
-        continentExp : Europe
-     }";
-     String rec5 = "{
+        continentExp : Europe";
+     String rec5 = "
         dateRep : 20/11/2021,
         day : 20,
         month : 11,
@@ -70,8 +56,7 @@ public class Main {
         geoId : DE,
         countryterritoryCode : DEU,
         popData2020 : 83166711,
-        continentExp : Europe
-     }";
+        continentExp : Europe";*/
 
 
     public static void main(String[] args) {
@@ -86,8 +71,9 @@ public class Main {
     private static List<EncRecord> getEncryptedRecords() {
         ArrayList<EncRecord> lst = new ArrayList();
 
-        String message = "";
-        for (int i=0; i<5; i++) {
+        String message = rec1;
+        lst.add(rec1);
+        /*for (int i=0; i<5; i++) {
             switch (i) {
                 case 0:
                     message = rec1;
@@ -103,13 +89,13 @@ public class Main {
                     break;
             }
             lst.add(encrypt(message, 5));
-        }
+        }*/
         return lst;
     }
 
     private static EncRecord encrypt(String message, int key) {
         int len = message.length();
-        String result = ;
+        String result = "";
         for (int i = 0; i < len; i++) {
             char character = message.charAt(i);
             if (character != ' ') {

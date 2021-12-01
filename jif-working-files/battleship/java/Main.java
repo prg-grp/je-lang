@@ -5,9 +5,11 @@ public class Main {
     static boolean[][] gridA = { {false, false , false, false, false}, {false, false , false, false, false}, {false, false , false, false, false}, {false, false , false, false, false}, {false, false , false, false, false}};
     static int gridSize;
     static int numberShips;
+    private static Random rnd;
 
     public static void main(String[] args) {
         System.out.println("Started Game");
+        rnd = new Random();
         boolean gameOver = false;
         if (args.length > 0) {
             gridSize = Integer.valueOf(args[0]);
@@ -23,7 +25,9 @@ public class Main {
             Guess g1 = getGuessA();
             updateGridA(g1);
             boolean b = Grid.applyGuessA(g1);
-            if (b) resultA += 1;
+            if (b) {
+                resultA += 1;
+            }
             if (resultA == numberShips) {
                 gameOver = true;
             }
@@ -34,15 +38,14 @@ public class Main {
     }
 
     private static void updateGridA(Guess guess) {
-        gridA[guess.x][guess.y] = true;
+        gridA[guess.getX()][guess.getY()] = true;
     }
 
     private static Guess getGuessA() {
-        Random rnd = new Random();
         int x = rnd.nextInt(gridSize);
         int y = rnd.nextInt(gridSize);
         Guess guess = new Guess(x,y);
-        while (gridA[guess.x][guess.y]) {
+        while (gridA[x][y]) {
             x = rnd.nextInt(gridSize);
             y = rnd.nextInt(gridSize);
             guess = new Guess(x,y);

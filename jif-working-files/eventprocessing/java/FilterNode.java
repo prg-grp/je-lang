@@ -5,7 +5,7 @@ public class FilterNode {
     static String key;
 
     @Secret
-    static GreaterPredicate predicate;
+    static GreaterPredicate predicate = new GreaterPredicate();
 
     @Gateway
     public static boolean filter(EncIntEvent event) {
@@ -16,7 +16,7 @@ public class FilterNode {
     }
 
     private static int decrypt(EncInt val) {
-        return val.encryptedInt;
+        return val.getInt();
     }
 
     private static boolean apply(int val) {

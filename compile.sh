@@ -45,7 +45,7 @@ javac $GENERATED_JAVA_PATH/nonEnclaveJar/*.java
 
 
 echo "Extracting Enclave Jar..."
-jar cmf $GENERATED_JAVA_PATH/enclaveJar/"MANIFEST.MF" enclave.jar -C $GENERATED_JAVA_PATH/enclaveJar .
+jar cmf $GENERATED_JAVA_PATH/enclaveJar/"MANIFEST.MF" $JE_PATH/enclave.jar -C $GENERATED_JAVA_PATH/enclaveJar .
 
 echo "Extracting nonEnclave Jar..."
-jar cmf $GENERATED_JAVA_PATH/nonEnclaveJar/"MANIFEST.MF" nonEnclave.jar -C $GENERATED_JAVA_PATH/nonEnclaveJar .
+jar cmf $GENERATED_JAVA_PATH/nonEnclaveJar/"MANIFEST.MF" $JE_PATH/nonEnclave.jar -C $GENERATED_JAVA_PATH/nonEnclaveJar .
