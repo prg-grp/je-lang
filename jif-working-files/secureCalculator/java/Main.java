@@ -12,7 +12,7 @@ public class Main {
     private static List getTaskSeq(int n) {
         List tasks = new ArrayList();
         for (int i = 0; i < n; i++) {
-            tasks.add(new Task());
+            tasks.add(new Task(i, true));
         }
         return tasks;
     }
