@@ -25,6 +25,7 @@ public class TaskOrderedList {
         // taskList.add(new SyntaxCheckTask());            // No. 1
         taskList.add(new AutomatedExceptionHandlingTask());   // No. 2
         taskList.add(new AutomatedGenericHandling());   // No. 3
+        taskList.add(new SanitizeCheckHandlingTask());
         taskList.add(new SerializeUserClassesTask());   // No. 3
         taskList.add(new ParametrizeUserClassesTask()); // No. 4
         taskList.add(new DeclassifyCheckTask());        // No. 5

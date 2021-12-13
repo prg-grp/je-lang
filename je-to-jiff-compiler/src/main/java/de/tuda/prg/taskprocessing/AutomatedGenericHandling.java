@@ -44,6 +44,9 @@ public class AutomatedGenericHandling implements CodeXformationTask {
                             VariableVisitor variableVisitor = new VariableVisitor();
                             Map<String, String> map = variableVisitor.startVisiting(cu, generics);
 
+                            System.out.println(generics.toString());
+                            System.out.println(map.toString());
+
                             String out = cu.toString();
                             out = out.replaceAll("<>", "");
                             for (String generic : generics) {
