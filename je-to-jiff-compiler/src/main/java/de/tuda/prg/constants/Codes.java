@@ -7,6 +7,7 @@ public class Codes {
 
 	public static final String endorse = "endorse";
 	public static final String declassify = "declassify";
+	public static final String sanitize = "sanitize";
 
 
 	public static final String principalName = "Alice";

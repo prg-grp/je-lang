@@ -1,13 +1,55 @@
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaRDD;
+import org.apache.commons.lang3.RandomStringUtils;
+
+import java.util.List;
+import java.util.ArrayList;
+
 public class Main {
+
+    static String rec1 = "dateRep : 24/11/2021, day : 24, month : 11, year : 2021, cases : 66884, deaths : 335, countriesAndTerritories : Germany, geoId : DE, countryterritoryCode : DEU, popData2020 : 83166711, continentExp : Europe";
+    static String rec2 = "dateRep : 23/11/2021,day : 23, month : 11, year : 2021, cases : 45326, deaths : 309, countriesAndTerritories : Germany, geoId : DE, countryterritoryCode : DEU, popData2020 : 83166711, continentExp : Europe";
+    static String rec3 = "dateRep : 22/11/2021, day : 22, month : 11, year : 2021, cases : 30643, deaths : 62, countriesAndTerritories : Germany, geoId : DE, countryterritoryCode : DEU, popData2020 : 83166711, continentExp : Europe";
+    static String rec4 = "dateRep : 21/11/2021, day : 21, month : 11, year : 2021, cases : 42727, deaths : 75, countriesAndTerritories : Germany, geoId : DE, countryterritoryCode : DEU, popData2020 : 83166711, continentExp : Europe";
+    static String rec5 = "dateRep : 20/11/2021, day : 20, month : 11, year : 2021, cases : 63924, deaths : 248, countriesAndTerritories : Germany, geoId : DE, countryterritoryCode : DEU, popData2020 : 83166711, continentExp : Europe";
 
 
     public static void main(String[] args) {
-        int offset = 5;
-        EncRecord record = encrypt("This is a message", 26-5);
-        StatUtil.process(record);
+        JavaSparkContext sc = new JavaSparkContext(new SparkConf().setAppName("Foo"));
+        JavaRDD<EncRecord> reclist = sc.parallelize(getEncryptedRecords());
+        JavaRDD<StatRecord> recListStat = reclist.map(x -> StatUtil.process(x));
+        List<StatRecord>  arrayList = recListStat.take(5);
+        for (StatRecord s: arrayList) {
+            System.out.println(s.statData);
+        }
     }
 
-    public static EncRecord encrypt(String message, int key) {
+    private static List<EncRecord> getEncryptedRecords() {
+        ArrayList<EncRecord> lst = new ArrayList();
+
+        String message = "";
+        for (int i=0; i<5; i++) {
+            switch (i) {
+                case 0:
+                    message = rec1;
+                case 1:
+                    message = rec2;
+                case 2:
+                    message = rec3;
+                case 3:
+                    message = rec4;
+                case 4:
+                    message = rec5;
+                default:
+                    break;
+            }
+            lst.add(encrypt(message, 5));
+        }
+        return lst;
+    }
+
+    private static EncRecord encrypt(String message, int key) {
         int len = message.length();
         String result = "";
         for (int i = 0; i < len; i++) {
@@ -23,5 +65,4 @@ public class Main {
         }
         return new EncRecord(result);
     }
-
 }

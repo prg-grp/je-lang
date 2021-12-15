@@ -24,8 +24,8 @@ GENERATED_JAVA_PATH=${JE_PATH}/generated-java
 java -jar ./je-to-jiff-compiler/target/je-to-jiff-compiler-jar-with-dependencies.jar $JE_PATH $GENERATED_JIF_PATH $GENERATED_JAVA_PATH/
 
 echo "Compiling using Jif compiler..."
-echo "Skipping Jif compiler..."
-#eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERATED_JIF_PATH}/*
+#echo "Skipping Jif compiler..."
+eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERATED_JIF_PATH}/*
 #eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERATED_JIF_PATH}/PasswordChecker.jif
 #eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERATED_JIF_PATH}/DeclassifyInReturn.jif
 #eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERATED_JIF_PATH}/Guess.jif ${GENERATED_JIF_PATH}/Grid.jif

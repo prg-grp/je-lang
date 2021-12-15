@@ -27,7 +27,7 @@ public class SerializeUserClassesTask implements CodeXformationTask {
                 for (File file : directoryListing) {
                     String currentFileName = file.getName();
                     System.out.println("Currently processing : " + currentFileName);
-                    String currentFileBaseName = FilenameUtils.removeExtension(currentFileName);
+                    //String currentFileBaseName = FilenameUtils.removeExtension(currentFileName);
                     if (FilenameUtils.getExtension(file.getPath()).equals("java")) {  //Change this later
 
                         // final CompilationUnit cu = StaticJavaParser.parse(new File(file));

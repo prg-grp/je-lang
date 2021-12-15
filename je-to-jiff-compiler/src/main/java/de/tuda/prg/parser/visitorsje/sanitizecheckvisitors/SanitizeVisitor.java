@@ -12,6 +12,7 @@ import com.github.javaparser.ast.expr.CastExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.CatchClause;
+import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -19,11 +20,13 @@ import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.stmt.TryStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
+import de.tuda.prg.constants.Codes;
 import de.tuda.prg.parser.ParserHelper;
 import de.tuda.prg.parser.visitorsje.genericvisitors.GenericVisitor;
 
 
 public class SanitizeVisitor extends VoidVisitorAdapter<Boolean> {
+    private String endorseVariable = "";
 
     @Override
     public void visit(MethodDeclaration mc, Boolean arg) {
@@ -44,10 +47,10 @@ public class SanitizeVisitor extends VoidVisitorAdapter<Boolean> {
             BlockStmt newStmt = new BlockStmt();
             boolean sanitized = false;
             boolean endorsed = false;
-            System.out.println("Check BlockStatement : "+bs.toString());
+            //System.out.println("Check BlockStatement : "+bs.toString());
             for (int i = 0; i<bs.getStatements().size(); i++) {
                 Statement stmt = bs.getStatements().get(i);
-                System.out.println("Current Stmt : "+stmt);
+                //System.out.println("Current Stmt : "+stmt);
                 if(stmt.isIfStmt()) {
                     sanitized = checkIf((IfStmt) stmt);
                     if (!sanitized) newStmt.addStatement(stmt.clone());
@@ -56,7 +59,7 @@ public class SanitizeVisitor extends VoidVisitorAdapter<Boolean> {
                     newStmt.addStatement(stmt.clone());
                 } else if (endorsed && sanitized) {
                     IfStmt sanitize = new IfStmt();
-                    sanitize.setCondition(StaticJavaParser.parseExpression("sanitize(taskList)"));
+                    sanitize.setCondition(StaticJavaParser.parseExpression(Codes.sanitize+"("+endorseVariable+")"));
                     BlockStmt body = new BlockStmt();
                     for (int j = i; j<bs.getStatements().size(); j++) {
                         body.addStatement(bs.getStatements().get(j).clone());
@@ -73,7 +76,7 @@ public class SanitizeVisitor extends VoidVisitorAdapter<Boolean> {
 
     private boolean checkIf(IfStmt ifStmt) {
         System.out.println("IF TO STRING: "+ifStmt.toString());
-        if (ifStmt.getCondition().toString().contains("sanitize")){
+        if (ifStmt.getCondition().toString().contains(Codes.sanitize)){
             return true;
         } else {
             return false;
@@ -81,7 +84,8 @@ public class SanitizeVisitor extends VoidVisitorAdapter<Boolean> {
     }
 
     private boolean checkEndorse(Statement stmt) {
-        if (stmt.toString().contains("endorse")){
+        if (stmt.toString().contains(Codes.endorse)){
+            endorseVariable = stmt.toString().split(" ")[1];
             return true;
         } else {
             return false;

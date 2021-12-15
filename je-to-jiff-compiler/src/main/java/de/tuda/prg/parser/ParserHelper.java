@@ -15,6 +15,7 @@ import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import de.tuda.prg.constants.Codes;
 import de.tuda.prg.constants.FileNames;
+import de.tuda.prg.constants.PathValues;
 import de.tuda.prg.constants.RMIConstants;
 import de.tuda.prg.entities.ClassNameMethodDecls;
 import de.tuda.prg.exceptions.TranslationException;
@@ -22,8 +23,11 @@ import de.tuda.prg.parser.generalvisitors.ClassNameGetterVisitor;
 import de.tuda.prg.parser.visitorsje.ClassAnnotationCheckerVisitorJe;
 import de.tuda.prg.parser.visitorsje.MethodDefinitionVisitorCollectorJe;
 import de.tuda.prg.parser.visitorsje.encapsulatedmethodsvisitor.GatewayMethodCallCollectorJe;
+import de.tuda.prg.taskprocessing.JARSeperator;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class ParserHelper {
@@ -36,11 +40,27 @@ public class ParserHelper {
     }
 
     public static boolean isMainClass(final CompilationUnit cu) {
+        System.out.println("---------isMainClass-----------");
         String[] strArray = new String[1];
         new ClassNameGetterVisitor().visit(cu, strArray);
         String className = strArray[0];
         if (className.equals("Main") || className.equals("Generator")) return true; // TODO: How to handle subclasses of MAIN not calles from Enclave?
         else return false;
+        /*JARSeperator jarsep = new JARSeperator();
+        jarsep.computeSeperation(new File(PathValues.JE_FOLDER_PATH));
+
+
+        String[] strArray = new String[1];
+        new ClassNameGetterVisitor().visit(cu, strArray);
+        String className = strArray[0];
+
+        System.out.println(((ArrayList) jarsep.getNonEnclaveJar()).toString());
+        System.out.println(((ArrayList) jarsep.getBothJar()).toString());
+        System.out.println("---------isMainClass-----------");
+        if (jarsep.getNonEnclaveJar().contains(className) && !jarsep.getBothJar().contains(className)) {
+            return true;
+        } else return false;
+        */
     }
 
     public static Map<String, List<MethodDeclaration>> getMethodDeclarationWithAnnotations(ClassOrInterfaceDeclaration cd, Set<String> annotationSet) {

@@ -255,4 +255,16 @@ public class JARSeperator {//extends VoidVisitorAdapter<Boolean> {
         }
         return null;
     }
+
+    public ArrayList getEnclaveJar() {
+        return enclaveJAR;
+    }
+
+    public ArrayList getNonEnclaveJar() {
+        return nonEnclaveJAR;
+    }
+
+    public ArrayList getBothJar() {
+        return bothJar;
+    }
 }
