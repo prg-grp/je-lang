@@ -5,4 +5,8 @@ public class EncRecord {
     public EncRecord(String encData) {
         this.encData = encData;
     }
+
+    public String getEncData() {
+        return encData;
+    }
 }

@@ -19,13 +19,23 @@ public class StatUtil {
             char character = cipher.charAt(i);
             if (character != ' ') {
                 int originalAlphabetPosition = character - 'a';
-                int newAlphabetPosition = (originalAlphabetPosition + key) % 26;
+                int newAlphabetPosition = (originalAlphabetPosition - key) % 26;
                 char newCharacter = (char) ('a' + newAlphabetPosition);
                 result += newCharacter;
             } else {
                 result += character;
             }
         }
+        result = checkPeanutAllergy(result);
         return new StatRecord(result);
+    }
+
+    private static String checkPeanutAllergy(String toCheck) {
+        int p = toCheck.indexOf("Peanut");
+        if (p>0) {
+            return "Patient is allergic to Peanuts!";
+        } else {
+            return "Patient is not allergic to Peanuts";
+        }
     }
 }

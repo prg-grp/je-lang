@@ -5,4 +5,8 @@ public class StatRecord {
     public StatRecord(String statData) {
         this.statData = statData;
     }
+
+    public String getStatData() {
+        return statData;
+    }
 }
