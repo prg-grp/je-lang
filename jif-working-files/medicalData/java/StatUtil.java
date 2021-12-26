@@ -30,6 +30,8 @@ public class StatUtil {
         return new StatRecord(result);
     }
 
+    
+
     private static String checkPeanutAllergy(String toCheck) {
         int p = toCheck.indexOf("Peanut");
         if (p>0) {

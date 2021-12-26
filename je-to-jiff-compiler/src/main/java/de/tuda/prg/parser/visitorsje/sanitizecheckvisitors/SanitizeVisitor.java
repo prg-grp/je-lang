@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 import java.lang.StringIndexOutOfBoundsException;
 
 import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.AnnotationExpr;
@@ -27,6 +28,14 @@ import de.tuda.prg.parser.visitorsje.genericvisitors.GenericVisitor;
 
 public class SanitizeVisitor extends VoidVisitorAdapter<Boolean> {
     private String endorseVariable = "";
+    private String endorsedVariable = "";
+    boolean sanitizedEverything = false;
+
+    @Override
+    public void visit(CompilationUnit cu, Boolean arg) {
+        super.visit(cu, arg);
+        if (sanitizedEverything) cu = StaticJavaParser.parse(cu.toString().replaceAll(endorsedVariable, endorseVariable));
+    }
 
     @Override
     public void visit(MethodDeclaration mc, Boolean arg) {
@@ -36,42 +45,51 @@ public class SanitizeVisitor extends VoidVisitorAdapter<Boolean> {
             if (aExpr.toString().contains("Gateway")) isGateway = true;
         }
         System.out.println("Is GW Method : "+isGateway);
-        if (isGateway) super.visit(mc, true);
-        else return;
+        if (isGateway) {
+            super.visit(mc, true);
+            sanitizedEverything = true;
+        } else return;
     }
 
     @Override
     public void visit(BlockStmt bs, Boolean arg) {
-        if (arg == true) {
+        //if (arg == true) {
 
             BlockStmt newStmt = new BlockStmt();
             boolean sanitized = false;
             boolean endorsed = false;
+
+            IfStmt sanitize = new IfStmt();
+            BlockStmt sanitizeBody = new BlockStmt();
             //System.out.println("Check BlockStatement : "+bs.toString());
             for (int i = 0; i<bs.getStatements().size(); i++) {
                 Statement stmt = bs.getStatements().get(i);
                 //System.out.println("Current Stmt : "+stmt);
-                if(stmt.isIfStmt()) {
+                if(!sanitized && stmt.isIfStmt()) {
                     sanitized = checkIf((IfStmt) stmt);
                     if (!sanitized) newStmt.addStatement(stmt.clone());
                 } else if (!sanitized || !endorsed) {
                     endorsed = checkEndorse(stmt);
-                    newStmt.addStatement(stmt.clone());
+                    //System.out.println(Codes.endorse+"("+endorseVariable+");");
+                    //if (endorsed) newStmt.addStatement(StaticJavaParser.parseStatement(Codes.endorse+"("+endorseVariable+");"));
+                    //else {
+                        newStmt.addStatement(stmt.clone());
+                    //}
+                } else if (sanitized && !endorsed) {
+                    sanitizeBody.addStatement(stmt.clone());
                 } else if (endorsed && sanitized) {
-                    IfStmt sanitize = new IfStmt();
-                    sanitize.setCondition(StaticJavaParser.parseExpression(Codes.sanitize+"("+endorseVariable+")"));
-                    BlockStmt body = new BlockStmt();
                     for (int j = i; j<bs.getStatements().size(); j++) {
-                        body.addStatement(bs.getStatements().get(j).clone());
+                        sanitizeBody.addStatement(bs.getStatements().get(j).clone());
                     }
-                    sanitize.setThenStmt(body);
-                    sanitize.setElseStmt(StaticJavaParser.parseStatement("return null;"));
+                    sanitize.setCondition(StaticJavaParser.parseExpression(Codes.sanitize+"("+endorseVariable+")"));
+                    sanitize.setThenStmt(sanitizeBody);
+                    sanitize.setElseStmt((new BlockStmt()).addStatement(StaticJavaParser.parseStatement("{return null;}")));
                     newStmt.addStatement(sanitize);
                     bs.replace(newStmt);
                     return;
                 }
             }
-        }
+        //}
     }
 
     private boolean checkIf(IfStmt ifStmt) {
@@ -85,7 +103,12 @@ public class SanitizeVisitor extends VoidVisitorAdapter<Boolean> {
 
     private boolean checkEndorse(Statement stmt) {
         if (stmt.toString().contains(Codes.endorse)){
-            endorseVariable = stmt.toString().split(" ")[1];
+            String[] strings = stmt.toString().split(" ");
+            System.out.println(strings);
+            endorsedVariable = strings[1];
+            endorseVariable = strings[3].substring(8, strings[3].length()-2);
+            System.out.println(endorsedVariable);
+            System.out.println(endorseVariable);
             return true;
         } else {
             return false;

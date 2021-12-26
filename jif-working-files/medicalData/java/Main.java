@@ -37,7 +37,7 @@ public class Main {
         }
 
         for (int j=0; j<stat.size(); j++) {
-            System.out.println("----Stat Data of Patient : "+i+"----");
+            System.out.println("----Stat Data of Patient : "+j+" ----");
             System.out.println(stat.get(j).getStatData());
         }
 

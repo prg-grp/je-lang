@@ -11,7 +11,12 @@ public class TaskProcessor {
         if (!sanitize(taskList)) {
             return null;
         }
-        List<Task> taskListE = endorse(taskList);
+        int a = 0;
+        //...
+        List<Task> taskListE = endorse(taskList + a);
+        if (sanitize(taskList)) {
+            return null;
+        }
         Double result = salary;
         for (int i = 0; i < taskListE.size(); i++) {
             Task task = taskListE.get(i);

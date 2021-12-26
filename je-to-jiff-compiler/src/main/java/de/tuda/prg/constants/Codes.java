@@ -102,6 +102,9 @@ public class Codes {
 	private static  final String endorseToLabel = "{}"+" to "+"{"+principalName+"<-*"+"}";
 	public static final String endorseToLabelCode = "CODEENDORSETOLABEL";
 
+	private static  final String endorseToLabelEmpty = "";
+	public static final String endorseToLabelEmptyCode = "CODEENDORSETOEMPTYLABEL";
+
 	private static  final String principalParameter = "["+principalName+"]";
 	public static final String principalParameterCode = "PRINCIPALPARAMETER";
 
@@ -172,6 +175,7 @@ public class Codes {
 		strReplacement.put(infMethodParamSecretTypeLabelParametrizedCode, infMethodParamSecretTypeLabelParametrized);
 		
 		strReplacement.put(endorseToLabelCode, endorseToLabel);
+		strReplacement.put(endorseToLabelEmptyCode, endorseToLabelEmpty);
 		strReplacement.put(principalParameterCode, principalParameter);
 		strReplacement.put(declassifyToLabelCode, declassifyToLabel);
 

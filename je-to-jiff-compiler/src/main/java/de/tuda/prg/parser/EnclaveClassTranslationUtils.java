@@ -6,6 +6,7 @@ import com.github.javaparser.ast.visitor.GenericVisitorAdapter;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 
+import de.tuda.prg.constants.Codes;
 import de.tuda.prg.parser.userdefinedclassvisitors.*;
 import de.tuda.prg.parser.visitorsje.*;
 import de.tuda.prg.parser.visitorsje.encapsulatedmethodsvisitor.GatewayMethodCallCollectorJe;
@@ -57,8 +58,10 @@ public class EnclaveClassTranslationUtils {
 
             // Step4: Visiting declassify and endorse operators
             System.out.println("--------- before visiting methodCalls -----------------------");
-            VoidVisitor<?> methodCallVisitor = new MethodCallVisitorJe();
-            methodCallVisitor.visit(cu, null);
+            VoidVisitor<Boolean> methodCallVisitor = new MethodCallVisitorJe();
+            boolean sanitized = false;
+            if (cu.toString().contains(Codes.sanitize)) sanitized = true;
+            methodCallVisitor.visit(cu, sanitized);
             //System.out.println(cu.toString());
             System.out.println("--------- after visiting methodCalls -----------------------");
 
