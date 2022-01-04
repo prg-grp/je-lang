@@ -16,6 +16,15 @@ import de.tuda.prg.parser.visitorsje.sanitizecheckvisitors.*;
 
 public class SanitizeCheckHandlingTask implements CodeXformationTask {
 
+    /**
+     * Run method overwritten for generics handling task. This method iterates over
+     * all java files in the JE Directory and handles sanitize checks.
+     * A sanitize call 
+     * @param jeSrcDir is the path to the JE Directory
+     * @param data global data
+     * 
+     * @return void
+     */
     @Override
     public void run(File jeSrcDir, GlobalTaskData data) {
         // TODO Auto-generated method stub
@@ -27,17 +36,17 @@ public class SanitizeCheckHandlingTask implements CodeXformationTask {
                     String currentFileName = file.getName();
                     System.out.println("Currently processing : " + currentFileName);
                     String currentFileBaseName = FilenameUtils.removeExtension(currentFileName);
-                    if (FilenameUtils.getExtension(file.getPath()).equals("java")) {  //Change this later
-                        CompilationUnit cu = StaticJavaParser.parse(file);
-                        if (ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) {
-                            SanitizeVisitor sv = new SanitizeVisitor();
-                            sv.visit(cu, false);
+                    if (FilenameUtils.getExtension(file.getPath()).equals("java")) {
+                        CompilationUnit cu = StaticJavaParser.parse(file); // parse file
+                        if (ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) { // is Enclave class
+                            SanitizeVisitor sv = new SanitizeVisitor(); // call sanitize visitor
+                            sv.visit(cu, false); // visit all methodes
 
                             String afterVisitClassString = cu.toString(); // Class after adding Exceptions
 
                             System.out.println(afterVisitClassString);
                             //FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX + currentFileBaseName + "_beforeExHandling.java", beforeVisitClassString);
-                            FileUtils.writeStringToFile(PathValues.JE_FOLDER_PATH + "/" + file.getName(), afterVisitClassString);
+                            FileUtils.writeStringToFile(PathValues.JE_FOLDER_PATH + "/" + file.getName(), afterVisitClassString); // write resulting class to file
                         }
                     }
                 }

@@ -22,6 +22,16 @@ import de.tuda.prg.parser.ParserHelper;
 /* Handles the exceptions statically as required by JIF. */
 public class AutomatedGenericHandling implements CodeXformationTask {
 
+    /**
+     * Run method overwritten for generics handling task. This method iterates over
+     * all java files in the JE Directory and replaces all Generics with the corresponding typecast.
+     * e.g. iterating over List<Task> would cast every object List.get(1) to a Task object.
+     * 
+     * @param jeSrcDir is the path to the JE Directory
+     * @param data global data
+     * 
+     * @return void
+     */
     @Override
     public void run(File jeSrcDir, GlobalTaskData data) {
         System.out.println("Task processing started : Task name: AutomatedGenericHandling .");
@@ -32,31 +42,31 @@ public class AutomatedGenericHandling implements CodeXformationTask {
                     String currentFileName = file.getName();
                     System.out.println("Currently processing : " + currentFileName);
                     String currentFileBaseName = FilenameUtils.removeExtension(currentFileName);
-                    if (FilenameUtils.getExtension(file.getPath()).equals("java")) {  //Change this later
-                        CompilationUnit cu = StaticJavaParser.parse(file);
-                        if (ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) {
+                    if (FilenameUtils.getExtension(file.getPath()).equals("java")) {
+                        CompilationUnit cu = StaticJavaParser.parse(file); // parse file
+                        if (ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) { // Handle only enclave classes
+                            //String beforeVisitClassString = cu.toString(); // For debug
+                            //System.out.println(beforeVisitClassString);
 
-                            String beforeVisitClassString = cu.toString();
+                            GenericVisitor genericVisitor = new GenericVisitor(); // Identify and remove all generic calls
+                            List<String> generics = genericVisitor.startVisiting(cu, null); // Store them in a List
 
-                            GenericVisitor genericVisitor = new GenericVisitor();
-                            List<String> generics = genericVisitor.startVisiting(cu, null);
+                            VariableVisitor variableVisitor = new VariableVisitor(); // Find all variables based on the generic Type
+                            Map<String, String> map = variableVisitor.startVisiting(cu, generics); // Store variables with the corresponding generic type in map
 
-                            VariableVisitor variableVisitor = new VariableVisitor();
-                            Map<String, String> map = variableVisitor.startVisiting(cu, generics);
-
-                            System.out.println(generics.toString());
-                            System.out.println(map.toString());
+                            //System.out.println(generics.toString()); // For debug
+                            //System.out.println(map.toString()); // For debug
 
                             String out = cu.toString();
-                            out = out.replaceAll("<>", "");
-                            for (String generic : generics) {
-                                out = out.replaceAll(generic+" ", "Object ");
+                            out = out.replaceAll("<>", ""); // Remove <> from the file as Generic Types had been removed already
+                            for (String generic : generics) { 
+                                out = out.replaceAll(generic+" ", "Object "); // Store variable as Object
                             }
-                            cu = StaticJavaParser.parse(out);
+                            cu = StaticJavaParser.parse(out); // parse the file with new types
                             out = cu.toString();
 
-                            for(String key : map.keySet()) {
-                                String val = map.get(key);
+                            for(String key : map.keySet()) { // add typecast for all used variables 
+                                String val = map.get(key); 
                                 String regex = key+"\\.";
 
                                 String rep = "\\(\\("+val+"\\)"+key+"\\)\\.";
@@ -65,13 +75,13 @@ public class AutomatedGenericHandling implements CodeXformationTask {
 
                             cu = StaticJavaParser.parse(out);
                             
-                            ClassCastExceptionVisitor ccev = new ClassCastExceptionVisitor();
+                            ClassCastExceptionVisitor ccev = new ClassCastExceptionVisitor(); // For every class cast, add class cast exception
                             ccev.visit(cu, null);
 
                             String afterVisitClassString = cu.toString(); // Class after adding Exceptions
 
                             //FileUtils.writeStringToFile(PathValues.GENERATED_JAVA_FOLDER_PREFIX + currentFileBaseName + "_beforeGenericHandling.java", beforeVisitClassString);
-                            FileUtils.writeStringToFile(PathValues.JE_FOLDER_PATH + "/" + file.getName(), afterVisitClassString);
+                            FileUtils.writeStringToFile(PathValues.JE_FOLDER_PATH + "/" + file.getName(), afterVisitClassString); // Write to file
                         } else {
                             System.out.println("Not an enclave class");
                         }

@@ -73,7 +73,7 @@ public class SanitizeVisitor extends VoidVisitorAdapter<Boolean> {
                     //System.out.println(Codes.endorse+"("+endorseVariable+");");
                     //if (endorsed) newStmt.addStatement(StaticJavaParser.parseStatement(Codes.endorse+"("+endorseVariable+");"));
                     //else {
-                        newStmt.addStatement(stmt.clone());
+                    newStmt.addStatement(stmt.clone());
                     //}
                 } else if (sanitized && !endorsed) {
                     sanitizeBody.addStatement(stmt.clone());

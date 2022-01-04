@@ -29,7 +29,7 @@ public class TaskOrderedList {
         taskList.add(new SerializeUserClassesTask());   // No. 5
         taskList.add(new ParametrizeUserClassesTask()); // No. 6
         taskList.add(new DeclassifyCheckTask());        // No. 7
-        taskList.add(new SecFieldsModificationTask());  // No. 8
+        //taskList.add(new SecFieldsModificationTask());  // No. 8
         taskList.add(new EnclaveClassXformationTask()); // No. 9
         taskList.add(new RMICodeAdderTask()); // No. 10
         taskList.add(new EnclaveInitializationFilesTask()); // No. 11
