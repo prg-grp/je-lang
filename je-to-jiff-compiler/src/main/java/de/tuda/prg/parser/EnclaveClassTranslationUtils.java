@@ -20,7 +20,11 @@ import java.util.List;
 
 public class EnclaveClassTranslationUtils {
 
-    public static void   translateEnclaveClass(final CompilationUnit cu) {
+    /**
+     * translating the Enclave Class with 5 steps
+     * @param cu CompilationUnit of Enclave Class
+     */
+    public static void translateEnclaveClass(final CompilationUnit cu) {
 
             // Step1: Visiting class declaration inside the cu
             System.out.println("--------- class before visiting -----------------------");
@@ -73,6 +77,11 @@ public class EnclaveClassTranslationUtils {
             System.out.println("--------- after visiting fields -----------------------");
     }
 
+    /**
+     * Helperfunction to add the Communication for the rmi module
+     * @param cu
+     * @param enclaveClassesToExposeNames
+     */
     public static void addCommCodeToEnclaveClasses(final CompilationUnit cu, final Set<String> enclaveClassesToExposeNames) {
         if (ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) {
             VoidVisitor<Set<String>> classDeclarationVisitorComm = new EnclaveClassDeclarationVisitorComm();   // Adding RMI code
@@ -80,6 +89,10 @@ public class EnclaveClassTranslationUtils {
         }
     }
 
+    /**
+     * Helperfunction to remove all JE Constructs such as Annotations
+     * @param cu
+     */
     public static void removeAllJEConstructs(final CompilationUnit cu) {
         if (ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) {
 
