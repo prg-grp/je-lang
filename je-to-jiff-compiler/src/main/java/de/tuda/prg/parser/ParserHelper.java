@@ -30,8 +30,16 @@ import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 import java.util.*;
 
+/**
+ * static ParserHelper class including helper functions
+ */
 public class ParserHelper {
 
+    /**
+     * checks if class is annotated with an @Enclave annotation
+     * @param cu CompilationUnit of input program
+     * @return boolean whethere class is an enclave class or not
+     */
     public static boolean isClassAnnotatedWithEnclaveAnnotation(final CompilationUnit cu) {
         VoidVisitorAdapter<ArrayList<Integer>> classAnnotationCheckerVisitorJe = new ClassAnnotationCheckerVisitorJe();
         ArrayList<Integer> annotationStatusIndicator = new ArrayList<Integer>();
@@ -39,6 +47,11 @@ public class ParserHelper {
         return (annotationStatusIndicator.size() == 1);
     }
 
+    /**
+     * checks if class is Main or Generator Class
+     * @param cu CompilationUnit of input program
+     * @return boolen whethere class is a main class or not
+     */
     public static boolean isMainClass(final CompilationUnit cu) {
         System.out.println("---------isMainClass-----------");
         String[] strArray = new String[1];
@@ -63,6 +76,12 @@ public class ParserHelper {
         */
     }
 
+    /**
+     * checks if a Class or Interface has Methods containing specific annotations from the annotationSet
+     * @param cd classOrInterfaceDeclaration that should be checked
+     * @param annotationSet Set of annotations for the methods that are searched for
+     * @return Map of annotation and corresponding List of methoddeclarations that are annotated with it
+     */
     public static Map<String, List<MethodDeclaration>> getMethodDeclarationWithAnnotations(ClassOrInterfaceDeclaration cd, Set<String> annotationSet) {
         Map<String, List<MethodDeclaration>> annotationMethodsMap = new HashMap<>();
         if (annotationSet != null && !annotationSet.isEmpty()) {
@@ -86,6 +105,11 @@ public class ParserHelper {
         return annotationMethodsMap;
     }
 
+    /**
+     * Computes a parameterList as a String for a methodDeclaration
+     * @param md of which the parameters should be written to a String List
+     * @return String list of parameters
+     */
     public static String getParameterNameListAsString(MethodDeclaration md) {
         String parameterNameList = "(";
         for (Parameter param : md.getParameters()) {
@@ -96,6 +120,10 @@ public class ParserHelper {
     }
 
 
+    /**
+     * Method for transforming the NonEnclave Gateway call with the rmi call
+     * @param mc MethodCall that should be modified
+     */
    public static void transformNonEnclaveGatewayCall(final MethodCallExpr mc) {
         System.out.println(mc.toString());
         Expression receiverExpr = mc.getScope().get(); // extract the receiver  // The receiver has to be the class name. It cannot be an identifier, as we are only dealing with the 'static` methods.
@@ -111,12 +139,23 @@ public class ParserHelper {
         }
     }
 
+    /**
+     * Identifies the String for the Security Type, depending whetere it is a Java Type, a Jif Type or a User class
+     * @param javaType Type that should be checked
+     * @return String for replacement of type
+     */
     public static String getStringForSecType(Type javaType) {
         if (checkJavaTypes(javaType)) return getStringForSecPrimitiveType(javaType.toString(), false);
         else if (checkJifTypes(javaType)) return getStringForSecJifType(javaType.toString(), false);
         else return getStringForUserType(javaType.toString(), false);
     }
 
+    /**
+     * Computes the string for Java Primitive Types and their arrays/2d-arrays
+     * @param javaTypeString String of the java Type
+     * @param parametrized condition wheter it is parametrized or not
+     * @return String for Security Primitve Type
+     */
     private static String getStringForSecPrimitiveType(String javaTypeString, boolean parametrized) {
         String secFieldTypeReg, secFieldTypeArray, secFieldTypeArray2D;
         if (!parametrized) {
@@ -140,6 +179,12 @@ public class ParserHelper {
         return str;
     }
 
+    /**
+     * Computes the string for Jif Primitive Types and their arrays/2d-arrays
+     * @param javaTypeString String of the jif Type
+     * @param parametrized condition wheter it is parametrized or not
+     * @return String for Security Type
+     */
     private static String getStringForSecJifType(String javaTypeString, boolean parametrized) {
         String trimmedString = javaTypeString.trim();
         String str;
@@ -153,6 +198,12 @@ public class ParserHelper {
         return str;
     }
 
+    /**
+     * Computes the string for User Class Types and their arrays/2d-arrays
+     * @param javaTypeString String of the user Type
+     * @param parametrized condition wheter it is parametrized or not
+     * @return String for Security Type
+     */
     private static String getStringForUserType(String javaTypeString, boolean parametrized) {
         String secFieldTypeReg, secFieldTypeArray, secFieldTypeArray2D;
         if (!parametrized) {
@@ -176,12 +227,21 @@ public class ParserHelper {
         return str;
     }
 
+    /**
+     * Identifies the String for the parametrized Security Type, depending whetere it is a Java Type or a User class type
+     * @param javaType Type that should be checked
+     * @return String for replacement of type
+     */
     public static String getStringForParametrizedType(Type javaType) {
         if (checkJavaTypes(javaType)) return getStringForSecPrimitiveType(javaType.toString(), true);
         else return getStringForUserType(javaType.toString(), true);
     }
 
-
+    /**
+     * collects all gateway methods inside a class
+     * @param cu CompilationUnit that should be parsed
+     * @param gatewayMethodDeclarations List where the gateway declarations should be added
+     */
     public static void populateAllGatewayMethodsInCu(final CompilationUnit cu, final List<ClassNameMethodDecls> gatewayMethodDeclarations) {
         String[] strArray = new String[1];
         new ClassNameGetterVisitor().visit(cu, strArray);
@@ -192,6 +252,11 @@ public class ParserHelper {
         gatewayMethodDeclarations.add(cMd);
     }
 
+    /**
+     * collects all encapsulated methods inside a gateway method
+     * @param cu CompilationUnit that should be parsed
+     * @param gatewayMethodCalls List where the methodcalls should be added
+     */
     public static void populateAllEncapsulatedMethodsInsideGatewayMethod(final CompilationUnit cu, final List<MethodCallExpr> gatewayMethodCalls) {
         String[] strArray = new String[1];
         new ClassNameGetterVisitor().visit(cu, strArray);
@@ -201,6 +266,11 @@ public class ParserHelper {
         gwmcec.visit(cu, gatewayMethodCalls);
     }
 
+    /**
+     * computes the RMI receiverString for the enclave class
+     * @param enclaveClassName name of the enclave class
+     * @return receiverString
+     */
     public static String getRMICallReceiverString(String enclaveClassName) {
         String remoteInterfaceName = getRemoteInterfaceName(enclaveClassName);
         String castToRemoteInterface = "(" + remoteInterfaceName + ")";
@@ -211,14 +281,29 @@ public class ParserHelper {
 
     }
 
+    /**
+     * computes the interface name for the Remote Object
+     * @param enclaveClassName name of enclave
+     * @return remoteInterfaceName
+     */
     public static String getRemoteInterfaceName(String enclaveClassName) {
         return RMIConstants.remoteInterfacePrefix+enclaveClassName;
     }
 
+    /**
+     * computes the name for the wrapper class
+     * @param enclaveClassName name of enclave
+     * @return wrapperClassName
+     */
     public static String getWrapperClassName(String enclaveClassName) {
         return RMIConstants.remoteWrapperClassSufix+enclaveClassName;
     }
 
+    /**
+     * 
+     * @param cu
+     * @param enclaveClassesToExposeNames
+     */
     public static void addRMIRegistryBindings(CompilationUnit cu, HashSet<String> enclaveClassesToExposeNames) {
         ClassOrInterfaceDeclaration classDeclaration = cu.getClassByName(FileNames.ENCLAVE_MAIN_CLASS_BASE_NAME).get();
         MethodDeclaration mainMethodDeclaration = null;
@@ -238,6 +323,12 @@ public class ParserHelper {
         }
     }
 
+    /**
+     * 
+     * @param mdGtwMethod
+     * @param enclaveClassName
+     * @param wrapperVersion
+     */
     public static void populateNonEnclaveWrapperMethod(final MethodDeclaration mdGtwMethod, final String enclaveClassName, final MethodDeclaration wrapperVersion) {
         if (mdGtwMethod == null) {
             throw new TranslationException("Method declaration received in null.");
@@ -268,6 +359,11 @@ public class ParserHelper {
         }
     }
 
+    /**
+     * 
+     * @param gatewayMethodDeclarations
+     * @param gatewayMethodNames
+     */
     public static void populateMethodNamesFromDeclarations(List<ClassNameMethodDecls> gatewayMethodDeclarations, HashSet<String> gatewayMethodNames) {
         for (ClassNameMethodDecls clNameMethodDeclare : gatewayMethodDeclarations) {
             Set<String> currClassGtwMethodNames = new HashSet<>();
@@ -278,6 +374,11 @@ public class ParserHelper {
         }
     }
 
+    /**
+     * 
+     * @param t
+     * @return
+     */
     public static boolean checkJavaTypes(Type t) {
         if (t.isPrimitiveType()) return true;
         else if (t.getElementType().isPrimitiveType()) return true;
@@ -295,6 +396,11 @@ public class ParserHelper {
         }
     }
 
+    /**
+     * 
+     * @param t
+     * @return
+     */
     public static boolean checkJifTypes(Type t) {
         switch(t.getElementType().asString()) {
             case "List" : return true;
