@@ -125,6 +125,9 @@ Instructions for automatic deployment into Intel SGX will be added soon !!!
 [Aditya Oak](https://programming-group.com/members/oak)
 
 ### Publications
+* [**Towards Democratizing Secure Enclave Programming**](https://programming-group.com/assets/pdf/papers/2021_Towards_Democratizing_Secure_Enclave_Programming.pdf)  
+  Aditya Oak, Amir M. Ahmadian, Musard Balliu, Guido Salvaneschi  
+  Program Analysis and Verification on Trusted Platforms (PAVeTrust), 2021
 * [**Enclave-Based Secure Programming with J<sub>E</sub>**](https://programming-group.com/assets/pdf/papers/2021_Enclave-Based-Secure-Programming-with-JE.pdf)  
   Aditya Oak, Amir M. Ahmadian, Musard Balliu, Guido Salvaneschi  
   IEEE Secure Development (SecDev), 2021
