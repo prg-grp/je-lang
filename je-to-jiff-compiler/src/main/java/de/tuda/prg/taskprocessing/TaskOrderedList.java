@@ -22,7 +22,7 @@ public class TaskOrderedList {
 
 
 
-        // taskList.add(new SyntaxCheckTask());            // No. 1
+        taskList.add(new SyntaxCheckTask());            // No. 1
         taskList.add(new AutomatedExceptionHandlingTask());   // No. 2
         taskList.add(new AutomatedGenericHandling());   // No. 3
         taskList.add(new SanitizeCheckHandlingTask());  // No. 4

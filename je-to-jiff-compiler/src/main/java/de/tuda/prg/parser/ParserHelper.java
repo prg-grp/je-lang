@@ -375,9 +375,10 @@ public class ParserHelper {
     }
 
     /**
-     * 
-     * @param t
-     * @return
+     * Checks Java Types (hardcoded) such as String, Double
+     * Add more if needed.
+     * @param t type to check
+     * @return true or false if Java type
      */
     public static boolean checkJavaTypes(Type t) {
         if (t.isPrimitiveType()) return true;
@@ -397,9 +398,9 @@ public class ParserHelper {
     }
 
     /**
-     * 
-     * @param t
-     * @return
+     * Checks Jif Types (hardcoded) for List
+     * @param t type to check
+     * @return true or false if Jif Type
      */
     public static boolean checkJifTypes(Type t) {
         switch(t.getElementType().asString()) {
