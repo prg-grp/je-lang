@@ -29,6 +29,7 @@ import de.tuda.prg.parser.visitorsje.sgxChecker.tud.substructures.CompilationUni
 import de.tuda.prg.parser.visitorsje.sgxChecker.tud.substructures.SymbolSolverSingleton;
 import de.tuda.prg.parser.visitorsje.sgxChecker.tud.visitors.EnclaveClassVisitor;
 import de.tuda.prg.parser.visitorsje.sgxChecker.tud.visitors.GatewayMethodVisitor;
+import javassist.expr.Instanceof;
 
 public class SGXChecker {
 
@@ -38,7 +39,7 @@ public class SGXChecker {
     private final GatewayCallChecker gatewayCallChecker = new GatewayCallChecker();
 
     //Path where the sgxif.config.json is located, set by the constructor
-    private final String configPath;
+    private String configPath;
 
     //Path variables which are extracted int the readConfig-function from the sgxif.config.json
     //Path where the packages with the class files are located in the project
@@ -55,11 +56,11 @@ public class SGXChecker {
      * @param configPath path to sgxif.config.json
      */
     public SGXChecker(String configPath) {
-        this.configPath = configPath + "/sgxif.config.json";
-        this.readConfig();
-        //this.configureStaticJavaParser();
-        //logger.trace("Collecting Class-Files in %s and create for each a CompilationUnitMetaDataContainer".format(this.packagePath));
-        //this.fileConsumer(this.packagePath, this::addCuMDC, "java");
+        //this.configPath = configPath; // + "/sgxif.config.json";
+        this.readConfig(configPath);
+        this.configureStaticJavaParser();
+        logger.trace("Collecting Class-Files in %s and create for each a CompilationUnitMetaDataContainer".format(this.packagePath));
+        this.fileConsumer(this.packagePath, this::addCuMDC, "java");
     }
 
     /**
@@ -69,7 +70,7 @@ public class SGXChecker {
      * @param fileEnding File-typ, which should be consumed
      */
     private void fileConsumer(String rootDir, Consumer<File> consumer, String fileEnding) {
-
+        System.out.println("root: "+rootDir.toString());
         final File folder = new File(rootDir);
 
         for (final File file : Objects.requireNonNull(folder.listFiles())) {
@@ -130,22 +131,29 @@ public class SGXChecker {
      */
     public void analyze() {
 
+
+
         for (CompilationUnitMetaDataContainer cuMDC : cuMdcList) {
 
             CompilationUnit cu = cuMDC.getCu();
             GatewayMethodVisitor gatewayMethodVisitor = new GatewayMethodVisitor();
 
-            try {
-                logger.info("Checking file: %s".format(cuMDC.getQualifiedName()));
+            logger.info("Checking file: %s".format(cuMDC.getQualifiedName()));
 
+            try {
                 this.enclaveClassVisitor.visit(cu, cuMDC);
                 this.gatewayCallChecker.check(cuMDC);
                 gatewayMethodVisitor.visit(cu, cuMDC);
-
                 System.out.println("");
-
             } catch (Exception e) {
-                logger.error("Failure for file: %s\n%s".format(cuMDC.getQualifiedName(), e.getMessage()));
+                if (e instanceof UnsupportedOperationException) {
+                    // As the imported project only checks one files,
+                    // Own Dependencies wont be recognized.
+                    System.out.println("All good, OwnWrittenClass");
+                } else {
+                    System.out.println("Failure for file in enclaveClassVisitor: "+e.toString());
+                    logger.error("Failure for file: %s\n%s".format(cuMDC.getQualifiedName(), e.getMessage()));
+                }
             }
         }
     }
@@ -153,22 +161,22 @@ public class SGXChecker {
     /**
      * Saving the Fields set in the sgxif.config.json into Member-Variables
      */
-    private void readConfig() {
+    private void readConfig(String configPath) {
         logger.trace("Reading "+configPath.toString());
         this.packagePath = configPath;
-        /*logger.trace("Reading "+configPath.toString());
+        this.configPath = "/Users/robert/je-lang/je-to-jiff-compiler/src/main/java/de/tuda/prg/parser/visitorsje/sgxChecker/tud/sgxif.config.json";
+        this.jarRepo = configPath;
+        logger.trace("Reading "+configPath.toString());
         JSONParser parser = new JSONParser();
         try {
             Object obj = parser.parse(new FileReader(this.configPath));
             JSONObject jsonObject = (JSONObject) obj;
-
-            this.packagePath = jsonObject.get("packagePath").toString();
             this.jarRepo = jsonObject.get("jarRepo").toString();
             logger.trace("JarRepo = "+this.jarRepo+", packagePath = "+this.packagePath.toString());
         }
         catch (IOException | ParseException fileNotFoundException) {
             logger.fatal("Need a proper sgxif.config.json-File. Given path: "+this.configPath.toString());
             System.exit(-1);
-        }*/
+        }
     }
 }
