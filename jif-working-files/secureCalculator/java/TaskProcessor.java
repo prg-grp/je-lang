@@ -1,4 +1,4 @@
-import jif.util.List;
+import java.util.List;
 
 @Enclave
 public class TaskProcessor {
@@ -8,6 +8,9 @@ public class TaskProcessor {
 
     @Gateway
     public static Double process(List<Task> taskList) {
+        if (!sanitize(taskList)) {
+            return null;
+        }
         List<Task> taskListE = endorse(taskList);
         Double result = salary;
         for (int i = 0; i < taskListE.size(); i++) {
@@ -15,5 +18,16 @@ public class TaskProcessor {
             result = task.run(result);
         }
         return declassify(result);
+    }
+
+    private static boolean sanitize(List<Task> taskList) {
+        for(int i=0; i<taskList.size(); i++) {
+            Task task = taskList.get(i);
+            boolean z = task.check();
+            if (!z) {
+                return false;
+            }
+        }
+        return true;
     }
 }

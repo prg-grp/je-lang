@@ -12,8 +12,21 @@ import java.util.Set;
 
 public class UserClassTranslationUtils {
 
+    /**
+     * User class translator
+     * @param cu
+     */
     public static void translateUserClass(final CompilationUnit cu) {
         UserDefinedClassVisitor userClassVisitorJe = new UserDefinedClassVisitor();
         userClassVisitorJe.visit(cu, null);
+    }
+
+    /**
+     * add serilizable to user class
+     * @param cu
+     */
+    public static void addSerializableToUserClass(final CompilationUnit cu) {
+        ImplementSerializableInterface implementSerializableInterfaceVisitor = new ImplementSerializableInterface();
+        implementSerializableInterfaceVisitor.visit(cu, null);
     }
 }

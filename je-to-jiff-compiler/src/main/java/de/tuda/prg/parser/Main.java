@@ -7,6 +7,7 @@ import de.tuda.prg.constants.PathValues;
 import de.tuda.prg.constants.RMIConstants;
 import de.tuda.prg.exceptions.FileIOException;
 import de.tuda.prg.filehandling.FileUtils;
+import de.tuda.prg.taskprocessing.JARSeperator;
 import de.tuda.prg.taskprocessing.TaskOrderedList;
 import de.tuda.prg.taskprocessing.TaskProcessor;
 
@@ -57,6 +58,9 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        JARSeperator jarSeperator = new JARSeperator();
+        jarSeperator.process(new File(PathValues.GENERATED_JAVA_FOLDER_PREFIX));
 
     }
 }

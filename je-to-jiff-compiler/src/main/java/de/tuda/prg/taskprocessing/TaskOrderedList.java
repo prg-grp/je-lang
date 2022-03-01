@@ -22,14 +22,17 @@ public class TaskOrderedList {
 
 
 
-        // taskList.add(new SyntaxCheckTask());            // No. 1
+        taskList.add(new SyntaxCheckTask());            // No. 1
         taskList.add(new AutomatedExceptionHandlingTask());   // No. 2
         taskList.add(new AutomatedGenericHandling());   // No. 3
-        taskList.add(new ParametrizeUserClassesTask()); // No. 4
-        taskList.add(new DeclassifyCheckTask());        // No. 5
-        taskList.add(new SecFieldsModificationTask());  // No. 6
-        taskList.add(new EnclaveClassXformationTask()); // No. 7
-        taskList.add(new RMICodeAdderTask()); // No. 8
+        taskList.add(new SanitizeCheckHandlingTask());  // No. 4
+        taskList.add(new SerializeUserClassesTask());   // No. 5
+        taskList.add(new ParametrizeUserClassesTask()); // No. 6
+        taskList.add(new DeclassifyCheckTask());        // No. 7
+        //taskList.add(new SecFieldsModificationTask());  // No. 8
+        taskList.add(new EnclaveClassXformationTask()); // No. 9
+        taskList.add(new RMICodeAdderTask()); // No. 10
+        taskList.add(new EnclaveInitializationFilesTask()); // No. 11
 
        // taskList.add(new SyntaxCheckTask());
         // No. 6  further create new tasks to be inserted here

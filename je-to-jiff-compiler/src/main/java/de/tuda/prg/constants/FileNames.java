@@ -8,4 +8,8 @@ public class FileNames {
 
     public static String IDENTITY_METHODS_CLASS_NAME = "IdentityMethods";
 
+    public static String NONENCLAVE_MAIN_CLASS_BASE_NAME = "Main";
+
+    // ADD NonEnclave starting point
+
 }

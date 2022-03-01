@@ -14,22 +14,10 @@ public class ClassFieldDeclarationVisitorJe extends VoidVisitorAdapter<Void> {
             if (classField.isStatic()) {
                 classField.removeModifier(Modifier.Keyword.STATIC);  // Removing the Static modifier
                 classField.getAnnotationByClass(Secret.class).get().remove();  // Removing the @Secret annotation
-                /*int len = classField.getVariables().size();
-                for (int i=0; i<len; i++) {
-                    VariableDeclarator vd = classField.getVariable(i);
-
-                    System.out.println("Type of the field in the Je program = " + vd.getType().asString());
-
-                    String replacementTypeString = ParserHelper.getStringForSecType(vd.getType().asString());
-
-                    System.out.println("replacementTypeString = " + replacementTypeString);
-
-                    vd.setType(replacementTypeString);
-                }*/
                 classField.getVariables().forEach(vd -> {
                     System.out.println("Type of the field in the Je program = " + vd.getType().asString());
 
-                    String replacementTypeString = ParserHelper.getStringForSecType(vd.getType().asString());
+                    String replacementTypeString = ParserHelper.getStringForSecType(vd.getType());
 
                     System.out.println("replacementTypeString = " + replacementTypeString);
 
@@ -39,7 +27,19 @@ public class ClassFieldDeclarationVisitorJe extends VoidVisitorAdapter<Void> {
             } else {
                 throw new IllegalArgumentException("Secret field is not static, all secret fields must be static.");
             }
-        }
+        } /*else {
+            if (classField.isStatic()) classField.removeModifier(Modifier.Keyword.STATIC);
+            classField.getVariables().forEach(vd -> {
+                System.out.println("Type of the field in the Je program = " + vd.getType().asString());
+
+                String replacementTypeString = ParserHelper.getStringForSecType(vd.getType().asString());
+
+                System.out.println("replacementTypeString = " + replacementTypeString);
+
+                vd.setType(replacementTypeString);
+                System.out.println("After replace type");
+            });
+        }*/
         super.visit(classField, arg);
       /*
         classField.getVariables().forEach(vd -> vd.setType("Random")

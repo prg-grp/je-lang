@@ -24,6 +24,7 @@ import java.util.Map;
 
 public class RMICodeAdderTask implements CodeXformationTask {
 
+    
     @Override
     public void run(File jeSrcDir, GlobalTaskData interTaskData) {
         // Second try block, adding RMI code to enclave classes

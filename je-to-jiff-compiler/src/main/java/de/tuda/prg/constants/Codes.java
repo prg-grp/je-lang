@@ -7,6 +7,7 @@ public class Codes {
 
 	public static final String endorse = "endorse";
 	public static final String declassify = "declassify";
+	public static final String sanitize = "sanitize";
 
 
 	public static final String principalName = "Alice";
@@ -24,13 +25,31 @@ public class Codes {
 
 	// ---------------------- Secret fields ---------------------------------------------------------
 	private static final String secFieldTypeRegular = "{"+principalName+"->*; "+principalName+"<-*"+"}";
-	public static final String secFieldTypeCodeRegular = "CODESECFIELDTYPEREGULAR";
+	public static final String secFieldTypeCodeRegular = "CODESECFIELDPRIMTYPEREGULAR";
 
 	private static final String secFieldTypeArray = "{"+principalName+"->*; "+principalName+"<-*"+"}[]{"+principalName+"->*; "+principalName+"<-*"+"}";
-	public static final String secFieldTypeCodeArray = "CODESECFIELDTYPEARRAY";
+	public static final String secFieldTypeCodeArray = "CODESECFIELDPRIMTYPEARRAY";
 
 	private static final String secFieldTypeArray2D = "{"+principalName+"->*; "+principalName+"<-*"+"}[][]{"+principalName+"->*; "+principalName+"<-*"+"}";
-	public static final String secFieldTypeCodeArray2D = "CODESECFIELDTYPEMATRIX";
+	public static final String secFieldTypeCodeArray2D = "CODESECFIELDPRIMTYPEMATRIX";
+
+	private static final String secFieldJifTypeRegular = "[{"+principalName+"->*; "+principalName+"<-*"+"}]";
+	public static final String secFieldJifTypeCodeRegular = "CODESECFIELDJIFTYPEREGULAR";
+
+	private static final String secFieldJifTypeArray = "[{"+principalName+"->*; "+principalName+"<-*"+"}][]{"+principalName+"->*; "+principalName+"<-*"+"}";
+	public static final String secFieldJifTypeCodeArray = "CODESECFIELDJIFTYPEARRAY";
+
+	private static final String secFieldJifTypeArray2D = "[{"+principalName+"->*; "+principalName+"<-*"+"}][][]{"+principalName+"->*; "+principalName+"<-*"+"}";
+	public static final String secFieldJifTypeCodeArray2D = "CODESECFIELDJIFTYPEMATRIX";
+
+	private static final String secFieldUserTypeRegular = "["+principalName+"]{"+principalName+"->*; "+principalName+"<-*"+"}";
+	public static final String secFieldUserTypeCodeRegular = "CODESECFIELDUSERTYPEREGULAR";
+
+	private static final String secFieldUserTypeArray = "["+principalName+"]{"+principalName+"->*; "+principalName+"<-*"+"}[]{"+principalName+"->*; "+principalName+"<-*"+"}";
+	public static final String secFieldUserTypeCodeArray = "CODESECFIELDUSERTYPEARRAY";
+
+	private static final String secFieldUserTypeArray2D = "["+principalName+"]{"+principalName+"->*; "+principalName+"<-*"+"}[][]{"+principalName+"->*; "+principalName+"<-*"+"}";
+	public static final String secFieldUserTypeCodeArray2D = "CODESECFIELDUSERTYPEMATRIX";
 
 	// ---------------------- Gateway methods related ----------------------------------------------
 	private static final String gwReturnType = "{"+principalName+"->_; "+principalName+"<-*"+"}";
@@ -83,19 +102,34 @@ public class Codes {
 	private static  final String endorseToLabel = "{}"+" to "+"{"+principalName+"<-*"+"}";
 	public static final String endorseToLabelCode = "CODEENDORSETOLABEL";
 
+	private static  final String endorseToLabelEmpty = "";
+	public static final String endorseToLabelEmptyCode = "CODEENDORSETOEMPTYLABEL";
+
+	private static  final String principalParameter = "["+principalName+"]";
+	public static final String principalParameterCode = "PRINCIPALPARAMETER";
+
 	// ---------------------- Gateway operator call --------------------------------------------
 	private static  final String declassifyToLabel = "{"+principalName+"->*; "+principalName+"<-*"+"}"+" to "+"{"+principalName+"->_; "+principalName+"<-*"+"}";
 	public static final String declassifyToLabelCode = "CODEDECLASSIFYTOLABEL";
 
 	// ---------------------- User defined classes ---------------------------------------------------------
-	private static final String secFieldTypeParametrizedClass = "{"+parameterPrincipalName+"->*; "+parameterPrincipalName+"<-*"+"}";
-	public static final String secFieldTypeCodeParametrizedClass = "CODESECFIELDTYPEPARAMETRIZEDCLASS";
+	private static final String secFieldPrimitiveTypeParametrizedClass = "{"+parameterPrincipalName+"->*; "+parameterPrincipalName+"<-*"+"}";
+	public static final String secFieldPrimitiveTypeCodeParametrizedClass = "CODESECFIELDPRIMTYPEPARAMETRIZEDCLASS";
 
-	private static final String secFieldTypeArrayParametrizedClass = "{"+parameterPrincipalName+"->*; "+parameterPrincipalName+"<-*"+"}[]{"+parameterPrincipalName+"->*; "+parameterPrincipalName+"<-*"+"}";
-	public static final String secFieldTypeCodeArrayParametrizedClass = "CODESECFIELDPARAMTYPEARRAY";
+	private static final String secFieldPrimitiveTypeArrayParametrizedClass = "{"+parameterPrincipalName+"->*; "+parameterPrincipalName+"<-*"+"}[]{"+parameterPrincipalName+"->*; "+parameterPrincipalName+"<-*"+"}";
+	public static final String secFieldPrimitiveTypeCodeArrayParametrizedClass = "CODESECFIELDPARAMPRIMTYPEARRAY";
 
-	private static final String secFieldTypeArray2DParametrizedClass = "{"+parameterPrincipalName+"->*; "+parameterPrincipalName+"<-*"+"}[][]{"+parameterPrincipalName+"->*; "+parameterPrincipalName+"<-*"+"}";
-	public static final String secFieldTypeCodeArray2DParametrizedClass = "CODESECFIELDPARAMTYPEMATRIX";
+	private static final String secFieldPrimitiveTypeArray2DParametrizedClass = "{"+parameterPrincipalName+"->*; "+parameterPrincipalName+"<-*"+"}[][]{"+parameterPrincipalName+"->*; "+parameterPrincipalName+"<-*"+"}";
+	public static final String secFieldPrimitiveTypeCodeArray2DParametrizedClass = "CODESECFIELDPARAMPRIMTYPEMATRIX";
+
+	private static final String secFieldUserTypeParametrizedClass = "["+parameterPrincipalName+"]{"+parameterPrincipalName+"->*; "+parameterPrincipalName+"<-*"+"}";
+	public static final String secFieldUserTypeCodeParametrizedClass = "CODESECFIELDUSERTYPEPARAMETRIZEDCLASS";
+
+	private static final String secFieldUserTypeArrayParametrizedClass = "["+parameterPrincipalName+"]{"+parameterPrincipalName+"->*; "+parameterPrincipalName+"<-*"+"}[]{"+parameterPrincipalName+"->*; "+parameterPrincipalName+"<-*"+"}";
+	public static final String secFieldUserTypeCodeArrayParametrizedClass = "CODESECFIELDPARAMUSERTYPEARRAY";
+
+	private static final String secFieldUserTypeArray2DParametrizedClass = "["+parameterPrincipalName+"]{"+parameterPrincipalName+"->*; "+parameterPrincipalName+"<-*"+"}[][]{"+parameterPrincipalName+"->*; "+parameterPrincipalName+"<-*"+"}";
+	public static final String secFieldUserTypeCodeArray2DParametrizedClass = "CODESECFIELDPARAMUSERTYPEMATRIX";
 
 
 	public static final String javaFileExtension = "java";
@@ -111,10 +145,19 @@ public class Codes {
 		strReplacement.put(secFieldTypeCodeRegular, secFieldTypeRegular);
 		strReplacement.put(secFieldTypeCodeArray, secFieldTypeArray);
 		strReplacement.put(secFieldTypeCodeArray2D, secFieldTypeArray2D);
+		strReplacement.put(secFieldJifTypeCodeRegular, secFieldJifTypeRegular);
+		strReplacement.put(secFieldJifTypeCodeArray, secFieldJifTypeArray);
+		strReplacement.put(secFieldJifTypeCodeArray2D, secFieldJifTypeArray2D);
+		strReplacement.put(secFieldUserTypeCodeRegular, secFieldUserTypeRegular);
+		strReplacement.put(secFieldUserTypeCodeArray, secFieldUserTypeArray);
+		strReplacement.put(secFieldUserTypeCodeArray2D, secFieldUserTypeArray2D);
 
-		strReplacement.put(secFieldTypeCodeParametrizedClass, secFieldTypeParametrizedClass);
-		strReplacement.put(secFieldTypeCodeArrayParametrizedClass, secFieldTypeArrayParametrizedClass);
-		strReplacement.put(secFieldTypeCodeArray2DParametrizedClass, secFieldTypeArray2DParametrizedClass);
+		strReplacement.put(secFieldPrimitiveTypeCodeParametrizedClass, secFieldPrimitiveTypeParametrizedClass);
+		strReplacement.put(secFieldPrimitiveTypeCodeArrayParametrizedClass, secFieldPrimitiveTypeArrayParametrizedClass);
+		strReplacement.put(secFieldPrimitiveTypeCodeArray2DParametrizedClass, secFieldPrimitiveTypeArray2DParametrizedClass);
+		strReplacement.put(secFieldUserTypeCodeParametrizedClass, secFieldUserTypeParametrizedClass);
+		strReplacement.put(secFieldUserTypeCodeArrayParametrizedClass, secFieldUserTypeArrayParametrizedClass);
+		strReplacement.put(secFieldUserTypeCodeArray2DParametrizedClass, secFieldUserTypeArray2DParametrizedClass);
 
 		strReplacement.put(gwReturnTypeCode, gwReturnType);
 		strReplacement.put(gwReturnTypeCodeParametrized, gwReturnTypeParametrized);
@@ -132,6 +175,8 @@ public class Codes {
 		strReplacement.put(infMethodParamSecretTypeLabelParametrizedCode, infMethodParamSecretTypeLabelParametrized);
 		
 		strReplacement.put(endorseToLabelCode, endorseToLabel);
+		strReplacement.put(endorseToLabelEmptyCode, endorseToLabelEmpty);
+		strReplacement.put(principalParameterCode, principalParameter);
 		strReplacement.put(declassifyToLabelCode, declassifyToLabel);
 
 		strReplacement.put(gwMethodParamTypeLabelCode, gwMethodParamTypeLabel);

@@ -20,6 +20,13 @@ import java.util.Map;
 
 public class DeclassifyCheckTask implements CodeXformationTask {
 
+    /**
+     * Run method overwritten for declassify check.
+     * @param jeSrcDir is the path to the JE Directory
+     * @param data global data
+     * 
+     * @return void
+     */
     @Override
     public void run(File jeSrcDir, GlobalTaskData data) {
         System.out.println("Task processing started : Task name: DeclassifyCheckTask.");

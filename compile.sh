@@ -5,7 +5,7 @@ set -e
 
 # TODO: Make sure that Java 8 is in your system path.
 # TODO: On the next line, set the path of Jif home in the variable JIF_HOME.
-JIF_HOME=<jif-home-directory>
+JIF_HOME=/Library/jif-3.5.0
 
 if [ $# -eq 0 ]; then
     echo "No arguments provided, path the JE directory should be the first argument"
@@ -19,14 +19,34 @@ JE_PATH=$1
 mkdir ${JE_PATH}/generated-jif
 GENERATED_JIF_PATH=${JE_PATH}/generated-jif/
 mkdir ${JE_PATH}/generated-java
-GENERATED_JAVA_PATH=${JE_PATH}/generated-java/
+GENERATED_JAVA_PATH=${JE_PATH}/generated-java
 
-java -jar ./je-to-jiff-compiler/target/je-to-jiff-compiler-jar-with-dependencies.jar $JE_PATH $GENERATED_JIF_PATH $GENERATED_JAVA_PATH
+java -jar ./je-to-jiff-compiler/target/je-to-jiff-compiler-jar-with-dependencies.jar $JE_PATH $GENERATED_JIF_PATH $GENERATED_JAVA_PATH/
 
 echo "Compiling using Jif compiler..."
+echo "Skipping Jif compiler..."
+#eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERATED_JIF_PATH}/*
 #eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERATED_JIF_PATH}/PasswordChecker.jif
 #eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERATED_JIF_PATH}/DeclassifyInReturn.jif
-eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERATED_JIF_PATH}/Guess.jif ${GENERATED_JIF_PATH}/Grid.jif
+#eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERATED_JIF_PATH}/Guess.jif ${GENERATED_JIF_PATH}/Grid.jif
 #eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERATED_JIF_PATH}/StatRecord.jif ${GENERATED_JIF_PATH}/EncRecord.jif ${GENERATED_JIF_PATH}/StatUtil.jif
 #eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERATED_JIF_PATH}/EncInt.jif ${GENERATED_JIF_PATH}/FilterNode.jif ${GENERATED_JIF_PATH}/EncEvent.jif ${GENERATED_JIF_PATH}/EncIntEvent.jif ${GENERATED_JIF_PATH}/GreaterPredicate.jif
 #eval "${JIFC_BIN}/jifc" -robust -nooutput -classpath ${JIFC_PRINCIPALS} ${GENERATED_JIF_PATH}/Task.jif ${GENERATED_JIF_PATH}/TaskProcessor.jif
+
+echo "Compiling Enclave Directory..."
+echo "Manifest-Version: 1.0" >> $GENERATED_JAVA_PATH/enclaveJar/"MANIFEST.MF"
+echo "Main-Class: EnclaveMainClass" >> $GENERATED_JAVA_PATH/enclaveJar/"MANIFEST.MF"
+javac $GENERATED_JAVA_PATH/enclaveJar/*.java
+
+
+echo "Compiling NonEnclave Directory..."
+echo "Manifest-Version: 1.0" >> $GENERATED_JAVA_PATH/nonEnclaveJar/"MANIFEST.MF"
+echo "Main-Class: Main" >> $GENERATED_JAVA_PATH/nonEnclaveJar/"MANIFEST.MF"
+javac $GENERATED_JAVA_PATH/nonEnclaveJar/*.java
+
+
+echo "Extracting Enclave Jar..."
+jar cmf $GENERATED_JAVA_PATH/enclaveJar/"MANIFEST.MF" $JE_PATH/enclave.jar -C $GENERATED_JAVA_PATH/enclaveJar .
+
+echo "Extracting nonEnclave Jar..."
+jar cmf $GENERATED_JAVA_PATH/nonEnclaveJar/"MANIFEST.MF" $JE_PATH/nonEnclave.jar -C $GENERATED_JAVA_PATH/nonEnclaveJar .

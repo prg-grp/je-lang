@@ -22,6 +22,7 @@ public class StatementVisitor extends VoidVisitorAdapter<Object> { // MyVisitor 
     private List<NameExpr> names;
     private List<Expression> toReplace;
     private HashMap<NameExpr, Type> types;
+    private Type rType;
 
     /**
      * Start Visiting calls visit on the received root node and puts and declares the Lists for the Nodes
@@ -43,6 +44,7 @@ public class StatementVisitor extends VoidVisitorAdapter<Object> { // MyVisitor 
      * @param arg
      */
     public void startVisiting(BlockStmt n, Object arg) {
+        if (arg instanceof Type) rType = (Type) arg;
         AttributeVisitor attributeVisitor = new AttributeVisitor();
         types = attributeVisitor.startVisiting((CompilationUnit) n.findRootNode(), arg);
         NameExpressionVisitor nameExpressionVisitor = new NameExpressionVisitor();
@@ -232,9 +234,10 @@ public class StatementVisitor extends VoidVisitorAdapter<Object> { // MyVisitor 
                             } else {
                                 NameExpr var = VisitorHelper.getNameExpr(expression);
                                 t = types.get(var);
-                                if (t==null) {
-                                    t = PrimitiveType.booleanType();
-                                }
+                            }
+                            if (t==null) {
+                                System.out.println("RTYPE = ");
+                                t = rType;
                             }
 
                             VariableDeclarationExpr vdExp = new VariableDeclarationExpr();

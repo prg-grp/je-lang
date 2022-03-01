@@ -7,7 +7,7 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenericVisitor extends VoidVisitorAdapter {
+public class GenericVisitor extends VoidVisitorAdapter<Object> {
     List<String> generics;
     /**
      * Start Visiting calls visit on the received root node and puts and declares the Lists for the Nodes

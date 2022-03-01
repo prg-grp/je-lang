@@ -6,6 +6,7 @@ import com.github.javaparser.ast.visitor.GenericVisitorAdapter;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 
+import de.tuda.prg.constants.Codes;
 import de.tuda.prg.parser.userdefinedclassvisitors.*;
 import de.tuda.prg.parser.visitorsje.*;
 import de.tuda.prg.parser.visitorsje.encapsulatedmethodsvisitor.GatewayMethodCallCollectorJe;
@@ -19,6 +20,10 @@ import java.util.List;
 
 public class EnclaveClassTranslationUtils {
 
+    /**
+     * translating the Enclave Class with 5 steps
+     * @param cu CompilationUnit of Enclave Class
+     */
     public static void translateEnclaveClass(final CompilationUnit cu) {
 
             // Step1: Visiting class declaration inside the cu
@@ -57,8 +62,10 @@ public class EnclaveClassTranslationUtils {
 
             // Step4: Visiting declassify and endorse operators
             System.out.println("--------- before visiting methodCalls -----------------------");
-            VoidVisitor<?> methodCallVisitor = new MethodCallVisitorJe();
-            methodCallVisitor.visit(cu, null);
+            VoidVisitor<Boolean> methodCallVisitor = new MethodCallVisitorJe();
+            boolean sanitized = false;
+            if (cu.toString().contains(Codes.sanitize)) sanitized = true;
+            methodCallVisitor.visit(cu, sanitized);
             //System.out.println(cu.toString());
             System.out.println("--------- after visiting methodCalls -----------------------");
 
@@ -70,6 +77,11 @@ public class EnclaveClassTranslationUtils {
             System.out.println("--------- after visiting fields -----------------------");
     }
 
+    /**
+     * Helperfunction to add the Communication for the rmi module
+     * @param cu
+     * @param enclaveClassesToExposeNames
+     */
     public static void addCommCodeToEnclaveClasses(final CompilationUnit cu, final Set<String> enclaveClassesToExposeNames) {
         if (ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) {
             VoidVisitor<Set<String>> classDeclarationVisitorComm = new EnclaveClassDeclarationVisitorComm();   // Adding RMI code
@@ -77,6 +89,10 @@ public class EnclaveClassTranslationUtils {
         }
     }
 
+    /**
+     * Helperfunction to remove all JE Constructs such as Annotations
+     * @param cu
+     */
     public static void removeAllJEConstructs(final CompilationUnit cu) {
         if (ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) {
 

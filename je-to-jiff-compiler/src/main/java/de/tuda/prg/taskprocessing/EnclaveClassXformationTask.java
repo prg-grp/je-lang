@@ -15,6 +15,15 @@ import java.io.IOException;
 
 public class EnclaveClassXformationTask implements  CodeXformationTask {
 
+    /**
+     * Run method overwritten for EnclaveClassXformationTask. This method iterates over all 
+     * enclave classes and populates all methods. Afterwards, all JIF replace labels are turned
+     * into the corresponding jif label and the jif files are stored.
+     * @param jeSrcDir is the path to the JE Directory
+     * @param data global data
+     * 
+     * @return void
+     */
     // First try block, translation of Enclave classes to Jif
     @Override
     public void run(File jeSrcDir, GlobalTaskData interTaskData) {
