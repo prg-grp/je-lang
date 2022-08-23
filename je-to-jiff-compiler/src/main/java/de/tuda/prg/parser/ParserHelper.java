@@ -10,12 +10,10 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.TryStmt;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import de.tuda.prg.constants.Codes;
 import de.tuda.prg.constants.FileNames;
-import de.tuda.prg.constants.PathValues;
 import de.tuda.prg.constants.RMIConstants;
 import de.tuda.prg.entities.ClassNameMethodDecls;
 import de.tuda.prg.exceptions.TranslationException;
@@ -23,11 +21,7 @@ import de.tuda.prg.parser.generalvisitors.ClassNameGetterVisitor;
 import de.tuda.prg.parser.visitorsje.ClassAnnotationCheckerVisitorJe;
 import de.tuda.prg.parser.visitorsje.MethodDefinitionVisitorCollectorJe;
 import de.tuda.prg.parser.visitorsje.encapsulatedmethodsvisitor.GatewayMethodCallCollectorJe;
-import de.tuda.prg.taskprocessing.JARSeperator;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -287,7 +281,7 @@ public class ParserHelper {
      * @return remoteInterfaceName
      */
     public static String getRemoteInterfaceName(String enclaveClassName) {
-        return RMIConstants.remoteInterfacePrefix+enclaveClassName;
+        return RMIConstants.REMOTE_INTERFACE_PREFIX +enclaveClassName;
     }
 
     /**
@@ -296,7 +290,7 @@ public class ParserHelper {
      * @return wrapperClassName
      */
     public static String getWrapperClassName(String enclaveClassName) {
-        return RMIConstants.remoteWrapperClassSufix+enclaveClassName;
+        return RMIConstants.REMOTE_WRAPPER_CLASS_SUFFIX +enclaveClassName;
     }
 
     /**

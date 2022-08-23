@@ -2,25 +2,25 @@ package de.tuda.prg.constants;
 
 public class RMIConstants {
 
-    public static final String javaRMIAll = "java.rmi.*";
+    public static final String JAVA_RMI_ALL = "java.rmi.*";
 
-    public static final String javaRMIUnicastObj = "java.rmi.server.UnicastRemoteObject";  // This shouldn't be needed
+    public static final String JAVA_RMI_UNICAST_OBJ = "java.rmi.server.UnicastRemoteObject";  // This shouldn't be needed
 
-    public static final String javaNetAll = "java.net.*";
+    public static final String JAVA_NET_ALL = "java.net.*";
 
-    public static final String remoteObjectClass = "UnicastRemoteObject";
+    public static final String REMOTE_OBJECT_CLASS_NAME = "UnicastRemoteObject";
 
-    public static final String remoteInterfacePrefix = "EnclaveRemoteInterface";
+    public static final String REMOTE_INTERFACE_PREFIX = "EnclaveRemoteInterface";
 
-    public static final String remoteWrapperClassSufix = "EnclaveWrapperClass";
+    public static final String REMOTE_WRAPPER_CLASS_SUFFIX = "EnclaveWrapperClass";
 
-    public static final String overrideAnno = "Override";
+    public static final String OVERRIDE_ANNO = "Override";
 
-    public static final String rmiLookUpURLPrefix = "Naming.lookup"+"("+"\""+"rmi://localhost/";
+    public static final String RMI_LOOK_UP_URL_PREFIX = "Naming.lookup"+"("+"\""+"rmi://localhost/";
 
-    public static final String rmiObjectLookupCall = "";
+    public static final String RMI_OBJECT_LOOKUP_CALL = "";
 
-    public static final String registryPortValue = "1099";
+    public static final String REGISTRY_PORT_VALUE = "1099";
 
     public static String RMI_OBJECT_PROVIDER_CLASS = "RemoteObjectProvider";
 

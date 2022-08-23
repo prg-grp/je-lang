@@ -19,8 +19,6 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
 
 public class RMICodeAdderTask implements CodeXformationTask {
 
@@ -82,7 +80,7 @@ public class RMICodeAdderTask implements CodeXformationTask {
                         // final CompilationUnit cu = StaticJavaParser.parse(new File(file));
                         final CompilationUnit cu = StaticJavaParser.parse(file);
                         if (!ParserHelper.isClassAnnotatedWithEnclaveAnnotation(cu)) {
-                            cu.addImport(RMIConstants.javaRMIAll);  // Not an optimal place to add RMI imports, the class may not contain any enclave calls at all.
+                            cu.addImport(RMIConstants.JAVA_RMI_ALL);  // Not an optimal place to add RMI imports, the class may not contain any enclave calls at all.
                             NonEnclaveMethodCallVisitor nonEnclaveMCVisitor = new NonEnclaveMethodCallVisitor();
                             nonEnclaveMCVisitor.visit(cu, interTaskData.gatewayMethodNames);  // TODO: We can't add all the remote methods into the single interface, what interfaces to be imported will be decided by this visit method.
                             String nonEnclaveClassString = cu.toString();
@@ -98,7 +96,7 @@ public class RMICodeAdderTask implements CodeXformationTask {
             }
             // Adding non-enclave wrapper class
             final CompilationUnit cu = new CompilationUnit();
-            cu.addImport(RMIConstants.javaRMIAll);
+            cu.addImport(RMIConstants.JAVA_RMI_ALL);
             final ClassOrInterfaceDeclaration nonEnclWrapperClass = cu.addClass(FileNames.NON_ENCLAVE_WRAPPER_CLASS_BASE_NAME); // This will contain wrapper method definitions of all the gateway methods from all the enclave classes
             for (ClassNameMethodDecls classNameMthdDcl: interTaskData.gatewayMethodDeclarations) {
                 String enclaveClassName = classNameMthdDcl.getEnclaveClassName();

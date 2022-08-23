@@ -1,6 +1,5 @@
 package de.tuda.prg.parser.visitorsremotecom;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
@@ -16,8 +15,6 @@ import de.tuda.prg.exceptions.FileIOException;
 import de.tuda.prg.filehandling.FileUtils;
 import de.tuda.prg.parser.ParserHelper;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -35,7 +32,7 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Set<S
 
             // Generating the remote interface
             final CompilationUnit cuRemoteInterface = new CompilationUnit();   //creating the corresponding remote wrapper interface
-            cuRemoteInterface.addImport(RMIConstants.javaRMIAll);
+            cuRemoteInterface.addImport(RMIConstants.JAVA_RMI_ALL);
 
             // cuRemoteInterface.setPackageDeclaration(PathValues.GENERATED_JAVA_PACKAGE_NAME);  // No package declaration, no nested folders as of now
 
@@ -45,13 +42,13 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Set<S
 
             // Generating the enclave wrapper class
             final CompilationUnit cuEncWrapperClass = new CompilationUnit();
-            cuEncWrapperClass.addImport(RMIConstants.javaRMIAll);
-            cuEncWrapperClass.addImport(RMIConstants.javaRMIUnicastObj);
+            cuEncWrapperClass.addImport(RMIConstants.JAVA_RMI_ALL);
+            cuEncWrapperClass.addImport(RMIConstants.JAVA_RMI_UNICAST_OBJ);
             // cuWrapperClass.setPackageDeclaration(PathValues.GENERATED_JAVA_PACKAGE_NAME); // No package declaration, no nested folders as of now
 
             final String wrapperClassName = ParserHelper.getWrapperClassName(className);
 
-            final ClassOrInterfaceDeclaration wrapperClassDeclaration = cuEncWrapperClass.addClass(wrapperClassName).addExtendedType(RMIConstants.remoteObjectClass).addImplementedType(remoteInterfaceName);
+            final ClassOrInterfaceDeclaration wrapperClassDeclaration = cuEncWrapperClass.addClass(wrapperClassName).addExtendedType(RMIConstants.REMOTE_OBJECT_CLASS_NAME).addImplementedType(remoteInterfaceName);
             final ConstructorDeclaration constructor = wrapperClassDeclaration.addConstructor(Modifier.Keyword.PROTECTED);
             constructor.addThrownException(RemoteException.class);
             constructor.getBody().addStatement("super();");
@@ -98,7 +95,7 @@ public class EnclaveClassDeclarationVisitorComm extends VoidVisitorAdapter<Set<S
 
                 wrapperMethodInClass.setType(gtwMd.getType());
                 wrapperMethodInClass.setParameters(gtwMd.getParameters());
-                wrapperMethodInClass.addAnnotation(RMIConstants.overrideAnno);
+                wrapperMethodInClass.addAnnotation(RMIConstants.OVERRIDE_ANNO);
                 BlockStmt blockStmt = new BlockStmt();
                 blockStmt.addStatement("return "+jeEnclaveClass.getNameAsString()+"."+gtwMd.getNameAsString()+ParserHelper.getParameterNameListAsString(gtwMd)+";");
                 wrapperMethodInClass.setBody(blockStmt);
